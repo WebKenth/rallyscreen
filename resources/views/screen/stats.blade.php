@@ -1,69 +1,40 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-quiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-@section('content')
-<style>
-nav{
-    display: none;
-}
-    .stats-box{
-        border: 1px solid black;
-    }
-    .stats-header{
-        padding:15px;
-        border: 1px solid black;
-        height: 50px;
-    }
-    .stats-header p {
-        display:inline;
-    }
-    .driver-timer-green-bar{
-        height: 20px;
-        width: 25%;
-        background-color: green;
-        display: inline-block;
-        color: white;
-        text-align: right;
-        padding-right: 5px;
-    }
-</style>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-6 stats-box">
+    <title>Livescore</title>
+
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.13/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+</head>
+<body class="livescore">
+    <header>
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-md-12 stats-header">
-                        <p>Vans / Lastbil</p>
-                        <p class="pull-right">Top 10 Chauffører</p>
+                <div class="col-xs-6">
+                    <div class="logo">
+                        <img src="/images/postnordlogo.png">
+                    </div>
                 </div>
-                <div class="col-md-12">
-                    <ul>
-                        @foreach($drivers as $driver)
-                        <li>
-                            <div class="driver">
-                                <span class="driver-name">{{ $driver->first_name .' '. $driver->middle_name .' '. $driver->last_name }}</span>
-                                <div class="driver-timer">
-                                    <span class="driver-timer-green-bar">10:10</span>
-                                </div>
-                            </div>
-                        </li>
-                        @endforeach
-                    </ul>
+                <div class="col-xs-6 text-right">
+                    Heat: <span class="heat-number">1</span>
                 </div>
             </div>
         </div>
-        <div class="col-md-6 stats-box">
-            <p>Biler</p>
-            <ul>
-                <li>Bil #1</li>
-                <li>Bil #2</li>
-                <li>Bil #3</li>
-            </ul>
-            <p>Trucks / Vans</p>
-            <ul>
-                <li>Van #1</li>
-                <li>Van #2</li>
-                <li>Van #3</li>
-            </ul>
-        </div>
-    </div>
-</div>
-@endsection
+    </header>
+    <section class="playerscore">
+
+    </section>
+</body>
+</html>
