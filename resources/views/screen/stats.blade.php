@@ -17,6 +17,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="/js/stats.js"></script>
 </head>
 <body class="livescore">
     <header>
@@ -34,33 +35,62 @@
         </div>
     </header>
     <section class="player-score">
+        <div class="section-grid">
+            <div class="point"></div>
+            <div class="point"></div>
+            <div class="point"></div>
+            <div class="point"></div>
+        </div>
         <div class="outer-container">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-xs-12">
-                        Deltagere her
+                        <ul class="player-list">
+                            <li>
+                                <div class="left">
+                                    <img src="/images/kasper.png">
+                                    <span>Tid:</span>
+                                </div>
+                                <div class="right">
+                                    <div class="sections">
+                                        <div class="section"></div>
+                                        <div class="section"></div>
+                                        <div class="section"></div>
+                                        <div class="section"></div>
+                                        <div class="section"></div>
+                                    </div>
+                                    <div class="time">
+                                        <span class="progress" data-progress="0"></span>
+                                        <span class="counter"><span class="minutes">00</span>:<span class="seconds">00</span></span>
+                                    </div>
+                                </div>
+                                <div class="end">
+                                    <span class="total">13.7 km/l</span>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <section class="live-vericles">
+    <section class="live-trucks">
         <div class="outer-container">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-xs-12">
-                        live køretøjer
+                        live lastbiler
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <section class="live-sections">
+    <section class="live-vans">
         <div class="outer-container">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-xs-12">
-                        bedste sektioner
+                        live vans
                     </div>
                 </div>
             </div>
