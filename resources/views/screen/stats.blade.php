@@ -33,8 +33,38 @@
             </div>
         </div>
     </header>
-    <section class="playerscore">
-
+    <section class="player-score">
+        <div class="outer-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        Deltagere her
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="live-vericles">
+        <div class="outer-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        live køretøjer
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="live-sections">
+        <div class="outer-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        bedste sektioner
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 </body>
 </html>

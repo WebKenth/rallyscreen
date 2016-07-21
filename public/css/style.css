@@ -14,7 +14,28 @@
 
 .player-score {
 	display: block;
+	padding: 30px;
 	width: 50%;
-	height: calc(100vh - 100px);
+	height: calc(100vh - 104px);
 	float: left;
 }
+
+.player-score > .outer-container, .live-vericles > .outer-container, .live-sections > .outer-container {
+	display: block;
+	padding: 30px;
+	height: 100%;
+	color: #fff;
+	background-color: #555;
+}
+
+.live-vericles, .live-sections {
+	display: block;
+	padding: 15px 30px 15px 15px;
+	width: 50%;
+	height: calc(50vh - 52px);
+	float: left;
+}
+
+.live-vericles { padding-top: 30px; }
+.live-sections { padding-bottom: 30px; }
+
