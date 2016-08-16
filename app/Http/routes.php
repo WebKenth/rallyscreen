@@ -18,16 +18,20 @@
 
 Route::auth();
 Route::get('map', 'ScreenController@map');
-Route::get('stats', 'ScreenController@stats');
+Route::get('stats/{id?}', 'ScreenController@stats');
 
-Route::group(['middleware' => ['auth']], function () {
-	Route::get('/', 'ScreenController@dashboard');
-	Route::resource('driver', 'DriverController');
-	Route::post('/driver/{id}/update_relationship','DriverController@update_relationship');
-	Route::post('/driver/{id}/change_name','DriverController@change_name');
-	Route::resource('vehicle', 'VehicleController');
-});
+Route::get('/', 'ScreenController@dashboard');
+Route::resource('driver', 'DriverController');
+Route::post('/driver/{id}/update_relationship','DriverController@update_relationship');
+Route::post('/driver/{id}/change_name','DriverController@change_name');
+Route::get('/driver/delete/{id}', 'DriverController@destroy');
 
-Route::get('/hejsa', function(){
-	return view('kasper.hej');
-});
+Route::resource('vehicle', 'VehicleController');
+Route::post('vehicle/rename/{id}','VehicleController@rename');
+Route::get('vehicle/delete/{id}','VehicleController@destroy');
+
+Route::get('heats', 'HeatController@index');
+Route::patch('heats','HeatController@update');
+Route::get('heats/delete/{heat}', 'HeatController@destroy');
+Route::post('heats/rename/{id}', 'HeatController@rename');
+Route::post('heats', 'HeatController@store');

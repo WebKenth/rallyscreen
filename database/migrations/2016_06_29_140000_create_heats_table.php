@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateVehiclesTable extends Migration
+class CreateHeatsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,14 +12,9 @@ class CreateVehiclesTable extends Migration
      */
     public function up()
     {
-        Schema::create('vehicles', function (Blueprint $table) {
+        Schema::create('heats', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('brand');
-            $table->string('type'); // Car, Truck...
-            $table->string('reg_nr');
-            $table->string('model');
-            $table->string('diims_id');
+            $table->string('number')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +26,6 @@ class CreateVehiclesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('vehicles');
+        Schema::drop('heats');
     }
 }

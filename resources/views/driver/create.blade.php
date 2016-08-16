@@ -1,4 +1,4 @@
-<form class="form-horizontal" method="POST" action="/driver">
+<form class="form-horizontal" method="POST" action="/driver" enctype="multipart/form-data">
 <fieldset>
 
 {{ csrf_field() }}
@@ -41,32 +41,23 @@
   </div>
 </div>
 
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="brand">Brand</label>
-  <div class="col-md-8">
-  <input id="brand" name="brand" type="text" placeholder="" class="form-control input-md">
+{{--<!-- Text input-->--}}
+{{--<div class="form-group">--}}
+  {{--<label class="col-md-4 control-label" for="brand">Brand</label>--}}
+  {{--<div class="col-md-8">--}}
+  {{--<input id="brand" name="brand" type="text" placeholder="" class="form-control input-md">--}}
 
-  </div>
-</div>
+  {{--</div>--}}
+{{--</div>--}}
 
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="birthday">Birthday</label>
-  <div class="col-md-8">
-  <input id="birthday" name="birthday" type="date" placeholder="" class="form-control input-md">
+{{--<!-- Text input-->--}}
+{{--<div class="form-group">--}}
+  {{--<label class="col-md-4 control-label" for="birthday">Birthday</label>--}}
+  {{--<div class="col-md-8">--}}
+  {{--<input id="birthday" name="birthday" type="date" placeholder="" class="form-control input-md">--}}
 
-  </div>
-</div>
-
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="post_nord_id">Post Nord ID</label>
-  <div class="col-md-8">
-  <input id="post_nord_id" name="post_nord_id" type="text" placeholder="" class="form-control input-md">
-
-  </div>
-</div>
+  {{--</div>--}}
+{{--</div>--}}
 
 <!-- Button -->
 <div class="form-group">

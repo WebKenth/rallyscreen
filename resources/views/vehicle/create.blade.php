@@ -1,4 +1,4 @@
-<form class="form-horizontal" data-type="vehicle">
+<form class="form-horizontal" action="/vehicle" method="POST">
 <fieldset>
 
 {{ csrf_field() }}
@@ -28,8 +28,10 @@
 <div class="form-group">
   <label class="col-md-4 control-label" for="type">Type</label>
   <div class="col-md-8">
-  <input id="type" name="type" type="text" placeholder="" class="form-control input-md">
-
+    <select name="type" id="type" class="form-control">
+      <option value="truck">Lastbil</option>
+      <option value="van">Van</option>
+    </select>
   </div>
 </div>
 
@@ -47,7 +49,16 @@
   <label class="col-md-4 control-label" for="model">Model</label>
   <div class="col-md-8">
   <input id="model" name="model" type="text" placeholder="" class="form-control input-md">
+  </div>
+</div>
 
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="diims_id">Diims ID</label>
+  <div class="col-md-8">
+    <select name="diims_id" class="form-control" id="diims_id">
+      <option value="869606020004341">869606020004341</option>
+    </select>
   </div>
 </div>
 

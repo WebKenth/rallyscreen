@@ -47,11 +47,11 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/') }}">Home</a></li>
                     <li><a href="{{ url('/map') }}">Map</a></li>
                     <li><a href="{{ url('/stats') }}">Stats</a></li>
-                    {{--<li><a href="{{ url('/driver') }}">Driver</a></li>--}}
-                    {{--<li><a href="{{ url('/vehicle') }}">Vehicle</a></li>--}}
+                    <li><a href="{{ url('/heats') }}">Heats</a></li>
+                    <li><a href="{{ url('/driver') }}">Drivers</a></li>
+                    <li><a href="{{ url('/vehicle') }}">Vehicles</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
@@ -76,8 +76,9 @@
         </div>
     </nav>
 
-    @yield('content')
-
+    <div class="container-fluid">
+        @yield('content')
+    </div>
     <!-- JavaScripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>

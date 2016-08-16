@@ -17,10 +17,7 @@ class CreateDriversTable extends Migration
             $table->string('first_name')->nullable();
             $table->string('middle_name')->nullable();
             $table->string('last_name')->nullable();
-            $table->date('birthday')->nullable();
             $table->string('image')->nullable();
-            $table->string('brand')->nullable();
-            $table->string('post_nord_id')->nullable();
             $table->timestamps();
         });
     }

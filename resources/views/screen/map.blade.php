@@ -8,9 +8,9 @@
         #map {
             margin-right: auto;
             margin-left:auto;
-            width: 80%;
-            height: 60vh;
-            margin-top: 50px;
+            width: 100%;
+            height: 90vh;
+            margin-top: 10px;
         }
     </style>
     <div class="container-fluid">
@@ -18,53 +18,192 @@
             <div class="col-md-12">
                 <div id="map"></div>
                 <button id="pan_to" class="btn btn-primary">Test</button>
-                <input type="text" id="pan_to_lat" value="57.0495141">
-                <input type="text" id="pan_to_lng" value="9.875893">
-                <pre id="test">
-
-                </pre>
+                <button id="van_1" class="btn btn-primary">Van_1</button>
+                <button id="van_2" class="btn btn-primary">Van_2</button>
+                <button id="van_3" class="btn btn-primary">Van_3</button>
+                <input type="text" id="pan_to_lat" value="57.049507">
+                <input type="text" id="pan_to_lng" value="9.875636">
+                {{--<pre id="test">--}}
+                {{--</pre>--}}
             </div>
         </div>
     </div>
 @endsection
 @section('scripts')
+
     <script>
         function initMap() {
             var mapDiv = document.getElementById('map');
-            var map = new google.maps.Map(mapDiv, {
-                center: {lat: 57.051281, lng: 9.893145},
-                zoom: 14
-            });
 
-            marker = new google.maps.Marker({
+            var myOptions = {
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                disableDefaultUI: true,
+                center: {lat: 57.051281, lng: 9.893145},
+                zoom: 15,
+                styles: [
+        {
+            "featureType": "administrative",
+            "elementType": "labels.text.fill",
+            "stylers": [
+                {
+                    "color": "#444444"
+                }
+            ]
+        },
+        {
+            "featureType": "landscape",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "color": "#f2f2f2"
+                }
+            ]
+        },
+        {
+            "featureType": "poi",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "road",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "saturation": -100
+                },
+                {
+                    "lightness": 45
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "road.arterial",
+            "elementType": "labels.icon",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "transit",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "water",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "color": "#46bcec"
+                },
+                {
+                    "visibility": "on"
+                }
+            ]
+        }
+    ]
+            };
+            var map = new google.maps.Map(mapDiv, myOptions);
+            var truck_img = {
+                url: 'images/truck.png',
+                // This marker is 20 pixels wide by 32 pixels high.
+                size: new google.maps.Size(128, 64),
+                // The origin for this image is (0, 0).
+                origin: new google.maps.Point(0, 0),
+                // The anchor for this image is the base of the flagpole at (0, 32).
+                anchor: new google.maps.Point(64, 64)
+//                scaledSize: new google.maps.Size(100,100)
+            };
+            var van_img = {
+                url: 'images/van.png',
+                // This marker is 20 pixels wide by 32 pixels high.
+                size: new google.maps.Size(128, 64),
+                // The origin for this image is (0, 0).
+                origin: new google.maps.Point(0, 0),
+                // The anchor for this image is the base of the flagpole at (0, 32).
+                anchor: new google.maps.Point(64, 64)
+//                scaledSize: new google.maps.Size(100,100)
+            };
+
+            van_1 = new google.maps.Marker({
                 position: {
                     lat: 57.0495141,
                     lng: 9.875893
                 },
+                icon: van_img,
                 map: map
             });
-            var truck1 = new google.maps.Marker({
+            van_2 = new google.maps.Marker({
+                position: {
+                    lat: 57.0495141,
+                    lng: 9.876893
+                },
+                icon: van_img,
+                map: map
+            });
+            van_3 = new google.maps.Marker({
+                position: {
+                    lat: 57.0495141,
+                    lng: 9.877893
+                },
+                icon: van_img,
+                map: map
+            });
+
+
+            truck_1 = new google.maps.Marker({
                 position: {
                     lat: 57.0509141,
                     lng: 9.885893
                 },
+                icon: truck_img,
                 map: map
             });
-            position = [marker.position.lat(), marker.position.lng()];
-
             google.maps.event.addListener(map, 'click', function(me) {
                 $('#pan_to_lat').val(me.latLng.lat());
                 $('#pan_to_lng').val(me.latLng.lng());
             });
 
         }
-            $('#pan_to').on('click',function(){
-                transition([$('#pan_to_lat').val(),$('#pan_to_lng').val()]);
-            });
-        var position = [57, 9];
+        $('#pan_to').on('click',function(){
+            marker = van_1;
+            transition([$('#pan_to_lat').val(),$('#pan_to_lng').val()]);
+        });
+        $('#van_1').on('click',function(){
+            marker = van_1;
+            transition([$('#pan_to_lat').val(),$('#pan_to_lng').val()]);
+        });
+        $('#van_2').on('click',function(){
+            marker = van_2;
+            transition([$('#pan_to_lat').val(),$('#pan_to_lng').val()]);
+        });
+        $('#van_3').on('click',function(){
+            marker = van_3;
+            transition([$('#pan_to_lat').val(),$('#pan_to_lng').val()]);
+        });
+        var position = [57.049507, 9.875636];
         var numDeltas = 200;
         var delay = 10; //milliseconds
         var i = 0;
+        var marker;
         var deltaLat;
         var deltaLng;
         var c = -1;

@@ -1,10 +1,9 @@
-/* LIVE SCORE */
-.livescore {
+body {
 	font-family: 'Open Sans', sans-serif;
 	background-color: #999;
 }
 
-.livescore > header {
+header {
 	padding: 0 15px;
 	line-height: 100px;
 	color: #0099bb;
@@ -13,6 +12,25 @@
 	background-color: #555;
 }
 
+.index-list {
+	margin: 50px 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.index-list > li {
+	display: block;
+	width: 33.3333%;
+	text-align: center;
+	float: left;
+}
+
+.index-list > li > a {
+	color: #fff;
+	font-size: 30px;
+}
+
+/* LIVE SCORE */
 .outer-container > .container-fluid {
 	padding: 0;
 }
@@ -34,7 +52,7 @@
 	background-color: #555;
 }
 
-.player-score > .outer-container { padding-top: 60px; }
+.player-score > .outer-container { padding-top: 90px; }
 
 .live-trucks, .live-vans {
 	display: block;
@@ -95,6 +113,7 @@
 .player-list > li {
 	position: relative;
 	display: block;
+    margin-bottom: 55px;
 }
 
 .player-list > li:after {
@@ -105,6 +124,7 @@
 
 .player-list .left {
 	display: block;
+	position: relative;
 	width: 50px;
 	float: left;
 }
@@ -114,6 +134,16 @@
 	margin: 0;
 	width: 50px;
 	height: auto;
+}
+
+.player-list .left:before {
+	display: block;
+	position: absolute;
+	left: 0;
+	bottom: 100%;
+	content: attr(data-driver);
+	white-space: nowrap;
+	font-size: 25px;
 }
 
 .player-list .left > span {
@@ -283,8 +313,6 @@
 .player-list .right > .time > .progress[data-progress="99"] { width: 99%; }
 .player-list .right > .time > .progress[data-progress="100"] { width: 100%; }
 
-
-
 .player-list .end {
 	display: block;
 	width: 75px;
@@ -297,14 +325,52 @@
 	padding: 12px 0 13px;
 	width: 100%;
 	text-align: center;
-	font-size: 18px;
+	font-size: 20px;
 	background-color: #0099bb;
 }
 
-.driver--name{
-	position: absolute;
-    z-index: 100;
-    color: white;
-    padding-left: 15px;
-    top: -9px;
+.truck-list, .van-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.truck-list > li, .van-list > li {
+	display: block;
+    padding: 15px;
+    background-color: #444;
+    margin-bottom: 22px;
+}
+
+.truck-list > li:after, .van-list > li:after {
+	display: block;
+	clear: both;
+	content: '';
+}
+
+.truck-list .static-data > .left, .truck-list .static-data > .right, .van-list .static-data > .left, .van-list .static-data > .right{
+	display: block;
+	font-size: 15px;
+	float: left;
+	width: 50%;
+}
+
+.truck-list .static-data > .right > div > span:first-child,.van-list .static-data > .right > div > span:first-child {
+	display: inline-block;
+	margin-right: 20px;
+	width: 50%;
+}
+
+.truck-list .dynamic-data > .left, .truck-list .dynamic-data > .middle, .van-list .dynamic-data > .right, .van-list .dynamic-data > .left, .van-list .dynamic-data > .middle, .van-list .dynamic-data > .right {
+	display: block;
+	width: 33.3333%;
+	float: left;
+}
+
+/* MAP */
+
+#overview-map {
+	display: block;
+	width: 100%;
+	height: calc(100vh - 110px);
 }

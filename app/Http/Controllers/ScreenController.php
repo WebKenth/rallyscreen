@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Driver;
 use App\Vehicle;
+use App\Heat;
 
 class ScreenController extends Controller
 {
@@ -14,17 +15,21 @@ class ScreenController extends Controller
     {
         $drivers = Driver::all();
         $vehicles = Vehicle::all();
-        return view('dashboard',compact('drivers', 'vehicles'));
+        $heats = Heat::all();
+        return view('dashboard',compact('drivers', 'vehicles', 'heats'));
     }
 
     public function map()
     {
         return view('screen.map');
     }
-    public function stats()
+    public function stats($id = 1)
     {
-        $drivers = Driver::all();
-        $vehicles = Vehicle::all();
-        return view('screen.stats', compact('drivers','vehicles'));
+        $heat = Heat::find($id);
+        $vehicles = $heat->vehicles;
+//        $vehicles->load('drivers');
+        $drivers = $heat->drivers;
+//        $drivers->load('vehicles');
+        return view('screen.stats', compact('heat','drivers','vehicles'));
     }
 }

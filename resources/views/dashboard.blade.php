@@ -16,7 +16,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="row">
                 <div class="col-md-6">
                     @include('driver.create')
@@ -26,13 +26,16 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-md-6">
+                    @include('heat.create')
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-12">
+                    <h1>Driver's Vehicles</h1>
                     @include('driver.vehicle')
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            @include('driver.list')
         </div>
     </div>
 </div>

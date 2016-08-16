@@ -6,6 +6,7 @@ use App\Driver;
 use App\Vehicle;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 
 use App\Http\Requests;
@@ -19,7 +20,9 @@ class DriverController extends Controller
      */
     public function index()
     {
-        //
+        $drivers = Driver::all();
+        $vehicles = Vehicle::all();
+        return view('driver.list',compact('drivers','vehicles'));
     }
 
     /**
@@ -44,13 +47,10 @@ class DriverController extends Controller
             'first_name' => 'string',
             'middle_name' => 'string',
             'last_name' => 'string',
-            'image' => 'string',
-            'brand' => 'string',
-            'birthday' => 'date',
-            'post_nord_id' => 'string',
+            'image' => 'required'
         ]);
         if ($validator->fails()) {
-            return redirect('/')
+            return redirect('/driver')
                     ->withErrors($validator)
                     ->withInput();
         }
@@ -60,14 +60,19 @@ class DriverController extends Controller
         $driver->first_name = $request->first_name;
         $driver->middle_name = $request->middle_name;
         $driver->last_name = $request->last_name;
-        $driver->image = $request->image;
-        $driver->brand = $request->brand;
-        $driver->birthday = $request->birthday;
-        $driver->post_nord_id = $request->post_nord_id;
+
+        // Image
+
+        $requestFile = $request->file('image');
+        $name = time() . '_' . $requestFile->getClientOriginalName();
+        if($requestFile->move(public_path().'/images', $name))
+        {
+            $driver->image = '/images/'.$name;
+        }
 
         $driver->save();
 
-        return redirect('/');
+        return back();
     }
 
     /**
@@ -112,7 +117,9 @@ class DriverController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $driver = Driver::find($id);
+        $driver->delete();
+        return back();
     }
     
     public function update_relationship(Request $request, $id)
@@ -128,7 +135,7 @@ class DriverController extends Controller
             }
         }
 
-        return redirect('/');
+        return back();
     }
     public function change_name(Request $request, $id)
     {
