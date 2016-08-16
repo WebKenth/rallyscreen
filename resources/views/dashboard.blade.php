@@ -2,42 +2,42 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            @if (count($errors) > 0)
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-6">
-                    @include('driver.create')
-                </div>
-                <div class="col-md-6">
-                    @include('vehicle.create')
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    @include('heat.create')
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <h1>Driver's Vehicles</h1>
-                    @include('driver.vehicle')
-                </div>
-            </div>
-        </div>
-    </div>
+    {{--<div class="row">--}}
+        {{--<div class="col-md-12">--}}
+            {{--@if (count($errors) > 0)--}}
+                {{--<div class="alert alert-danger">--}}
+                    {{--<ul>--}}
+                        {{--@foreach ($errors->all() as $error)--}}
+                            {{--<li>{{ $error }}</li>--}}
+                        {{--@endforeach--}}
+                    {{--</ul>--}}
+                {{--</div>--}}
+            {{--@endif--}}
+        {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="row">--}}
+        {{--<div class="col-md-12">--}}
+            {{--<div class="row">--}}
+                {{--<div class="col-md-6">--}}
+                    {{--@include('driver.create')--}}
+                {{--</div>--}}
+                {{--<div class="col-md-6">--}}
+                    {{--@include('vehicle.create')--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<div class="row">--}}
+                {{--<div class="col-md-6">--}}
+                    {{--@include('heat.create')--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<div class="row">--}}
+                {{--<div class="col-md-12">--}}
+                    {{--<h1>Driver's Vehicles</h1>--}}
+                    {{--@include('driver.vehicle')--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--</div>--}}
 </div>
 @endsection
 
