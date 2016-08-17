@@ -69,6 +69,4 @@ io.on('connection', function(socket){
 
 
 
-http.listen(3000, function(){
-    console.log('Listening on Port 3000');
-});
+http.listen(3000, '139.59.177.94');
