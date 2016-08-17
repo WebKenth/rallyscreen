@@ -35,3 +35,19 @@ Route::patch('heats','HeatController@update');
 Route::get('heats/delete/{heat}', 'HeatController@destroy');
 Route::post('heats/rename/{id}', 'HeatController@rename');
 Route::post('heats', 'HeatController@store');
+
+
+//dashboard
+
+Route::post('/driver/relationship/{id}','HeatController@relationshipModal');
+Route::get('/drivers/relationships/add','HeatController@relationshipCreate');
+
+
+//livescore
+
+Route::get('api/livescore/{heat_id}','ScreenController@getHeatData');
+
+Route::get('api/heat_stats/driver_update/{heat_id}/{driver_id}/{vehicle_id}', 'ScreenController@updateDriverHeatData');
+Route::get('api/livescore/getLiveVehicle/{heat_id}/{driver_id}','ScreenController@getActiveDrivers');
+
+Route::post('api/livescore/getLiveVehicle','ScreenController@getLiveVehicle');

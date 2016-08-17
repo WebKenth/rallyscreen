@@ -17,21 +17,32 @@
         <div class="row">
             <div class="col-md-12">
                 <div id="map"></div>
-                <button id="pan_to" class="btn btn-primary">Test</button>
-                <button id="van_1" class="btn btn-primary">Van_1</button>
-                <button id="van_2" class="btn btn-primary">Van_2</button>
-                <button id="van_3" class="btn btn-primary">Van_3</button>
-                <input type="text" id="pan_to_lat" value="57.049507">
-                <input type="text" id="pan_to_lng" value="9.875636">
-                {{--<pre id="test">--}}
-                {{--</pre>--}}
             </div>
         </div>
     </div>
 @endsection
 @section('scripts')
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
     <script>
+        // Web Socket
+
+        var socket = io('http://rallyscreen.app:3000');
+
+        socket.on('map_check_connection', function(){
+            socket.emit('map_is_connected','1');
+        });
+
+        socket.on('update_map', function(data){
+            console.log(data);
+            transtion
+        });
+
+        socket.on('change_heat', function(){
+            // Check if need to Update Map
+        });
+
+
         function initMap() {
             var mapDiv = document.getElementById('map');
 
@@ -177,12 +188,31 @@
                 icon: truck_img,
                 map: map
             });
+
+            truck_2 = new google.maps.Marker({
+                position: {
+                    lat: 57.0509141,
+                    lng: 9.885893
+                },
+                icon: truck_img,
+                map: map
+            });
+
+            truck_3 = new google.maps.Marker({
+                position: {
+                    lat: 57.0509141,
+                    lng: 9.885893
+                },
+                icon: truck_img,
+                map: map
+            });
             google.maps.event.addListener(map, 'click', function(me) {
                 $('#pan_to_lat').val(me.latLng.lat());
                 $('#pan_to_lng').val(me.latLng.lng());
             });
 
         }
+
         $('#pan_to').on('click',function(){
             marker = van_1;
             transition([$('#pan_to_lat').val(),$('#pan_to_lng').val()]);
