@@ -31,26 +31,33 @@ io.on('connection', function(socket){
     // Check Connection
     socket.on('is_livescore_online',function(){
         io.emit('livescore_check_connection', '1');
+        console.log('is_livescore_online');
     });
     socket.on('is_map_online',function(){
         io.emit('map_check_connection', '1');
+        console.log('is_map_online');
     });
     socket.on('livescore_is_connected', function(){
         io.emit('livescore_connected', '1');
+        console.log('livescore_is_connected');
     });
     socket.on('map_is_connected',function(){
         io.emit('map_connected', '1');
+        console.log('map_is_connected');
     });
 
     socket.on('change_heat',function(data){
         io.emit('change_heat',data);
+        console.log('change_heat');
     });
     socket.on('driver_update',function(data){
         io.emit('driver_update', data);
+        console.log('driver_update');
     });
 
     socket.on('update_map',function(data){
         io.emit('update_map',data);
+        console.log('update_map');
     });
 
     
