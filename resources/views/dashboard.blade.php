@@ -170,7 +170,7 @@
 
         // Websocket - Direct Link to Live Score Sites and Map
         // 'http://rallyscreen.app:3000'
-        var socket = io();
+        var socket = io('http://139.59.177.94:3000');
 
         $('#connectedButton').on('click',function(){
             socket.emit('is_livescore_online','1');

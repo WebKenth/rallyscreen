@@ -11722,7 +11722,7 @@ var _stringify2 = _interopRequireDefault(_stringify);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var socket = io();
+var socket = io('http://139.59.177.94:3000');
 var test_timer;
 
 exports.default = {

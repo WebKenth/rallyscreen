@@ -27,7 +27,7 @@
     <script>
         // Web Socket
 
-        var socket = io();
+        var socket = io('http://139.59.177.94:3000');
 
         socket.on('map_check_connection', function(){
             socket.emit('map_is_connected','1');

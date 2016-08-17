@@ -648,7 +648,7 @@
 }
 </style>
 <script>
-    var socket = io();
+    var socket = io('http://139.59.177.94:3000');
     var test_timer;
 
 export default
