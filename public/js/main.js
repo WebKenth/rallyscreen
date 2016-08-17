@@ -11913,8 +11913,7 @@ exports.default = {
         this.updateSections(3, "12.2 KM/l");
         this.updateSections(4, "15.2 KM/l");
         this.updateSections(5, "3.2 KM/l");
-        //        var stepChanger = setInterval(this.changeStep, 5000);
-
+        var stepChanger = setInterval(this.changeStep, 2000);
 
         //        var speedometer = {
         //            lines: 12, // The number of lines to draw
