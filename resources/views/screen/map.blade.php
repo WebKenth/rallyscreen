@@ -27,6 +27,9 @@
     <script>
         // Web Socket
 
+        // 'http://rallyscreen.app:3000'
+        // 'http://139.59.177.94:3000'
+//        var socket = io('http://rallyscreen.app:3000');
         var socket = io('http://139.59.177.94:3000');
 
         socket.on('map_check_connection', function(){
@@ -34,8 +37,20 @@
         });
 
         socket.on('update_map', function(data){
-            console.log(data);
-            transtion
+            var latlng = new google.maps.LatLng(data.diims_data.Lat, data.diims_data.Long);
+            if(data.marker == "truck_1") { truck_1.setPosition(latlng); }
+            if(data.marker == "truck_2") { truck_2.setPosition(latlng); }
+            if(data.marker == "truck_3") { truck_3.setPosition(latlng); }
+            if(data.marker == "van_1") { van_1.setPosition(latlng); }
+            if(data.marker == "van_2") { van_2.setPosition(latlng); }
+            if(data.marker == "van_3") { van_3.setPosition(latlng); }
+
+            var bounds = markers.reduce(function(bounds, marker) {
+                return bounds.extend(marker.getPosition());
+            }, new google.maps.LatLngBounds());
+
+            map.setCenter(bounds.getCenter());
+            map.fitBounds(bounds);
         });
 
         socket.on('change_heat', function(){
@@ -132,7 +147,7 @@
         }
     ]
             };
-            var map = new google.maps.Map(mapDiv, myOptions);
+            map = new google.maps.Map(mapDiv, myOptions);
             var truck_img = {
                 url: 'images/truck.png',
                 // This marker is 20 pixels wide by 32 pixels high.
@@ -206,29 +221,15 @@
                 icon: truck_img,
                 map: map
             });
-            google.maps.event.addListener(map, 'click', function(me) {
-                $('#pan_to_lat').val(me.latLng.lat());
-                $('#pan_to_lng').val(me.latLng.lng());
-            });
-
+            markers = [
+                truck_1,
+                truck_2,
+                truck_3,
+                van_1,
+                van_2,
+                van_3
+            ];
         }
-
-        $('#pan_to').on('click',function(){
-            marker = van_1;
-            transition([$('#pan_to_lat').val(),$('#pan_to_lng').val()]);
-        });
-        $('#van_1').on('click',function(){
-            marker = van_1;
-            transition([$('#pan_to_lat').val(),$('#pan_to_lng').val()]);
-        });
-        $('#van_2').on('click',function(){
-            marker = van_2;
-            transition([$('#pan_to_lat').val(),$('#pan_to_lng').val()]);
-        });
-        $('#van_3').on('click',function(){
-            marker = van_3;
-            transition([$('#pan_to_lat').val(),$('#pan_to_lng').val()]);
-        });
         var position = [57.049507, 9.875636];
         var numDeltas = 200;
         var delay = 10; //milliseconds

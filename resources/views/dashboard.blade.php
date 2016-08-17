@@ -73,13 +73,13 @@
                                       data-driver_id="{{ $driver->id }}"
                                       data-vehicle_id="{{ $driver->getHeatVehicleId($heat->id) }}"
                                   >
-                                    <li><a href="#" class="driver_start_race" data-order="1">Set Van#1</a></li>
-                                    <li><a href="#" class="driver_start_race" data-order="2">Set Van#2</a></li>
-                                    <li><a href="#" class="driver_start_race" data-order="3">Set Van#3</a></li>
+                                    <li><a href="#" class="driver_start_race" data-order="4">Vis Livescore på #1</a></li>
+                                    <li><a href="#" class="driver_start_race" data-order="5">Vis Livescore på #2</a></li>
+                                    <li><a href="#" class="driver_start_race" data-order="6">Vis Livescore på #3</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="#" class="driver_start_race" data-order="4">Set Truck#1</a></li>
-                                    <li><a href="#" class="driver_start_race" data-order="5">Set Truck#2</a></li>
-                                    <li><a href="#" class="driver_start_race" data-order="6">Set Truck#3</a></li>
+                                    <li><a href="#" class="driver_start_race" data-order="1">Vis Livescore på #4</a></li>
+                                    <li><a href="#" class="driver_start_race" data-order="2">Vis Livescore på #5</a></li>
+                                    <li><a href="#" class="driver_start_race" data-order="3">Vis Livescore på #6</a></li>
                                   </ul>
                                 </div>
                             </div>
@@ -170,6 +170,8 @@
 
         // Websocket - Direct Link to Live Score Sites and Map
         // 'http://rallyscreen.app:3000'
+        // 'http://139.59.177.94:3000'
+//        var socket = io('http://rallyscreen.app:3000');
         var socket = io('http://139.59.177.94:3000');
 
         $('#connectedButton').on('click',function(){

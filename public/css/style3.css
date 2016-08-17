@@ -448,11 +448,11 @@ header {
 }
 
 .truck-list > li, .van-list > li {
-	display: block;
+    display: block;
     padding: 10px;
-    margin-bottom: 55px;
+    margin-bottom: 20px;
     background-color: #444;
-    min-height: 77px;
+    min-height: 100px;
 }
 
 .truck-list > li:after, .van-list > li {
@@ -463,9 +463,11 @@ header {
 
 .truck-list .static-data > .left, .truck-list .static-data > .right,.van-list .static-data > .left, .van-list .static-data > .right {
 	display: block;
-	font-size: 11px;
-	float: left;
-	width: 50%;
+    font-size: 21px;
+    float: left;
+    width: 50%;
+    margin-top: 5px;
+    margin-bottom: -10px;
 }
 
 .truck-list .static-data > .right > div > span:first-child, .van-list .static-data > .right > div > span:first-child {

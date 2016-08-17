@@ -70,6 +70,7 @@ class HeatController extends Controller
             $heat_stat = new HeatStat();
             $heat_stat->heat_id = $heat->id;
             $heat_stat->driver_id = $driver->id;
+            $heat_stat->time = "00:00";
             $heat_stat->save();
         }
         return back();

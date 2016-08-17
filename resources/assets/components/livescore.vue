@@ -26,7 +26,7 @@
                     <div class="col-xs-12">
                         <div class="step slidein" data-step="1">
                             <div class="list-indikator">
-                                <img src="images/truck.png">
+                                <img src="images/truck_2.png">
                                 Live Lastbil
                             </div>
                             <ul class="player-list">
@@ -45,7 +45,8 @@
                                         </div>
                                         <div class="time">
                                             <span class="progress" data-progress="0"></span>
-                                            <span class="counter"><span class="minutes">00</span>:<span class="seconds">00</span></span>
+                                            <span class="counter">{{truck_driver.heat_stats.time}}</span>
+                                            <!--<span class="minutes">00</span>:<span class="seconds">00</span>-->
                                         </div>
                                     </div>
                                     <div class="end">
@@ -57,7 +58,7 @@
                         </div>
                         <div class="step" data-step="2">
                             <div class="list-indikator">
-                                <img src="images/truck.png">
+                                <img src="images/truck_2.png">
                                 Top 10 Lastbiler
                             </div>
                             <ul class="top-list">
@@ -165,7 +166,7 @@
                         </div>
                         <div class="step" data-step="3">
                             <div class="list-indikator">
-                                <img src="images/van.png">
+                                <img src="images/van_2.png">
                                 Live Vans
                             </div>
                             <ul class="player-list">
@@ -278,7 +279,7 @@
                         </div>
                         <div class="step" data-step="4">
                             <div class="list-indikator">
-                                <img src="images/van.png">
+                                <img src="images/van_2.png">
                                 Top 10 Vans
                             </div>
                             <ul class="top-list">
@@ -398,13 +399,13 @@
                             <li>
                                 <div class="static-data">
                                     <div class="left">
-                                        <img v-bind:src="truck_1.driver.image">
-                                        Chauffør:
+                                        <img src="/images/truck_2.png">
                                         <span class="current-driver">
                                             {{ (truck_1.driver) ? truck_1.driver.first_name : '' }}
                                             {{ (truck_1.driver) ? truck_1.driver.middle_name : '' }}
                                             {{ (truck_1.driver) ? truck_1.driver.last_name : '' }}
                                         </span>
+                                        {{ truck_1.diims_data.TotalDrivingTime }}
                                     </div>
                                     <div class="right">
                                         <div>
@@ -435,13 +436,13 @@
                             <li>
                                 <div class="static-data">
                                     <div class="left">
-                                        <img v-bind:src="truck_2.driver.image">
-                                        Chauffør:
+                                        <img src="/images/truck_2.png">
                                         <span class="current-driver">
                                             {{ (truck_2.driver) ? truck_2.driver.first_name : '' }}
                                             {{ (truck_2.driver) ? truck_2.driver.middle_name : '' }}
                                             {{ (truck_2.driver) ? truck_2.driver.last_name : '' }}
                                         </span>
+                                        {{ truck_2.diims_data.TotalDrivingTime }}
                                     </div>
                                     <div class="right">
                                         <div>
@@ -473,13 +474,13 @@
                             <li>
                                 <div class="static-data">
                                     <div class="left">
-                                        <img v-bind:src="truck_3.driver.image">
-                                        Chauffør:
+                                        <img src="/images/truck_2.png">
                                         <span class="current-driver">
                                             {{ (truck_3.driver) ? truck_3.driver.first_name : '' }}
                                             {{ (truck_3.driver) ? truck_3.driver.middle_name : '' }}
                                             {{ (truck_3.driver) ? truck_3.driver.last_name : '' }}
                                         </span>
+                                        {{ truck_3.diims_data.TotalDrivingTime }}
                                     </div>
                                     <div class="right">
                                         <div>
@@ -523,13 +524,13 @@
                             <li>
                                 <div class="static-data">
                                     <div class="left">
-                                        <img v-bind:src="van_1.driver.image">
-                                        Chauffør:
+                                        <img src="/images/van_2.png">
                                         <span class="current-driver">
                                             {{ (van_1.driver) ? van_1.driver.first_name : '' }}
                                             {{ (van_1.driver) ? van_1.driver.middle_name : '' }}
                                             {{ (van_1.driver) ? van_1.driver.last_name : '' }}
                                         </span>
+                                        {{ van_1.diims_data.TotalDrivingTime }}
                                     </div>
                                     <div class="right">
                                         <div>
@@ -561,13 +562,13 @@
                             <li>
                                 <div class="static-data">
                                     <div class="left">
-                                        <img v-bind:src="van_2.driver.image">
-                                        Chauffør:
+                                        <img src="/images/van_2.png">
                                         <span class="current-driver">
                                             {{ (van_2.driver) ? van_2.driver.first_name : '' }}
                                             {{ (van_2.driver) ? van_2.driver.middle_name : '' }}
                                             {{ (van_2.driver) ? van_2.driver.last_name : '' }}
                                         </span>
+                                        {{ van_2.diims_data.TotalDrivingTime }}
                                     </div>
                                     <div class="right">
                                         <div>
@@ -599,13 +600,13 @@
                             <li>
                                 <div class="static-data">
                                     <div class="left">
-                                        <img v-bind:src="van_3.driver.image">
-                                        Chauffør:
+                                        <img src="/images/van_2.png">
                                         <span class="current-driver">
                                             {{ (van_3.driver) ? van_3.driver.first_name : '' }}
                                             {{ (van_3.driver) ? van_3.driver.middle_name : '' }}
                                             {{ (van_3.driver) ? van_3.driver.last_name : '' }}
                                         </span>
+                                        {{ van_3.diims_data.TotalDrivingTime }}
                                     </div>
                                     <div class="right">
                                         <div>
@@ -642,14 +643,17 @@
     </section>
 </template>
 <style>
-.truck-list img,.van-list img{
-    height: 50px;
-    width: auto;
+.truck-list img, .van-list img {
+    height: auto;
+    width: 100px;
+    margin-top: 12px;
 }
 </style>
 <script>
+    // 'http://rallyscreen.app:3000'
+    // 'http://139.59.177.94:3000'
+    //  var socket = io('http://rallyscreen.app:3000');
     var socket = io('http://139.59.177.94:3000');
-    console.log('http://139.59.177.94:3000');
     var test_timer;
 
 export default
@@ -667,33 +671,58 @@ export default
             truck_1: {
                 driver:{
                     image:''
+                },
+                diims_data:{
+                    TotalDrivingTime:''
                 }
             },
             truck_2: {
                 driver:{
                     image:''
+                },
+                diims_data:{
+                    TotalDrivingTime:''
                 }
             },
             truck_3: {
                 driver:{
                     image:''
+                },
+                diims_data:{
+                    TotalDrivingTime:''
                 }
             },
             van_1: {
                 driver:{
                     image:''
+                },
+                diims_data:{
+                    TotalDrivingTime:''
                 }
             },
             van_2: {
                 driver:{
                     image:''
+                },
+                diims_data:{
+                    TotalDrivingTime:''
                 }
             },
             van_3: {
                 driver:{
                     image:''
+                },
+                diims_data:{
+                    TotalDrivingTime:''
                 }
-            }
+            },
+            diims_data : {},
+            timer_1:{},
+            timer_2:{},
+            timer_3:{},
+            timer_4:{},
+            timer_5:{},
+            timer_6:{}
         }
     },
     computed: {
@@ -719,6 +748,13 @@ export default
         },
         changeHeat(heat_id)
         {
+            var vm = this;
+            vm.stopDriverLoop(1);
+            vm.stopDriverLoop(2);
+            vm.stopDriverLoop(3);
+            vm.stopDriverLoop(4);
+            vm.stopDriverLoop(5);
+            vm.stopDriverLoop(6);
             // Top 10
             //      Update Truck Drivers
             //      Update Van Drivers
@@ -736,42 +772,37 @@ export default
                 .post('/api/livescore/getLiveVehicle/',data)
                 .then( function(response) {
                     var result = JSON.parse(response.data);
-                    console.log(result);
-                    console.log(order);
-                    if(order == 1)
-                    {
-                        this.$set('van_1',result.vehicle);
-                    }
-                    if(order == 2)
-                    {
-                        this.$set('van_2',result.vehicle);
-                    }
-                    if(order == 3)
-                    {
-                        this.$set('van_3',result.vehicle);
-                    }
-                    if(order == 4)
-                    {
-                        this.$set('truck_1',result.vehicle);
-                    }
-                    if(order == 5)
-                    {
-                        this.$set('truck_2',result.vehicle);
-                    }
-                    if(order == 6)
-                    {
-                        this.$set('truck_3',result.vehicle);
-                    }
-                    this.startDriverLoop(vehicle);
+                    if(order == 1){ this.$set('van_1',result.vehicle); }
+                    if(order == 2){ this.$set('van_2',result.vehicle); }
+                    if(order == 3){ this.$set('van_3',result.vehicle); }
+                    if(order == 4){ this.$set('truck_1',result.vehicle); }
+                    if(order == 5){ this.$set('truck_2',result.vehicle); }
+                    if(order == 6){ this.$set('truck_3',result.vehicle); }
+                    this.startDriverLoop(result.vehicle, order);
                 });
         },
-        startDriverLoop(vehicle)
+        startDriverLoop(vehicle, order)
         {
-            var driver = vehicle.driver;
-
-
+            var vm = this;
+            var timer = setInterval(function(){ vm.getDiimsData(vehicle.diims_id, order) },10000);
+            if(order == 1){ this.$set('timer_1',timer); }
+            if(order == 2){ this.$set('timer_2',timer); }
+            if(order == 3){ this.$set('timer_3',timer); }
+            if(order == 4){ this.$set('timer_4',timer); }
+            if(order == 5){ this.$set('timer_5',timer); }
+            if(order == 6){ this.$set('timer_6',timer); }
         },
-        getDiimsData(diims_id)
+        stopDriverLoop(order)
+        {
+            var vm = this;
+            if(order == 1){ clearInterval(vm.timer_1); }
+            if(order == 2){ clearInterval(vm.timer_2); }
+            if(order == 3){ clearInterval(vm.timer_3); }
+            if(order == 4){ clearInterval(vm.timer_4); }
+            if(order == 5){ clearInterval(vm.timer_5); }
+            if(order == 6){ clearInterval(vm.timer_6); }
+        },
+        getDiimsData(diims_id,order)
         {
             var vm = this;
             $.ajax({
@@ -783,17 +814,30 @@ export default
                 dataType: "json",
                 success: function (data)
                 {
+                    // Check If data is New
+
+                    // return data object -> Status = 'update','inherit',''
                     var result = JSON.parse(data.d);
-                    console.log(result[0].Lat);
-                    var test = vm.van_1;
-                    test.lat = result[0].Lat;
-                    test.lng = result[0].Long;
-                    vm.updateMap(test);
+                    var marker;
+                    console.log(result[0]);
+                    if(order == 1) { vm.$set('van_1.diims_data',result[0]); marker = "van_1"}
+                    if(order == 2) { vm.$set('van_2.diims_data',result[0]); marker = "van_2"}
+                    if(order == 3) { vm.$set('van_3.diims_data',result[0]); marker = "van_3"}
+                    if(order == 4) { vm.$set('truck_1.diims_data',result[0]); marker = "truck_1"}
+                    if(order == 5) { vm.$set('truck_2.diims_data',result[0]); marker = "truck_2"}
+                    if(order == 6) { vm.$set('truck_3.diims_data',result[0]); marker = "truck_3"}
+                    vm.diims_data[diims_id] = result[0];
+                    vm.updateMap(marker);
                 }
             });
         },
-        updateMap(data)
+        updateMap(marker)
         {
+            var vm = this;
+            var data = {
+                marker: marker,
+                diims_data : vm.$get(marker+'.diims_data')
+            };
             socket.emit('update_map',data);
         },
         webSocketListeners()
@@ -836,20 +880,20 @@ export default
         this.webSocketListeners();
         this.getHeatData(1);
 
-        this.getDiimsData(869606020004341);
-        // grab latest Data
-        $.ajax({
-            type: "POST",
-            url: 'http://eco.commotive.dk/WebService.asmx/GetLatestData',
-            contentType: "application/json; charset=utf-8",
-            crossDomain: true,
-            data: JSON.stringify({ DeviceId: 869606020004341 }),
-            dataType: "json",
-            success: function (data)
-            {
-                console.log(data);
-            }
-        });
+//        this.getDiimsData(869606020004341);
+//        // grab latest Data
+//        $.ajax({
+//            type: "POST",
+//            url: 'http://eco.commotive.dk/WebService.asmx/GetLatestData',
+//            contentType: "application/json; charset=utf-8",
+//            crossDomain: true,
+//            data: JSON.stringify({ DeviceId: 869606020004341 }),
+//            dataType: "json",
+//            success: function (data)
+//            {
+//                console.log(data);
+//            }
+//        });
 
 
 
@@ -863,7 +907,7 @@ export default
         this.updateSections(3, "12.2 KM/l");
         this.updateSections(4, "15.2 KM/l");
         this.updateSections(5, "3.2 KM/l");
-        var stepChanger = setInterval(this.changeStep, 2000);
+//        var stepChanger = setInterval(this.changeStep, 5000);
 
 
 
