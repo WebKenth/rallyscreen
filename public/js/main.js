@@ -11722,7 +11722,7 @@ var _stringify2 = _interopRequireDefault(_stringify);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var socket = io('http://rallyscreen.app:3000');
+var socket = io();
 var test_timer;
 
 exports.default = {

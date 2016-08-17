@@ -648,7 +648,7 @@
 }
 </style>
 <script>
-    var socket = io('http://rallyscreen.app:3000');
+    var socket = io();
     var test_timer;
 
 export default
@@ -767,7 +767,7 @@ export default
         startDriverLoop(vehicle)
         {
             var driver = vehicle.driver;
-            
+
 
         },
         getDiimsData(diims_id)

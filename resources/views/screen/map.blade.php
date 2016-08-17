@@ -27,7 +27,7 @@
     <script>
         // Web Socket
 
-        var socket = io('http://rallyscreen.app:3000');
+        var socket = io();
 
         socket.on('map_check_connection', function(){
             socket.emit('map_is_connected','1');

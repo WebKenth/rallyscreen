@@ -169,7 +169,8 @@
         });
 
         // Websocket - Direct Link to Live Score Sites and Map
-        var socket = io('http://rallyscreen.app:3000');
+        // 'http://rallyscreen.app:3000'
+        var socket = io();
 
         $('#connectedButton').on('click',function(){
             socket.emit('is_livescore_online','1');
