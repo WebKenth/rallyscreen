@@ -29,6 +29,7 @@
         });
 
         socket.on('update_map', function(data){
+            console.log(data);
             var latlng = new google.maps.LatLng(data.diims_data.Lat, data.diims_data.Long);
             if(data.marker == "truck_1") { truck_1.setPosition(latlng); }
             if(data.marker == "truck_2") { truck_2.setPosition(latlng); }

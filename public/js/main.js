@@ -12051,9 +12051,10 @@ exports.default = {
         },
         updateMap: function updateMap(marker) {
             var vm = this;
+            var diims_data = vm.$get(marker + '.diims_data');
             var data = {
                 marker: marker,
-                diims_data: vm.$get(marker + '.diims_data')
+                diims_data: diims_data[diims_data.length - 1]
             };
             socket.emit('update_map', data);
         },
