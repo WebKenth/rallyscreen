@@ -165,4 +165,9 @@ class ScreenController extends Controller
 
         return json_encode($data);
     }
+
+    public function updateHeatStats(Request $request)
+    {
+        $sql = DB::statement("UPDATE heat_stats SET distance = ".$request->distance.", fuel_used = ".$request->fuel_used.", kml = ".$request->kml.", rpm = ".$request->rpm.", accelerator = ".$request->accelerator." where heat_id = ".$request->heat_id." AND vehicle_id = ".$request->vehicle_id." AND driver_id = ".$request->driver_id);
+    }
 }

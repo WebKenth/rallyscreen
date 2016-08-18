@@ -17,7 +17,9 @@ class CreateHeatStatsTable extends Migration
             $table->integer('heat_id')->unsigned();
             $table->integer('driver_id')->unsigned();
             $table->integer('vehicle_id')->unsigned()->nullable();
-            $table->string('time')->nullable();
+            $table->integer('time')->nullable();
+            $table->string('distance')->nullable();
+            $table->string('fuel_used')->nullable();
             $table->string('kml')->nullable();
             $table->string('m1_kml')->nullable();
             $table->string('m2_kml')->nullable();

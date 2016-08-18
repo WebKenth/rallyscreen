@@ -5,6 +5,7 @@
         <div class="col-md-6">
             <form action="/diims" method="post">
                 <fieldset>
+                    {{ csrf_field() }}
                 <legend>Diims</legend>
                     <input type="text" class="form-control" name="name" placeholder="Kaldenavn">
                     <input type="text" class="form-control" name="number" placeholder="869606020004341">

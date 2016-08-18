@@ -11727,8 +11727,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //    4341
 //    6064
 //    0950
-var socket = io('http://rallyscreen.app:3000');
-//    var socket = io('http://139.59.177.94:3000');
+//      var socket = io('http://rallyscreen.app:3000');
+var socket = io('http://139.59.177.94:3000');
 var test_timer;
 
 exports.default = {
@@ -11790,13 +11790,14 @@ exports.default = {
                     TotalDrivingTime: ''
                 }
             },
-            diims_data: {},
+            diims_data: [],
             timer_1: {},
             timer_2: {},
             timer_3: {},
             timer_4: {},
             timer_5: {},
-            timer_6: {}
+            timer_6: {},
+            heat_refresh_timer: {}
         };
     },
 
@@ -11805,7 +11806,6 @@ exports.default = {
         getHeatData: function getHeatData(heat_id) {
             this.$http.get('/api/livescore/' + heat_id).then(function (response) {
                 var data = JSON.parse(response.data);
-                console.log(data);
                 this.$set('heat', data.heat);
                 this.$set('van_drivers', data.van_drivers);
                 this.$set('truck_drivers', data.truck_drivers);
@@ -11836,10 +11836,12 @@ exports.default = {
             this.getHeatData(heat_id);
         },
         setActiveDrivers: function setActiveDrivers(data) {
+            var vm = this;
             data._token = this.csrf_token;
             order = data.order;
             this.$http.post('/api/livescore/getLiveVehicle/', data).then(function (response) {
                 var result = JSON.parse(response.data);
+                result.vehicle.diims_data = [];
                 if (order == 1) {
                     this.$set('van_1', result.vehicle);
                 }
@@ -11858,14 +11860,39 @@ exports.default = {
                 if (order == 6) {
                     this.$set('truck_3', result.vehicle);
                 }
-                this.startDriverLoop(result.vehicle, order);
+                this.startDriverLoop(result.vehicle, order, data);
             });
         },
-        startDriverLoop: function startDriverLoop(vehicle, order) {
+        startDriverLoop: function startDriverLoop(vehicle, order, data) {
             var vm = this;
-            var timer = setInterval(function () {
+            var driver;
+            //            if(order == 1 || order == 2 || order == 3)
+            //            {
+            //                for (var i = 0; i < vm.van_drivers.length; i++)
+            //                {
+            //                    if(vm.van_drivers[i].id == data.driver_id)
+            //                    {
+            //                        vm.van_drivers[i].heat_stats.time++;
+            //                    }
+            //                }
+            //            }
+            //            if(order == 4 || order == 5 || order == 6)
+            //            {
+            //                for (var i = 0; i < vm.truck_drivers.length; i++)
+            //                {
+            //                    if(vm.truck_drivers[i].id == data.driver_id)
+            //                    {
+            //                        vm.truck_drivers[i].heat_stats.time++;
+            //                        console.log(vm.truck_drivers[i].heat_stats.time);
+            //                    }
+            //                }
+            //            }
+
+            var timer = {};
+            timer.id = setInterval(function () {
                 vm.getDiimsData(vehicle.diims_id, order);
             }, 10000);
+            timer.counter = 0;
             if (order == 1) {
                 this.$set('timer_1', timer);
             }
@@ -11888,22 +11915,22 @@ exports.default = {
         stopDriverLoop: function stopDriverLoop(order) {
             var vm = this;
             if (order == 1) {
-                clearInterval(vm.timer_1);
+                clearInterval(vm.timer_1.id);
             }
             if (order == 2) {
-                clearInterval(vm.timer_2);
+                clearInterval(vm.timer_2.id);
             }
             if (order == 3) {
-                clearInterval(vm.timer_3);
+                clearInterval(vm.timer_3.id);
             }
             if (order == 4) {
-                clearInterval(vm.timer_4);
+                clearInterval(vm.timer_4.id);
             }
             if (order == 5) {
-                clearInterval(vm.timer_5);
+                clearInterval(vm.timer_5.id);
             }
             if (order == 6) {
-                clearInterval(vm.timer_6);
+                clearInterval(vm.timer_6.id);
             }
         },
         getDiimsData: function getDiimsData(diims_id, order) {
@@ -11916,34 +11943,111 @@ exports.default = {
                 data: (0, _stringify2.default)({ DeviceId: diims_id }),
                 dataType: "json",
                 success: function success(data) {
-                    // Check If data is New
-
-                    // return data object -> Status = 'update','inherit',''
                     var result = JSON.parse(data.d);
                     var marker;
-                    console.log(result[0]);
+                    //                    if(result[0].ReportType != 2 && result[0].IgnitionKey == 2)
+                    //                    {
                     if (order == 1) {
-                        vm.$set('van_1.diims_data', result[0]);marker = "van_1";
+                        vm.van_1.diims_data.push(result[0]);
+                        marker = "van_1";
+                        vm.$set('timer_1.counter', vm.timer_1.counter++);
                     }
                     if (order == 2) {
-                        vm.$set('van_2.diims_data', result[0]);marker = "van_2";
+                        vm.van_2.diims_data.push(result[0]);
+                        marker = "van_2";
+                        vm.$set('timer_2.counter', vm.timer_2.counter++);
                     }
                     if (order == 3) {
-                        vm.$set('van_3.diims_data', result[0]);marker = "van_3";
+                        vm.van_3.diims_data.push(result[0]);
+                        marker = "van_3";
+                        vm.$set('timer_3.counter', vm.timer_3.counter++);
                     }
                     if (order == 4) {
-                        vm.$set('truck_1.diims_data', result[0]);marker = "truck_1";
+                        vm.truck_1.diims_data.push(result[0]);
+                        marker = "truck_1";
+                        vm.$set('timer_4.counter', vm.timer_4.counter++);
                     }
                     if (order == 5) {
-                        vm.$set('truck_2.diims_data', result[0]);marker = "truck_2";
+                        vm.truck_2.diims_data.push(result[0]);
+                        marker = "truck_2";
+                        vm.$set('timer_5.counter', vm.timer_5.counter++);
                     }
                     if (order == 6) {
-                        vm.$set('truck_3.diims_data', result[0]);marker = "truck_3";
+                        vm.truck_3.diims_data.push(result[0]);
+                        marker = "truck_3";
+                        vm.$set('timer_6.counter', vm.timer_6.counter++);
                     }
-                    vm.diims_data[diims_id] = result[0];
+
+                    vm.updateHeatStats(order);
+                    //                    }
                     vm.updateMap(marker);
                 }
             });
+        },
+        updateHeatStats: function updateHeatStats(order) {
+            var vm = this;
+            var counter = vm.$get('timer_' + order + '.counter');
+            var array_1;
+            var length;
+            var array_2;
+            var data;
+
+            if (order == 1) {
+                array_1 = vm.van_1.diims_data[0];length = vm.van_1.diims_data.length - 1;array_2 = vm.van_1.diims_data[length];
+                data = { vehicle_id: vm.van_1.id, driver_id: vm.van_1.driver.id, heat_id: vm.heat.id };
+            }
+            if (order == 2) {
+                array_1 = vm.van_2.diims_data[0];length = vm.van_2.diims_data.length - 1;array_2 = vm.van_2.diims_data[length];
+                data = { vehicle_id: vm.van_2.id, driver_id: vm.van_2.driver.id, heat_id: vm.heat.id };
+            }
+            if (order == 3) {
+                array_1 = vm.van_3.diims_data[0];length = vm.van_3.diims_data.length - 1;array_2 = vm.van_3.diims_data[length];
+                data = { vehicle_id: vm.van_3.id, driver_id: vm.van_3.driver.id, heat_id: vm.heat.id };
+            }
+            if (order == 4) {
+                array_1 = vm.truck_1.diims_data[0];length = vm.truck_1.diims_data.length - 1;array_2 = vm.truck_1.diims_data[length];
+                data = { vehicle_id: vm.truck_1.id, driver_id: vm.truck_1.driver.id, heat_id: vm.heat.id };
+            }
+            if (order == 5) {
+                array_1 = vm.truck_2.diims_data[0];length = vm.truck_2.diims_data.length - 1;array_2 = vm.truck_2.diims_data[length];
+                data = { vehicle_id: vm.truck_2.id, driver_id: vm.truck_2.driver.id, heat_id: vm.heat.id };
+            }
+            if (order == 6) {
+                array_1 = vm.truck_3.diims_data[0];length = vm.truck_3.diims_data.length - 1;array_2 = vm.truck_3.diims_data[length];
+                data = { vehicle_id: vm.truck_3.id, driver_id: vm.truck_3.driver.id, heat_id: vm.heat.id };
+            }
+            //            console.log('::: MATH TIME :::');
+
+            var diims_1_Odometer = array_1.Odometer / 10;
+            var diims_2_Odometer = array_2.Odometer / 10;
+            //            console.log('Diims_1_odo: '+diims_1_Odometer);
+            //            console.log('Diims_2_odo: '+diims_2_Odometer);
+
+            var diims_1_TotalFuelUsed = array_1.TotalFuelUsed;
+            var diims_2_TotalFuelUsed = array_2.TotalFuelUsed;
+            //            console.log('Diims_1_fuel: '+diims_1_TotalFuelUsed);
+            //            console.log('Diims_2_fuel: '+diims_2_TotalFuelUsed);
+
+            var distance_driven_in_km = diims_2_Odometer - diims_1_Odometer; // KM siden sidste opdatering
+            var litres_of_fuel_used = diims_2_TotalFuelUsed - diims_1_TotalFuelUsed; // L brugt siden sidste opdatering
+
+            //            console.log('distance in km: '+distance_driven_in_km);
+            //            console.log('Fuel used in Litres: '+litres_of_fuel_used);
+
+            var kml = 0;
+            if (distance_driven_in_km != 0 || litres_of_fuel_used != 0) {
+                kml = litres_of_fuel_used / distance_driven_in_km;
+            }
+            //            console.log('kml: '+kml);
+
+            data.kml = kml;
+            data.distance = distance_driven_in_km;
+            data.fuel_used = litres_of_fuel_used;
+            data.accelerator = array_2.Accelerator;
+            data.rpm = array_2.RPM;
+            data._token = vm.csrf_token;
+
+            this.$http.post('/api/livescore/updateHeatStats/', data).then(function (response) {});
         },
         updateMap: function updateMap(marker) {
             var vm = this;
@@ -11988,37 +12092,18 @@ exports.default = {
     },
     created: function created() {},
     ready: function ready() {
-        this.webSocketListeners();
-        this.getHeatData(1);
-
-        //        this.getDiimsData(869606020004341);
-        //        // grab latest Data
-        //        $.ajax({
-        //            type: "POST",
-        //            url: 'http://eco.commotive.dk/WebService.asmx/GetLatestData',
-        //            contentType: "application/json; charset=utf-8",
-        //            crossDomain: true,
-        //            data: JSON.stringify({ DeviceId: 869606020004341 }),
-        //            dataType: "json",
-        //            success: function (data)
-        //            {
-        //                console.log(data);
-        //            }
-        //        });
-
+        var vm = this;
+        vm.webSocketListeners();
+        vm.getHeatData(1);
+        var timer = setInterval(function () {
+            vm.getHeatData(vm.heat.id);
+        }, 10000);
+        vm.$set('heat_refresh_timer', timer);
 
         child = 1;
         currentStep = 1;
 
-        random = Math.floor(Math.random() * 150000 + 270000);
-        //        sections = setInterval(this.updateSections, 1000);
-        this.updateSections(1, "13.2 KM/l");
-        this.updateSections(2, "10.2 KM/l");
-        this.updateSections(3, "12.2 KM/l");
-        this.updateSections(4, "15.2 KM/l");
-        this.updateSections(5, "3.2 KM/l");
-        //        var stepChanger = setInterval(this.changeStep, 5000);
-
+        var stepChanger = setInterval(this.changeStep, 5000);
 
         //        var speedometer = {
         //            lines: 12, // The number of lines to draw
@@ -12079,7 +12164,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<header>\n    <div class=\"container-fluid\">\n        <div class=\"row\">\n            <div class=\"col-xs-6\">\n                <div class=\"logo\">\n                    <img src=\"/images/postnordlogo.png\">\n                </div>\n            </div>\n            <div class=\"col-xs-6 text-right\">\n                Heat: <span class=\"heat-number\">{{heat.number}}</span>\n            </div>\n        </div>\n    </div>\n</header>\n<section class=\"player-score\">\n    <div class=\"section-grid\" data-step=\"1\">\n        <div class=\"point\"></div>\n        <div class=\"point\"></div>\n        <div class=\"point\"></div>\n        <div class=\"point\"></div>\n    </div>\n    <div class=\"outer-container\">\n        <div class=\"container-fluid\">\n            <div class=\"row\">\n                <div class=\"col-xs-12\">\n                    <div class=\"step slidein\" data-step=\"1\">\n                        <div class=\"list-indikator\">\n                            <img src=\"images/truck_2.png\">\n                            Live Lastbil\n                        </div>\n                        <ul class=\"player-list\">\n                            <li v-for=\"truck_driver in truck_drivers\">\n                                <p>{{truck_driver.first_name+' '+truck_driver.middle_name+' '+truck_driver.last_name}}</p>\n                                <div class=\"left\">\n                                    <img v-bind:src=\"truck_driver.image\">\n                                    <span>Tid:</span>\n                                </div>\n                                <div class=\"right\">\n                                    <div class=\"sections\">\n                                        <div class=\"section\">{{ (truck_driver.heat_stats.m1_kml) ? truck_driver.heat_stats.m1_kml+' km/l' : '' }}</div>\n                                        <div class=\"section\">{{ (truck_driver.heat_stats.m2_kml) ? truck_driver.heat_stats.m2_kml+' km/l' : '' }}</div>\n                                        <div class=\"section\">{{ (truck_driver.heat_stats.m3_kml) ? truck_driver.heat_stats.m3_kml+' km/l' : '' }}</div>\n                                        <div class=\"section\">{{ (truck_driver.heat_stats.m4_kml) ? truck_driver.heat_stats.m4_kml+' km/l' : '' }}</div>\n                                        <div class=\"section\">{{ (truck_driver.heat_stats.m5_kml) ? truck_driver.heat_stats.m5_kml+' km/l' : '' }}</div>\n                                    </div>\n                                    <div class=\"time\">\n                                        <span class=\"progress\" data-progress=\"0\"></span>\n                                        <span class=\"counter\">{{truck_driver.heat_stats.time}}</span>\n                                    </div>\n                                </div>\n                                <div class=\"end\">\n                                    <span class=\"total\">{{ (truck_driver.heat_stats.kml) ? truck_driver.heat_stats.kml+' km/l' : 'Venter på Start' }}</span>\n                                </div>\n                            </li>\n\n                        </ul>\n                    </div>\n                    <div class=\"step\" data-step=\"2\">\n                        <div class=\"list-indikator\">\n                            <img src=\"images/van_2.png\">\n                            Live Vans\n                        </div>\n                        <ul class=\"player-list\">\n                            <li v-for=\"van_driver in van_drivers\">\n                                <p>{{van_driver.first_name+' '+van_driver.middle_name+' '+van_driver.last_name}}</p>\n                            <div class=\"left\">\n                                <img v-bind:src=\"van_driver.image\">\n                                <span>Tid:</span>\n                            </div>\n                            <div class=\"right\">\n                                <div class=\"sections\">\n                                        <div class=\"section\">{{ (van_driver.heat_stats.m1_kml) ? van_driver.heat_stats.m1_kml+' km/l' : '' }}</div>\n                                        <div class=\"section\">{{ (van_driver.heat_stats.m2_kml) ? van_driver.heat_stats.m2_kml+' km/l' : '' }}</div>\n                                        <div class=\"section\">{{ (van_driver.heat_stats.m3_kml) ? van_driver.heat_stats.m3_kml+' km/l' : '' }}</div>\n                                        <div class=\"section\">{{ (van_driver.heat_stats.m4_kml) ? van_driver.heat_stats.m4_kml+' km/l' : '' }}</div>\n                                        <div class=\"section\">{{ (van_driver.heat_stats.m5_kml) ? van_driver.heat_stats.m5_kml+' km/l' : '' }}</div>\n                                </div>\n                                <div class=\"time\">\n                                    <span class=\"progress\" data-progress=\"0\"></span>\n                                    <span class=\"counter\">{{van_driver.heat_stats.time}}</span>\n                                </div>\n                            </div>\n                            <div class=\"end\">\n                                <span class=\"total\">{{ (van_driver.heat_stats.kml) ? van_driver.heat_stats.kml+' km/l' : 'Venter på Start' }}</span>\n                            </div>\n                            </li>\n                        </ul>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</section>\n<section class=\"live-trucks\">\n    <div class=\"outer-container\">\n        <div class=\"container-fluid\">\n            <div class=\"row\">\n                <div class=\"col-xs-12\">\n                    <ul class=\"truck-list\">\n                        <li>\n                            <div class=\"static-data\">\n                                <div class=\"left\">\n                                    <img src=\"/images/truck_2.png\">\n                                    <span class=\"current-driver\">\n                                        {{ (truck_1.driver) ? truck_1.driver.first_name : '' }}\n                                        {{ (truck_1.driver) ? truck_1.driver.middle_name : '' }}\n                                        {{ (truck_1.driver) ? truck_1.driver.last_name : '' }}\n                                    </span>\n                                    {{ truck_1.diims_data.TotalDrivingTime }}\n                                </div>\n                                <div class=\"right\">\n                                    <div>\n                                        <span>Mærke: <span class=\"brand\">{{ truck_1.brand }}</span></span>\n                                        Model: <span class=\"model\">{{ truck_1.model }}</span>\n                                    </div>\n                                    <div>\n                                        <span>Regnr: <span class=\"registration\">{{ truck_1.reg_nr }}</span></span>\n                                        Køretøj: <span class=\"track-number\">{{truck_1.name}}</span>\n                                    </div>\n                                </div>\n                            </div>\n                            <div class=\"dynamic-data\">\n                                <div class=\"left\">\n                                    <div class=\"throttle\"></div>\n                                </div>\n                                <div class=\"middle\">\n                                    <div class=\"fuel-usage\"></div>\n                                </div>\n                                <div class=\"right\">\n                                    <div class=\"speed-o-meter\">\n                                        <canvas id=\"truck_speedometer{{truck_1.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                        <canvas id=\"truck_rpm{{truck_1.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                    </div>\n                                </div>\n                            </div>\n                        </li>\n                        <li>\n                            <div class=\"static-data\">\n                                <div class=\"left\">\n                                    <img src=\"/images/truck_2.png\">\n                                    <span class=\"current-driver\">\n                                        {{ (truck_2.driver) ? truck_2.driver.first_name : '' }}\n                                        {{ (truck_2.driver) ? truck_2.driver.middle_name : '' }}\n                                        {{ (truck_2.driver) ? truck_2.driver.last_name : '' }}\n                                    </span>\n                                    {{ truck_2.diims_data.TotalDrivingTime }}\n                                </div>\n                                <div class=\"right\">\n                                    <div>\n                                        <span>Mærke: <span class=\"brand\">{{ truck_2.brand }}</span></span>\n                                        Model: <span class=\"model\">{{ truck_2.model }}</span>\n                                    </div>\n                                    <div>\n                                        <span>Regnr: <span class=\"registration\">{{ truck_2.reg_nr }}</span></span>\n                                        <!--Løbs nummer: <span class=\"track-number\">3</span>-->\n                                        Køretøj: <span class=\"track-number\">{{truck_2.name}}</span>\n                                    </div>\n                                </div>\n                            </div>\n                            <div class=\"dynamic-data\">\n                                <div class=\"left\">\n                                    <div class=\"throttle\"></div>\n                                </div>\n                                <div class=\"middle\">\n                                    <div class=\"fuel-usage\"></div>\n                                </div>\n                                <div class=\"right\">\n                                    <div class=\"speed-o-meter\">\n                                        <canvas id=\"truck_speedometer{{truck_2.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                        <canvas id=\"truck_rpm{{truck_2.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                    </div>\n                                </div>\n                            </div>\n                        </li>\n                        <li>\n                            <div class=\"static-data\">\n                                <div class=\"left\">\n                                    <img src=\"/images/truck_2.png\">\n                                    <span class=\"current-driver\">\n                                        {{ (truck_3.driver) ? truck_3.driver.first_name : '' }}\n                                        {{ (truck_3.driver) ? truck_3.driver.middle_name : '' }}\n                                        {{ (truck_3.driver) ? truck_3.driver.last_name : '' }}\n                                    </span>\n                                    {{ truck_3.diims_data.TotalDrivingTime }}\n                                </div>\n                                <div class=\"right\">\n                                    <div>\n                                        <span>Mærke: <span class=\"brand\">{{ truck_3.brand }}</span></span>\n                                        Model: <span class=\"model\">{{ truck_3.model }}</span>\n                                    </div>\n                                    <div>\n                                        <span>Regnr: <span class=\"registration\">{{ truck_3.reg_nr }}</span></span>\n                                        <!--Løbs nummer: <span class=\"track-number\">3</span>-->\n                                        Køretøj: <span class=\"track-number\">{{truck_3.name}}</span>\n                                    </div>\n                                </div>\n                            </div>\n                            <div class=\"dynamic-data\">\n                                <div class=\"left\">\n                                    <div class=\"throttle\"></div>\n                                </div>\n                                <div class=\"middle\">\n                                    <div class=\"fuel-usage\"></div>\n                                </div>\n                                <div class=\"right\">\n                                    <div class=\"speed-o-meter\">\n                                        <canvas id=\"truck_speedometer{{truck_3.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                        <canvas id=\"truck_rpm{{truck_3.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                    </div>\n                                </div>\n                            </div>\n                        </li>\n                    </ul>\n                </div>\n            </div>\n        </div>\n    </div>\n</section>\n<section class=\"live-vans\">\n    <div class=\"outer-container\">\n        <div class=\"container-fluid\">\n            <div class=\"row\">\n                <div class=\"col-xs-12\">\n                    <ul class=\"van-list\">\n                        <li>\n                            <div class=\"static-data\">\n                                <div class=\"left\">\n                                    <img src=\"/images/van_2.png\">\n                                    <span class=\"current-driver\">\n                                        {{ (van_1.driver) ? van_1.driver.first_name : '' }}\n                                        {{ (van_1.driver) ? van_1.driver.middle_name : '' }}\n                                        {{ (van_1.driver) ? van_1.driver.last_name : '' }}\n                                    </span>\n                                    {{ van_1.diims_data.TotalDrivingTime }}\n                                </div>\n                                <div class=\"right\">\n                                    <div>\n                                        <span>Mærke: <span class=\"brand\">{{van_1.brand}}</span></span>\n                                        Model: <span class=\"model\">{{van_1.model}}</span>\n                                    </div>\n                                    <div>\n                                        <span>Regnr: <span class=\"registration\">{{van_1.reg_nr}}</span></span>\n                                        <!--Løbs nummer: <span class=\"track-number\">3</span>-->\n                                        Køretøj: <span class=\"track-number\">{{van_1.name}}</span>\n                                    </div>\n                                </div>\n                            </div>\n                            <div class=\"dynamic-data\">\n                                <div class=\"left\">\n                                    <div class=\"throttle\"></div>\n                                </div>\n                                <div class=\"middle\">\n                                    <div class=\"fuel-usage\"></div>\n                                </div>\n                                <div class=\"right\">\n                                    <div class=\"speed-o-meter\">\n                                        <canvas id=\"van_speedometer{{van_1.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                        <canvas id=\"van_rpm{{van_1.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                    </div>\n                                </div>\n                            </div>\n                        </li>\n                        <li>\n                            <div class=\"static-data\">\n                                <div class=\"left\">\n                                    <img src=\"/images/van_2.png\">\n                                    <span class=\"current-driver\">\n                                        {{ (van_2.driver) ? van_2.driver.first_name : '' }}\n                                        {{ (van_2.driver) ? van_2.driver.middle_name : '' }}\n                                        {{ (van_2.driver) ? van_2.driver.last_name : '' }}\n                                    </span>\n                                    {{ van_2.diims_data.TotalDrivingTime }}\n                                </div>\n                                <div class=\"right\">\n                                    <div>\n                                        <span>Mærke: <span class=\"brand\">{{van_2.brand}}</span></span>\n                                        Model: <span class=\"model\">{{van_2.model}}</span>\n                                    </div>\n                                    <div>\n                                        <span>Regnr: <span class=\"registration\">{{van_2.reg_nr}}</span></span>\n                                        <!--Løbs nummer: <span class=\"track-number\">3</span>-->\n                                        Køretøj: <span class=\"track-number\">{{van_2.name}}</span>\n                                    </div>\n                                </div>\n                            </div>\n                            <div class=\"dynamic-data\">\n                                <div class=\"left\">\n                                    <div class=\"throttle\"></div>\n                                </div>\n                                <div class=\"middle\">\n                                    <div class=\"fuel-usage\"></div>\n                                </div>\n                                <div class=\"right\">\n                                    <div class=\"speed-o-meter\">\n                                        <canvas id=\"van_speedometer{{van_2.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                        <canvas id=\"van_rpm{{van_2.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                    </div>\n                                </div>\n                            </div>\n                        </li>\n                        <li>\n                            <div class=\"static-data\">\n                                <div class=\"left\">\n                                    <img src=\"/images/van_2.png\">\n                                    <span class=\"current-driver\">\n                                        {{ (van_3.driver) ? van_3.driver.first_name : '' }}\n                                        {{ (van_3.driver) ? van_3.driver.middle_name : '' }}\n                                        {{ (van_3.driver) ? van_3.driver.last_name : '' }}\n                                    </span>\n                                    {{ van_3.diims_data.TotalDrivingTime }}\n                                </div>\n                                <div class=\"right\">\n                                    <div>\n                                        <span>Mærke: <span class=\"brand\">{{van_3.brand}}</span></span>\n                                        Model: <span class=\"model\">{{van_3.model}}</span>\n                                    </div>\n                                    <div>\n                                        <span>Regnr: <span class=\"registration\">{{van_3.reg_nr}}</span></span>\n                                        <!--Løbs nummer: <span class=\"track-number\">3</span>-->\n                                        Køretøj: <span class=\"track-number\">{{van_3.name}}</span>\n                                    </div>\n                                </div>\n                            </div>\n                            <div class=\"dynamic-data\">\n                                <div class=\"left\">\n                                    <div class=\"throttle\"></div>\n                                </div>\n                                <div class=\"middle\">\n                                    <div class=\"fuel-usage\"></div>\n                                </div>\n                                <div class=\"right\">\n                                    <div class=\"speed-o-meter\">\n                                        <canvas id=\"van_speedometer{{van_3.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                        <canvas id=\"van_rpm{{van_3.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                    </div>\n                                </div>\n                            </div>\n                        </li>\n                    </ul>\n                </div>\n            </div>\n        </div>\n    </div>\n</section>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<header>\n    <div class=\"container-fluid\">\n        <div class=\"row\">\n            <div class=\"col-xs-6\">\n                <div class=\"logo\">\n                    <img src=\"/images/postnordlogo.png\">\n                </div>\n            </div>\n            <div class=\"col-xs-6 text-right\">\n                Heat: <span class=\"heat-number\">{{heat.number}}</span>\n            </div>\n        </div>\n    </div>\n</header>\n<section class=\"player-score\">\n    <div class=\"section-grid\" data-step=\"1\">\n        <div class=\"point\"></div>\n        <div class=\"point\"></div>\n        <div class=\"point\"></div>\n        <div class=\"point\"></div>\n    </div>\n    <div class=\"outer-container\">\n        <div class=\"container-fluid\">\n            <div class=\"row\">\n                <div class=\"col-xs-12\">\n                    <div class=\"step slidein\" data-step=\"1\">\n                        <div class=\"list-indikator\">\n                            <img src=\"images/truck_2.png\">\n                            Live Lastbil\n                        </div>\n                        <ul class=\"player-list\">\n                            <li v-for=\"truck_driver in truck_drivers\">\n                                <p>{{truck_driver.first_name+' '+truck_driver.middle_name+' '+truck_driver.last_name}}</p>\n                                Time: {{ truck_driver.heat_stats.time }} Distance: {{ truck_driver.heat_stats.distance }} Fuel Used: {{ truck_driver.heat_stats.fuel_used }} km/l: {{ truck_driver.heat_stats.kml }} RPM: {{ truck_driver.heat_stats.rpm }} Accelerator: {{ truck_driver.heat_stats.accelerator }}\n                                <div class=\"left\">\n                                    <img v-bind:src=\"truck_driver.image\">\n                                    <span>Tid:</span>\n                                </div>\n                                <div class=\"right\">\n                                    <div class=\"sections\">\n                                        <div class=\"section\">{{ (truck_driver.heat_stats.m1_kml) ? truck_driver.heat_stats.m1_kml+' km/l' : '' }}</div>\n                                        <div class=\"section\">{{ (truck_driver.heat_stats.m2_kml) ? truck_driver.heat_stats.m2_kml+' km/l' : '' }}</div>\n                                        <div class=\"section\">{{ (truck_driver.heat_stats.m3_kml) ? truck_driver.heat_stats.m3_kml+' km/l' : '' }}</div>\n                                        <div class=\"section\">{{ (truck_driver.heat_stats.m4_kml) ? truck_driver.heat_stats.m4_kml+' km/l' : '' }}</div>\n                                        <div class=\"section\">{{ (truck_driver.heat_stats.m5_kml) ? truck_driver.heat_stats.m5_kml+' km/l' : '' }}</div>\n                                    </div>\n                                    <div class=\"time\">\n                                        <span class=\"progress\" data-progress=\"0\"></span>\n                                        <span class=\"counter\">{{ Math.floor((truck_driver.heat_stats.time % 3600) / 60) }}:{{ (truck_driver.heat_stats.time % 3600) % 60 }}</span>\n                                    </div>\n                                </div>\n                                <div class=\"end\">\n                                    <span class=\"total\">{{ (truck_driver.heat_stats.kml) ? truck_driver.heat_stats.kml+' km/l' : 'Venter på Start' }}</span>\n                                </div>\n                            </li>\n\n                        </ul>\n                    </div>\n                    <div class=\"step\" data-step=\"2\">\n                        <div class=\"list-indikator\">\n                            <img src=\"images/van_2.png\">\n                            Live Vans\n                        </div>\n                        <ul class=\"player-list\">\n                            <li v-for=\"van_driver in van_drivers\">\n                                <p>{{van_driver.first_name+' '+van_driver.middle_name+' '+van_driver.last_name}}</p>\n                                Time: {{ van_driver.heat_stats.time }} Distance: {{ van_driver.heat_stats.distance }} Fuel Used: {{ van_driver.heat_stats.fuel_used }} km/l: {{ van_driver.heat_stats.kml }} RPM: {{ van_driver.heat_stats.rpm }} Accelerator: {{ van_driver.heat_stats.accelerator }}\n                            <div class=\"left\">\n                                <img v-bind:src=\"van_driver.image\">\n                                <span>Tid:</span>\n                            </div>\n                            <div class=\"right\">\n                                <div class=\"sections\">\n                                        <div class=\"section\">{{ (van_driver.heat_stats.m1_kml) ? van_driver.heat_stats.m1_kml+' km/l' : '' }}</div>\n                                        <div class=\"section\">{{ (van_driver.heat_stats.m2_kml) ? van_driver.heat_stats.m2_kml+' km/l' : '' }}</div>\n                                        <div class=\"section\">{{ (van_driver.heat_stats.m3_kml) ? van_driver.heat_stats.m3_kml+' km/l' : '' }}</div>\n                                        <div class=\"section\">{{ (van_driver.heat_stats.m4_kml) ? van_driver.heat_stats.m4_kml+' km/l' : '' }}</div>\n                                        <div class=\"section\">{{ (van_driver.heat_stats.m5_kml) ? van_driver.heat_stats.m5_kml+' km/l' : '' }}</div>\n                                </div>\n                                <div class=\"time\">\n                                    <span class=\"progress\" data-progress=\"0\"></span>\n                                    <span class=\"counter\">{{ Math.floor((van_driver.heat_stats.time % 3600) / 60) }}:{{ (van_driver.heat_stats.time % 3600) % 60 }}</span>\n                                </div>\n                            </div>\n                            <div class=\"end\">\n                                <span class=\"total\">{{ (van_driver.heat_stats.kml) ? van_driver.heat_stats.kml+' km/l' : 'Venter på Start' }}</span>\n                            </div>\n                            </li>\n                        </ul>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</section>\n<section class=\"live-trucks\">\n    <div class=\"outer-container\">\n        <div class=\"container-fluid\">\n            <div class=\"row\">\n                <div class=\"col-xs-12\">\n                    <ul class=\"truck-list\">\n                        <li>\n                            <div class=\"static-data\">\n                                <div class=\"left\">\n                                    <img src=\"/images/truck_2.png\">\n                                    <span class=\"current-driver\">\n                                        {{ (truck_1.driver) ? truck_1.driver.first_name : '' }}\n                                        {{ (truck_1.driver) ? truck_1.driver.middle_name : '' }}\n                                        {{ (truck_1.driver) ? truck_1.driver.last_name : '' }}\n                                    </span>\n                                </div>\n                                <div class=\"right\">\n                                    <div>\n                                        <span>Mærke: <span class=\"brand\">{{ truck_1.brand }}</span></span>\n                                        Model: <span class=\"model\">{{ truck_1.model }}</span>\n                                    </div>\n                                    <div>\n                                        <span>Regnr: <span class=\"registration\">{{ truck_1.reg_nr }}</span></span>\n                                        Køretøj: <span class=\"track-number\">{{truck_1.name}}</span>\n                                    </div>\n                                </div>\n                            </div>\n                            <div class=\"dynamic-data\">\n                                <div class=\"left\">\n                                    <div class=\"throttle\"></div>\n                                </div>\n                                <div class=\"middle\">\n                                    <div class=\"fuel-usage\"></div>\n                                </div>\n                                <div class=\"right\">\n                                    <div class=\"speed-o-meter\">\n                                        <canvas id=\"truck_speedometer{{truck_1.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                        <canvas id=\"truck_rpm{{truck_1.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                    </div>\n                                </div>\n                            </div>\n                        </li>\n                        <li>\n                            <div class=\"static-data\">\n                                <div class=\"left\">\n                                    <img src=\"/images/truck_2.png\">\n                                    <span class=\"current-driver\">\n                                        {{ (truck_2.driver) ? truck_2.driver.first_name : '' }}\n                                        {{ (truck_2.driver) ? truck_2.driver.middle_name : '' }}\n                                        {{ (truck_2.driver) ? truck_2.driver.last_name : '' }}\n                                    </span>\n                                </div>\n                                <div class=\"right\">\n                                    <div>\n                                        <span>Mærke: <span class=\"brand\">{{ truck_2.brand }}</span></span>\n                                        Model: <span class=\"model\">{{ truck_2.model }}</span>\n                                    </div>\n                                    <div>\n                                        <span>Regnr: <span class=\"registration\">{{ truck_2.reg_nr }}</span></span>\n                                        <!--Løbs nummer: <span class=\"track-number\">3</span>-->\n                                        Køretøj: <span class=\"track-number\">{{truck_2.name}}</span>\n                                    </div>\n                                </div>\n                            </div>\n                            <div class=\"dynamic-data\">\n                                <div class=\"left\">\n                                    <div class=\"throttle\"></div>\n                                </div>\n                                <div class=\"middle\">\n                                    <div class=\"fuel-usage\"></div>\n                                </div>\n                                <div class=\"right\">\n                                    <div class=\"speed-o-meter\">\n                                        <canvas id=\"truck_speedometer{{truck_2.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                        <canvas id=\"truck_rpm{{truck_2.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                    </div>\n                                </div>\n                            </div>\n                        </li>\n                        <li>\n                            <div class=\"static-data\">\n                                <div class=\"left\">\n                                    <img src=\"/images/truck_2.png\">\n                                    <span class=\"current-driver\">\n                                        {{ (truck_3.driver) ? truck_3.driver.first_name : '' }}\n                                        {{ (truck_3.driver) ? truck_3.driver.middle_name : '' }}\n                                        {{ (truck_3.driver) ? truck_3.driver.last_name : '' }}\n                                    </span>\n                                </div>\n                                <div class=\"right\">\n                                    <div>\n                                        <span>Mærke: <span class=\"brand\">{{ truck_3.brand }}</span></span>\n                                        Model: <span class=\"model\">{{ truck_3.model }}</span>\n                                    </div>\n                                    <div>\n                                        <span>Regnr: <span class=\"registration\">{{ truck_3.reg_nr }}</span></span>\n                                        <!--Løbs nummer: <span class=\"track-number\">3</span>-->\n                                        Køretøj: <span class=\"track-number\">{{truck_3.name}}</span>\n                                    </div>\n                                </div>\n                            </div>\n                            <div class=\"dynamic-data\">\n                                <div class=\"left\">\n                                    <div class=\"throttle\"></div>\n                                </div>\n                                <div class=\"middle\">\n                                    <div class=\"fuel-usage\"></div>\n                                </div>\n                                <div class=\"right\">\n                                    <div class=\"speed-o-meter\">\n                                        <canvas id=\"truck_speedometer{{truck_3.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                        <canvas id=\"truck_rpm{{truck_3.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                    </div>\n                                </div>\n                            </div>\n                        </li>\n                    </ul>\n                </div>\n            </div>\n        </div>\n    </div>\n</section>\n<section class=\"live-vans\">\n    <div class=\"outer-container\">\n        <div class=\"container-fluid\">\n            <div class=\"row\">\n                <div class=\"col-xs-12\">\n                    <ul class=\"van-list\">\n                        <li>\n                            <div class=\"static-data\">\n                                <div class=\"left\">\n                                    <img src=\"/images/van_2.png\">\n                                    <span class=\"current-driver\">\n                                        {{ (van_1.driver) ? van_1.driver.first_name : '' }}\n                                        {{ (van_1.driver) ? van_1.driver.middle_name : '' }}\n                                        {{ (van_1.driver) ? van_1.driver.last_name : '' }}\n                                    </span>\n                                </div>\n                                <div class=\"right\">\n                                    <div>\n                                        <span>Mærke: <span class=\"brand\">{{van_1.brand}}</span></span>\n                                        Model: <span class=\"model\">{{van_1.model}}</span>\n                                    </div>\n                                    <div>\n                                        <span>Regnr: <span class=\"registration\">{{van_1.reg_nr}}</span></span>\n                                        <!--Løbs nummer: <span class=\"track-number\">3</span>-->\n                                        Køretøj: <span class=\"track-number\">{{van_1.name}}</span>\n                                    </div>\n                                </div>\n                            </div>\n                            <div class=\"dynamic-data\">\n                                <div class=\"left\">\n                                    <div class=\"throttle\"></div>\n                                </div>\n                                <div class=\"middle\">\n                                    <div class=\"fuel-usage\"></div>\n                                </div>\n                                <div class=\"right\">\n                                    <div class=\"speed-o-meter\">\n                                        <canvas id=\"van_speedometer{{van_1.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                        <canvas id=\"van_rpm{{van_1.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                    </div>\n                                </div>\n                            </div>\n                        </li>\n                        <li>\n                            <div class=\"static-data\">\n                                <div class=\"left\">\n                                    <img src=\"/images/van_2.png\">\n                                    <span class=\"current-driver\">\n                                        {{ (van_2.driver) ? van_2.driver.first_name : '' }}\n                                        {{ (van_2.driver) ? van_2.driver.middle_name : '' }}\n                                        {{ (van_2.driver) ? van_2.driver.last_name : '' }}\n                                    </span>\n                                </div>\n                                <div class=\"right\">\n                                    <div>\n                                        <span>Mærke: <span class=\"brand\">{{van_2.brand}}</span></span>\n                                        Model: <span class=\"model\">{{van_2.model}}</span>\n                                    </div>\n                                    <div>\n                                        <span>Regnr: <span class=\"registration\">{{van_2.reg_nr}}</span></span>\n                                        <!--Løbs nummer: <span class=\"track-number\">3</span>-->\n                                        Køretøj: <span class=\"track-number\">{{van_2.name}}</span>\n                                    </div>\n                                </div>\n                            </div>\n                            <div class=\"dynamic-data\">\n                                <div class=\"left\">\n                                    <div class=\"throttle\"></div>\n                                </div>\n                                <div class=\"middle\">\n                                    <div class=\"fuel-usage\"></div>\n                                </div>\n                                <div class=\"right\">\n                                    <div class=\"speed-o-meter\">\n                                        <canvas id=\"van_speedometer{{van_2.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                        <canvas id=\"van_rpm{{van_2.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                    </div>\n                                </div>\n                            </div>\n                        </li>\n                        <li>\n                            <div class=\"static-data\">\n                                <div class=\"left\">\n                                    <img src=\"/images/van_2.png\">\n                                    <span class=\"current-driver\">\n                                        {{ (van_3.driver) ? van_3.driver.first_name : '' }}\n                                        {{ (van_3.driver) ? van_3.driver.middle_name : '' }}\n                                        {{ (van_3.driver) ? van_3.driver.last_name : '' }}\n                                    </span>\n                                </div>\n                                <div class=\"right\">\n                                    <div>\n                                        <span>Mærke: <span class=\"brand\">{{van_3.brand}}</span></span>\n                                        Model: <span class=\"model\">{{van_3.model}}</span>\n                                    </div>\n                                    <div>\n                                        <span>Regnr: <span class=\"registration\">{{van_3.reg_nr}}</span></span>\n                                        <!--Løbs nummer: <span class=\"track-number\">3</span>-->\n                                        Køretøj: <span class=\"track-number\">{{van_3.name}}</span>\n                                    </div>\n                                </div>\n                            </div>\n                            <div class=\"dynamic-data\">\n                                <div class=\"left\">\n                                    <div class=\"throttle\"></div>\n                                </div>\n                                <div class=\"middle\">\n                                    <div class=\"fuel-usage\"></div>\n                                </div>\n                                <div class=\"right\">\n                                    <div class=\"speed-o-meter\">\n                                        <canvas id=\"van_speedometer{{van_3.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                        <canvas id=\"van_rpm{{van_3.id}}\" height=\"20px\" width=\"50px\"></canvas>\n                                    </div>\n                                </div>\n                            </div>\n                        </li>\n                    </ul>\n                </div>\n            </div>\n        </div>\n    </div>\n</section>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

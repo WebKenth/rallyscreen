@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Diims;
 use App\Heat;
 use App\Vehicle;
 use Illuminate\Http\Request;
@@ -20,7 +21,8 @@ class VehicleController extends Controller
     {
         $vehicles = Vehicle::all();
         $heats = Heat::all();
-        return view('vehicle.list',compact('vehicles','heats'));
+        $diims = Diims::all();
+        return view('vehicle.list',compact('vehicles','heats','diims'));
     }
     public function rename(Request $request)
     {

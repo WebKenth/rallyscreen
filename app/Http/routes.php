@@ -21,6 +21,7 @@ Route::get('map', 'ScreenController@map');
 Route::get('stats/{id?}', 'ScreenController@stats');
 
 Route::resource('diims', 'DiimsController');
+Route::get('diims/delete/{id}', 'DiimsController@destroy');
 
 Route::get('/', 'ScreenController@dashboard');
 Route::resource('driver', 'DriverController');
@@ -53,3 +54,6 @@ Route::get('api/heat_stats/driver_update/{heat_id}/{driver_id}/{vehicle_id}', 'S
 Route::get('api/livescore/getLiveVehicle/{heat_id}/{driver_id}','ScreenController@getActiveDrivers');
 
 Route::post('api/livescore/getLiveVehicle','ScreenController@getLiveVehicle');
+
+
+Route::post('api/livescore/updateHeatStats','ScreenController@updateHeatStats');

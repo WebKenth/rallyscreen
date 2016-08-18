@@ -32,6 +32,7 @@
                             <ul class="player-list">
                                 <li v-for="truck_driver in truck_drivers">
                                     <p>{{truck_driver.first_name+' '+truck_driver.middle_name+' '+truck_driver.last_name}}</p>
+                                    Time: {{ truck_driver.heat_stats.time }} Distance: {{ truck_driver.heat_stats.distance }} Fuel Used: {{ truck_driver.heat_stats.fuel_used }} km/l: {{ truck_driver.heat_stats.kml }} RPM: {{ truck_driver.heat_stats.rpm }} Accelerator: {{ truck_driver.heat_stats.accelerator }}
                                     <div class="left">
                                         <img v-bind:src="truck_driver.image">
                                         <span>Tid:</span>
@@ -46,7 +47,7 @@
                                         </div>
                                         <div class="time">
                                             <span class="progress" data-progress="0"></span>
-                                            <span class="counter">{{truck_driver.heat_stats.time}}</span>
+                                            <span class="counter">{{ Math.floor((truck_driver.heat_stats.time % 3600) / 60) }}:{{ (truck_driver.heat_stats.time % 3600) % 60 }}</span>
                                         </div>
                                     </div>
                                     <div class="end">
@@ -64,6 +65,7 @@
                             <ul class="player-list">
                                 <li v-for="van_driver in van_drivers">
                                     <p>{{van_driver.first_name+' '+van_driver.middle_name+' '+van_driver.last_name}}</p>
+                                    Time: {{ van_driver.heat_stats.time }} Distance: {{ van_driver.heat_stats.distance }} Fuel Used: {{ van_driver.heat_stats.fuel_used }} km/l: {{ van_driver.heat_stats.kml }} RPM: {{ van_driver.heat_stats.rpm }} Accelerator: {{ van_driver.heat_stats.accelerator }}
                                 <div class="left">
                                     <img v-bind:src="van_driver.image">
                                     <span>Tid:</span>
@@ -78,7 +80,7 @@
                                     </div>
                                     <div class="time">
                                         <span class="progress" data-progress="0"></span>
-                                        <span class="counter">{{van_driver.heat_stats.time}}</span>
+                                        <span class="counter">{{ Math.floor((van_driver.heat_stats.time % 3600) / 60) }}:{{ (van_driver.heat_stats.time % 3600) % 60 }}</span>
                                     </div>
                                 </div>
                                 <div class="end">
@@ -107,7 +109,6 @@
                                             {{ (truck_1.driver) ? truck_1.driver.middle_name : '' }}
                                             {{ (truck_1.driver) ? truck_1.driver.last_name : '' }}
                                         </span>
-                                        {{ truck_1.diims_data.TotalDrivingTime }}
                                     </div>
                                     <div class="right">
                                         <div>
@@ -144,7 +145,6 @@
                                             {{ (truck_2.driver) ? truck_2.driver.middle_name : '' }}
                                             {{ (truck_2.driver) ? truck_2.driver.last_name : '' }}
                                         </span>
-                                        {{ truck_2.diims_data.TotalDrivingTime }}
                                     </div>
                                     <div class="right">
                                         <div>
@@ -182,7 +182,6 @@
                                             {{ (truck_3.driver) ? truck_3.driver.middle_name : '' }}
                                             {{ (truck_3.driver) ? truck_3.driver.last_name : '' }}
                                         </span>
-                                        {{ truck_3.diims_data.TotalDrivingTime }}
                                     </div>
                                     <div class="right">
                                         <div>
@@ -232,7 +231,6 @@
                                             {{ (van_1.driver) ? van_1.driver.middle_name : '' }}
                                             {{ (van_1.driver) ? van_1.driver.last_name : '' }}
                                         </span>
-                                        {{ van_1.diims_data.TotalDrivingTime }}
                                     </div>
                                     <div class="right">
                                         <div>
@@ -270,7 +268,6 @@
                                             {{ (van_2.driver) ? van_2.driver.middle_name : '' }}
                                             {{ (van_2.driver) ? van_2.driver.last_name : '' }}
                                         </span>
-                                        {{ van_2.diims_data.TotalDrivingTime }}
                                     </div>
                                     <div class="right">
                                         <div>
@@ -308,7 +305,6 @@
                                             {{ (van_3.driver) ? van_3.driver.middle_name : '' }}
                                             {{ (van_3.driver) ? van_3.driver.last_name : '' }}
                                         </span>
-                                        {{ van_3.diims_data.TotalDrivingTime }}
                                     </div>
                                     <div class="right">
                                         <div>
@@ -357,8 +353,8 @@
 //    4341
 //    6064
 //    0950
-      var socket = io('http://rallyscreen.app:3000');
-//    var socket = io('http://139.59.177.94:3000');
+//      var socket = io('http://rallyscreen.app:3000');
+    var socket = io('http://139.59.177.94:3000');
     var test_timer;
 
 export default
@@ -421,13 +417,14 @@ export default
                     TotalDrivingTime:''
                 }
             },
-            diims_data : {},
+            diims_data : [],
             timer_1:{},
             timer_2:{},
             timer_3:{},
             timer_4:{},
             timer_5:{},
-            timer_6:{}
+            timer_6:{},
+            heat_refresh_timer:{}
         }
     },
     computed: {
@@ -438,7 +435,6 @@ export default
                 .then( function(response)
                 {
                     var data = JSON.parse(response.data);
-                    console.log(data);
                     this.$set('heat',data.heat);
                     this.$set('van_drivers',data.van_drivers);
                     this.$set('truck_drivers',data.truck_drivers);
@@ -471,25 +467,52 @@ export default
         },
         setActiveDrivers(data)
         {
+            var vm = this;
             data._token = this.csrf_token;
             order = data.order;
             this.$http
                 .post('/api/livescore/getLiveVehicle/',data)
                 .then( function(response) {
                     var result = JSON.parse(response.data);
+                    result.vehicle.diims_data = [];
                     if(order == 1){ this.$set('van_1',result.vehicle); }
                     if(order == 2){ this.$set('van_2',result.vehicle); }
                     if(order == 3){ this.$set('van_3',result.vehicle); }
                     if(order == 4){ this.$set('truck_1',result.vehicle); }
                     if(order == 5){ this.$set('truck_2',result.vehicle); }
                     if(order == 6){ this.$set('truck_3',result.vehicle); }
-                    this.startDriverLoop(result.vehicle, order);
+                    this.startDriverLoop(result.vehicle, order, data);
                 });
         },
-        startDriverLoop(vehicle, order)
+        startDriverLoop(vehicle, order, data)
         {
             var vm = this;
-            var timer = setInterval(function(){ vm.getDiimsData(vehicle.diims_id, order) },10000);
+            var driver;
+//            if(order == 1 || order == 2 || order == 3)
+//            {
+//                for (var i = 0; i < vm.van_drivers.length; i++)
+//                {
+//                    if(vm.van_drivers[i].id == data.driver_id)
+//                    {
+//                        vm.van_drivers[i].heat_stats.time++;
+//                    }
+//                }
+//            }
+//            if(order == 4 || order == 5 || order == 6)
+//            {
+//                for (var i = 0; i < vm.truck_drivers.length; i++)
+//                {
+//                    if(vm.truck_drivers[i].id == data.driver_id)
+//                    {
+//                        vm.truck_drivers[i].heat_stats.time++;
+//                        console.log(vm.truck_drivers[i].heat_stats.time);
+//                    }
+//                }
+//            }
+
+            var timer = {};
+            timer.id = setInterval(function(){ vm.getDiimsData(vehicle.diims_id, order); },10000);
+            timer.counter = 0;
             if(order == 1){ this.$set('timer_1',timer); }
             if(order == 2){ this.$set('timer_2',timer); }
             if(order == 3){ this.$set('timer_3',timer); }
@@ -500,12 +523,12 @@ export default
         stopDriverLoop(order)
         {
             var vm = this;
-            if(order == 1){ clearInterval(vm.timer_1); }
-            if(order == 2){ clearInterval(vm.timer_2); }
-            if(order == 3){ clearInterval(vm.timer_3); }
-            if(order == 4){ clearInterval(vm.timer_4); }
-            if(order == 5){ clearInterval(vm.timer_5); }
-            if(order == 6){ clearInterval(vm.timer_6); }
+            if(order == 1){ clearInterval(vm.timer_1.id); }
+            if(order == 2){ clearInterval(vm.timer_2.id); }
+            if(order == 3){ clearInterval(vm.timer_3.id); }
+            if(order == 4){ clearInterval(vm.timer_4.id); }
+            if(order == 5){ clearInterval(vm.timer_5.id); }
+            if(order == 6){ clearInterval(vm.timer_6.id); }
         },
         getDiimsData(diims_id,order)
         {
@@ -519,22 +542,122 @@ export default
                 dataType: "json",
                 success: function (data)
                 {
-                    // Check If data is New
-
-                    // return data object -> Status = 'update','inherit',''
                     var result = JSON.parse(data.d);
                     var marker;
-                    console.log(result[0]);
-                    if(order == 1) { vm.$set('van_1.diims_data',result[0]); marker = "van_1"}
-                    if(order == 2) { vm.$set('van_2.diims_data',result[0]); marker = "van_2"}
-                    if(order == 3) { vm.$set('van_3.diims_data',result[0]); marker = "van_3"}
-                    if(order == 4) { vm.$set('truck_1.diims_data',result[0]); marker = "truck_1"}
-                    if(order == 5) { vm.$set('truck_2.diims_data',result[0]); marker = "truck_2"}
-                    if(order == 6) { vm.$set('truck_3.diims_data',result[0]); marker = "truck_3"}
-                    vm.diims_data[diims_id] = result[0];
+//                    if(result[0].ReportType != 2 && result[0].IgnitionKey == 2)
+//                    {
+                        if(order == 1)
+                        {
+                            vm.van_1.diims_data.push(result[0]);
+                            marker = "van_1";
+                            vm.$set('timer_1.counter', vm.timer_1.counter++)
+                        }
+                        if(order == 2)
+                        {
+                            vm.van_2.diims_data.push(result[0]);
+                            marker = "van_2";
+                            vm.$set('timer_2.counter', vm.timer_2.counter++)
+                        }
+                        if(order == 3)
+                        {
+                            vm.van_3.diims_data.push(result[0]);
+                            marker = "van_3";
+                            vm.$set('timer_3.counter', vm.timer_3.counter++)
+                        }
+                        if(order == 4)
+                        {
+                            vm.truck_1.diims_data.push(result[0]);
+                            marker = "truck_1";
+                            vm.$set('timer_4.counter', vm.timer_4.counter++)
+                        }
+                        if(order == 5)
+                        {
+                            vm.truck_2.diims_data.push(result[0]);
+                            marker = "truck_2";
+                            vm.$set('timer_5.counter', vm.timer_5.counter++)
+                        }
+                        if(order == 6)
+                        {
+                            vm.truck_3.diims_data.push(result[0]);
+                            marker = "truck_3";
+                            vm.$set('timer_6.counter', vm.timer_6.counter++)
+                        }
+
+                        vm.updateHeatStats(order);
+//                    }
                     vm.updateMap(marker);
                 }
             });
+        },
+        updateHeatStats(order)
+        {
+            var vm = this;
+            var counter = vm.$get('timer_'+order+'.counter');
+            var array_1;
+            var length;
+            var array_2;
+            var data;
+
+            if(order == 1) {
+                array_1 = vm.van_1.diims_data[0]; length = vm.van_1.diims_data.length - 1; array_2 = vm.van_1.diims_data[length];
+                data = { vehicle_id : vm.van_1.id, driver_id : vm.van_1.driver.id, heat_id : vm.heat.id };
+            }
+            if(order == 2) {
+                array_1 = vm.van_2.diims_data[0]; length = vm.van_2.diims_data.length - 1; array_2 = vm.van_2.diims_data[length];
+                data = { vehicle_id : vm.van_2.id, driver_id : vm.van_2.driver.id, heat_id : vm.heat.id };
+            }
+            if(order == 3) {
+                array_1 = vm.van_3.diims_data[0]; length = vm.van_3.diims_data.length - 1; array_2 = vm.van_3.diims_data[length];
+                data = { vehicle_id : vm.van_3.id, driver_id : vm.van_3.driver.id, heat_id : vm.heat.id };
+            }
+            if(order == 4) {
+                array_1 = vm.truck_1.diims_data[0]; length = vm.truck_1.diims_data.length - 1; array_2 = vm.truck_1.diims_data[length];
+                data = { vehicle_id : vm.truck_1.id, driver_id : vm.truck_1.driver.id, heat_id : vm.heat.id };
+            }
+            if(order == 5) {
+                array_1 = vm.truck_2.diims_data[0]; length = vm.truck_2.diims_data.length - 1; array_2 = vm.truck_2.diims_data[length];
+                data = { vehicle_id : vm.truck_2.id, driver_id : vm.truck_2.driver.id, heat_id : vm.heat.id };
+            }
+            if(order == 6) {
+                array_1 = vm.truck_3.diims_data[0]; length = vm.truck_3.diims_data.length - 1; array_2 = vm.truck_3.diims_data[length];
+                data = { vehicle_id : vm.truck_3.id, driver_id : vm.truck_3.driver.id, heat_id : vm.heat.id };
+            }
+//            console.log('::: MATH TIME :::');
+
+            var diims_1_Odometer = array_1.Odometer / 10;
+            var diims_2_Odometer = array_2.Odometer / 10;
+//            console.log('Diims_1_odo: '+diims_1_Odometer);
+//            console.log('Diims_2_odo: '+diims_2_Odometer);
+
+            var diims_1_TotalFuelUsed = array_1.TotalFuelUsed;
+            var diims_2_TotalFuelUsed = array_2.TotalFuelUsed;
+//            console.log('Diims_1_fuel: '+diims_1_TotalFuelUsed);
+//            console.log('Diims_2_fuel: '+diims_2_TotalFuelUsed);
+
+            var distance_driven_in_km = diims_2_Odometer - diims_1_Odometer; // KM siden sidste opdatering
+            var litres_of_fuel_used = diims_2_TotalFuelUsed - diims_1_TotalFuelUsed; // L brugt siden sidste opdatering
+
+//            console.log('distance in km: '+distance_driven_in_km);
+//            console.log('Fuel used in Litres: '+litres_of_fuel_used);
+
+            var kml = 0;
+            if( distance_driven_in_km != 0 || litres_of_fuel_used != 0)
+            {
+                kml = litres_of_fuel_used / distance_driven_in_km;
+            }
+//            console.log('kml: '+kml);
+
+            data.kml = kml;
+            data.distance = distance_driven_in_km;
+            data.fuel_used = litres_of_fuel_used;
+            data.accelerator = array_2.Accelerator;
+            data.rpm = array_2.RPM;
+            data._token = vm.csrf_token;
+
+            this.$http
+                .post('/api/livescore/updateHeatStats/',data)
+                .then( function(response) {
+                });
         },
         updateMap(marker)
         {
@@ -582,37 +705,16 @@ export default
     created(){
     },
     ready(){
-        this.webSocketListeners();
-        this.getHeatData(1);
-
-//        this.getDiimsData(869606020004341);
-//        // grab latest Data
-//        $.ajax({
-//            type: "POST",
-//            url: 'http://eco.commotive.dk/WebService.asmx/GetLatestData',
-//            contentType: "application/json; charset=utf-8",
-//            crossDomain: true,
-//            data: JSON.stringify({ DeviceId: 869606020004341 }),
-//            dataType: "json",
-//            success: function (data)
-//            {
-//                console.log(data);
-//            }
-//        });
-
-
+        var vm = this;
+        vm.webSocketListeners();
+        vm.getHeatData(1);
+        var timer = setInterval(function(){ vm.getHeatData(vm.heat.id) } ,10000);
+        vm.$set('heat_refresh_timer',timer);
 
         child = 1;
         currentStep = 1;
 
-        random = Math.floor((Math.random() * 150000) + 270000);
-//        sections = setInterval(this.updateSections, 1000);
-        this.updateSections(1, "13.2 KM/l");
-        this.updateSections(2, "10.2 KM/l");
-        this.updateSections(3, "12.2 KM/l");
-        this.updateSections(4, "15.2 KM/l");
-        this.updateSections(5, "3.2 KM/l");
-//        var stepChanger = setInterval(this.changeStep, 5000);
+        var stepChanger = setInterval(this.changeStep, 5000);
 
 
 

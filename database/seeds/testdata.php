@@ -95,7 +95,7 @@ class testdata extends Seeder
         $vehicle->name = "Van #1";
         $vehicle->reg_nr = "XS 23 634";
         $vehicle->type = "van";
-        $vehicle->diims_id = "869606020004341";
+        $vehicle->diims_id = $diims_1->number;
         $vehicle->save();
 
         // Van #2
@@ -104,7 +104,7 @@ class testdata extends Seeder
         $vehicle->name = "Van #2";
         $vehicle->reg_nr = "SF 34 677";
         $vehicle->type = "van";
-        $vehicle->diims_id = "869606020004341";
+        $vehicle->diims_id = $diims_2->number;
         $vehicle->save();
 
         // Van #3
@@ -113,7 +113,7 @@ class testdata extends Seeder
         $vehicle->name = "Van #3";
         $vehicle->reg_nr = "KJ 54 234";
         $vehicle->type = "van";
-        $vehicle->diims_id = "869606020004341";
+        $vehicle->diims_id = $diims_3->number;
         $vehicle->save();
 
         // Truck #1
@@ -122,7 +122,7 @@ class testdata extends Seeder
         $vehicle->name = "Truck #1";
         $vehicle->reg_nr = "GS 75 224";
         $vehicle->type = "truck";
-        $vehicle->diims_id = "869606020004341";
+        $vehicle->diims_id = $diims_1->number;
         $vehicle->save();
 
         // Truck #2
@@ -131,7 +131,7 @@ class testdata extends Seeder
         $vehicle->name = "Truck #2";
         $vehicle->reg_nr = "YS 11 355";
         $vehicle->type = "truck";
-        $vehicle->diims_id = "869606020004341";
+        $vehicle->diims_id = $diims_2->number;
         $vehicle->save();
 
         // Truck #3
@@ -140,7 +140,7 @@ class testdata extends Seeder
         $vehicle->name = "Truck #3";
         $vehicle->reg_nr = "LX 21 454";
         $vehicle->type = "truck";
-        $vehicle->diims_id = "869606020004341";
+        $vehicle->diims_id = $diims_3->number;
         $vehicle->save();
 
     }

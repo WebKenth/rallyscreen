@@ -57,7 +57,9 @@
   <label class="col-md-4 control-label" for="diims_id">Diims ID</label>
   <div class="col-md-8">
     <select name="diims_id" class="form-control" id="diims_id">
-      <option value="869606020004341">869606020004341</option>
+      @foreach($diims as $diimsen)
+        <option value="{{ $diimsen->number }}">{{ $diimsen->name }} | {{ $diimsen->number }}</option>
+      @endforeach
     </select>
   </div>
 </div>

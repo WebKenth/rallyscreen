@@ -53,6 +53,7 @@
                     <li><a href="{{ url('/stats') }}">Stats</a></li>
                     <li><a href="{{ url('/driver') }}">Drivers</a></li>
                     <li><a href="{{ url('/vehicle') }}">Vehicles</a></li>
+                    <li><a href="{{ url('/diims') }}">Diims</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
