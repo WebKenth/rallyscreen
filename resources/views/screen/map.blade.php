@@ -6,20 +6,12 @@
             display: none;
         }
         #map {
-            margin-right: auto;
-            margin-left:auto;
-            width: 100%;
-            height: 90vh;
-            margin-top: 10px;
+            width: 100vw;
+            height: 100vh;
+            margin-left: -15px;
         }
     </style>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div id="map"></div>
-            </div>
-        </div>
-    </div>
+    <div id="map"></div>
 @endsection
 @section('scripts')
 
@@ -29,8 +21,8 @@
 
         // 'http://rallyscreen.app:3000'
         // 'http://139.59.177.94:3000'
-//        var socket = io('http://rallyscreen.app:3000');
-        var socket = io('http://139.59.177.94:3000');
+        var socket = io('http://rallyscreen.app:3000');
+//        var socket = io('http://139.59.177.94:3000');
 
         socket.on('map_check_connection', function(){
             socket.emit('map_is_connected','1');

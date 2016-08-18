@@ -31,26 +31,26 @@
                             </div>
                             <ul class="player-list">
                                 <li v-for="truck_driver in truck_drivers">
-                                    <div class="left" data-driver="{{truck_driver.first_name+' '+truck_driver.middle_name+' '+truck_driver.last_name}}">
+                                    <p>{{truck_driver.first_name+' '+truck_driver.middle_name+' '+truck_driver.last_name}}</p>
+                                    <div class="left">
                                         <img v-bind:src="truck_driver.image">
                                         <span>Tid:</span>
                                     </div>
                                     <div class="right">
                                         <div class="sections">
-                                            <div class="section"></div>
-                                            <div class="section"></div>
-                                            <div class="section"></div>
-                                            <div class="section"></div>
-                                            <div class="section"></div>
+                                            <div class="section">{{ (truck_driver.heat_stats.m1_kml) ? truck_driver.heat_stats.m1_kml+' km/l' : '' }}</div>
+                                            <div class="section">{{ (truck_driver.heat_stats.m2_kml) ? truck_driver.heat_stats.m2_kml+' km/l' : '' }}</div>
+                                            <div class="section">{{ (truck_driver.heat_stats.m3_kml) ? truck_driver.heat_stats.m3_kml+' km/l' : '' }}</div>
+                                            <div class="section">{{ (truck_driver.heat_stats.m4_kml) ? truck_driver.heat_stats.m4_kml+' km/l' : '' }}</div>
+                                            <div class="section">{{ (truck_driver.heat_stats.m5_kml) ? truck_driver.heat_stats.m5_kml+' km/l' : '' }}</div>
                                         </div>
                                         <div class="time">
                                             <span class="progress" data-progress="0"></span>
                                             <span class="counter">{{truck_driver.heat_stats.time}}</span>
-                                            <!--<span class="minutes">00</span>:<span class="seconds">00</span>-->
                                         </div>
                                     </div>
                                     <div class="end">
-                                        <span class="total">{{ (truck_driver.heat_stats.kml) ? truck_driver.heat_stats.kml : 'Venter på Start' }}</span>
+                                        <span class="total">{{ (truck_driver.heat_stats.kml) ? truck_driver.heat_stats.kml+' km/l' : 'Venter på Start' }}</span>
                                     </div>
                                 </li>
 
@@ -58,330 +58,32 @@
                         </div>
                         <div class="step" data-step="2">
                             <div class="list-indikator">
-                                <img src="images/truck_2.png">
-                                Top 10 Lastbiler
-                            </div>
-                            <ul class="top-list">
-                                <li>
-                                    <div class="inner-top-list-container">
-                                        <img src="images/kasper.png">
-                                        <span class="player-name">Kapser Legarth</span>
-                                        <div class="results">
-                                            <div class="time">23:43</div>
-                                            <div class="fuel">16.7 km/l</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="inner-top-list-container">
-                                        <img src="images/kasper.png">
-                                        <span class="player-name">Kapser Legarth</span>
-                                        <div class="results">
-                                            <div class="time">23:43</div>
-                                            <div class="fuel">16.7 km/l</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="inner-top-list-container">
-                                        <img src="images/kasper.png">
-                                        <span class="player-name">Kapser Legarth</span>
-                                        <div class="results">
-                                            <div class="time">23:43</div>
-                                            <div class="fuel">16.7 km/l</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="inner-top-list-container">
-                                        <img src="images/kasper.png">
-                                        <span class="player-name">Kapser Legarth</span>
-                                        <div class="results">
-                                            <div class="time">23:43</div>
-                                            <div class="fuel">16.7 km/l</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="inner-top-list-container">
-                                        <img src="images/kasper.png">
-                                        <span class="player-name">Kapser Legarth</span>
-                                        <div class="results">
-                                            <div class="time">23:43</div>
-                                            <div class="fuel">16.7 km/l</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="inner-top-list-container">
-                                        <img src="images/kasper.png">
-                                        <span class="player-name">Kapser Legarth</span>
-                                        <div class="results">
-                                            <div class="time">23:43</div>
-                                            <div class="fuel">16.7 km/l</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="inner-top-list-container">
-                                        <img src="images/kasper.png">
-                                        <span class="player-name">Kapser Legarth</span>
-                                        <div class="results">
-                                            <div class="time">23:43</div>
-                                            <div class="fuel">16.7 km/l</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="inner-top-list-container">
-                                        <img src="images/kasper.png">
-                                        <span class="player-name">Kapser Legarth</span>
-                                        <div class="results">
-                                            <div class="time">23:43</div>
-                                            <div class="fuel">16.7 km/l</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="inner-top-list-container">
-                                        <img src="images/kasper.png">
-                                        <span class="player-name">Kapser Legarth</span>
-                                        <div class="results">
-                                            <div class="time">23:43</div>
-                                            <div class="fuel">16.7 km/l</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="inner-top-list-container">
-                                        <img src="images/kasper.png">
-                                        <span class="player-name">Kapser Legarth</span>
-                                        <div class="results">
-                                            <div class="time">23:43</div>
-                                            <div class="fuel">16.7 km/l</div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="step" data-step="3">
-                            <div class="list-indikator">
                                 <img src="images/van_2.png">
                                 Live Vans
                             </div>
                             <ul class="player-list">
-                                <li>
-                                <div class="left" data-driver="Kasper Legarth">
-                                    <img src="images/kasper.png">
+                                <li v-for="van_driver in van_drivers">
+                                    <p>{{van_driver.first_name+' '+van_driver.middle_name+' '+van_driver.last_name}}</p>
+                                <div class="left">
+                                    <img v-bind:src="van_driver.image">
                                     <span>Tid:</span>
                                 </div>
                                 <div class="right">
                                     <div class="sections">
-                                        <div class="section"></div>
-                                        <div class="section"></div>
-                                        <div class="section"></div>
-                                        <div class="section"></div>
-                                        <div class="section"></div>
+                                            <div class="section">{{ (van_driver.heat_stats.m1_kml) ? van_driver.heat_stats.m1_kml+' km/l' : '' }}</div>
+                                            <div class="section">{{ (van_driver.heat_stats.m2_kml) ? van_driver.heat_stats.m2_kml+' km/l' : '' }}</div>
+                                            <div class="section">{{ (van_driver.heat_stats.m3_kml) ? van_driver.heat_stats.m3_kml+' km/l' : '' }}</div>
+                                            <div class="section">{{ (van_driver.heat_stats.m4_kml) ? van_driver.heat_stats.m4_kml+' km/l' : '' }}</div>
+                                            <div class="section">{{ (van_driver.heat_stats.m5_kml) ? van_driver.heat_stats.m5_kml+' km/l' : '' }}</div>
                                     </div>
                                     <div class="time">
                                         <span class="progress" data-progress="0"></span>
-                                        <span class="counter"><span class="minutes">00</span>:<span class="seconds">00</span></span>
+                                        <span class="counter">{{van_driver.heat_stats.time}}</span>
                                     </div>
                                 </div>
                                 <div class="end">
-                                    <span class="total">13.7 km/l</span>
-                                </div></li>
-                                <li>
-                                <div class="left" data-driver="Kasper Legarth">
-                                    <img src="images/kasper.png">
-                                    <span>Tid:</span>
+                                    <span class="total">{{ (van_driver.heat_stats.kml) ? van_driver.heat_stats.kml+' km/l' : 'Venter på Start' }}</span>
                                 </div>
-                                <div class="right">
-                                    <div class="sections">
-                                        <div class="section"></div>
-                                        <div class="section"></div>
-                                        <div class="section"></div>
-                                        <div class="section"></div>
-                                        <div class="section"></div>
-                                    </div>
-                                    <div class="time">
-                                        <span class="progress" data-progress="0"></span>
-                                        <span class="counter"><span class="minutes">00</span>:<span class="seconds">00</span></span>
-                                    </div>
-                                </div>
-                                <div class="end">
-                                    <span class="total">13.7 km/l</span>
-                                </div></li>
-                                <li>
-                                <div class="left" data-driver="Kasper Legarth">
-                                    <img src="images/kasper.png">
-                                    <span>Tid:</span>
-                                </div>
-                                <div class="right">
-                                    <div class="sections">
-                                        <div class="section"></div>
-                                        <div class="section"></div>
-                                        <div class="section"></div>
-                                        <div class="section"></div>
-                                        <div class="section"></div>
-                                    </div>
-                                    <div class="time">
-                                        <span class="progress" data-progress="0"></span>
-                                        <span class="counter"><span class="minutes">00</span>:<span class="seconds">00</span></span>
-                                    </div>
-                                </div>
-                                <div class="end">
-                                    <span class="total">13.7 km/l</span>
-                                </div></li>
-                                <li>
-                                <div class="left" data-driver="Kasper Legarth">
-                                    <img src="images/kasper.png">
-                                    <span>Tid:</span>
-                                </div>
-                                <div class="right">
-                                    <div class="sections">
-                                        <div class="section"></div>
-                                        <div class="section"></div>
-                                        <div class="section"></div>
-                                        <div class="section"></div>
-                                        <div class="section"></div>
-                                    </div>
-                                    <div class="time">
-                                        <span class="progress" data-progress="0"></span>
-                                        <span class="counter"><span class="minutes">00</span>:<span class="seconds">00</span></span>
-                                    </div>
-                                </div>
-                                <div class="end">
-                                    <span class="total">13.7 km/l</span>
-                                </div></li>
-                                <li>
-                                <div class="left" data-driver="Kasper Legarth">
-                                    <img src="images/kasper.png">
-                                    <span>Tid:</span>
-                                </div>
-                                <div class="right">
-                                    <div class="sections">
-                                        <div class="section"></div>
-                                        <div class="section"></div>
-                                        <div class="section"></div>
-                                        <div class="section"></div>
-                                        <div class="section"></div>
-                                    </div>
-                                    <div class="time">
-                                        <span class="progress" data-progress="0"></span>
-                                        <span class="counter"><span class="minutes">00</span>:<span class="seconds">00</span></span>
-                                    </div>
-                                </div>
-                                <div class="end">
-                                    <span class="total">13.7 km/l</span>
-                                </div></li>
-                            </ul>
-                        </div>
-                        <div class="step" data-step="4">
-                            <div class="list-indikator">
-                                <img src="images/van_2.png">
-                                Top 10 Vans
-                            </div>
-                            <ul class="top-list">
-                                <li>
-                                    <div class="inner-top-list-container">
-                                        <img src="images/kasper.png">
-                                        <span class="player-name">Kapser Legarth</span>
-                                        <div class="results">
-                                            <div class="time">23:43</div>
-                                            <div class="fuel">16.7 km/l</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="inner-top-list-container">
-                                        <img src="images/kasper.png">
-                                        <span class="player-name">Kapser Legarth</span>
-                                        <div class="results">
-                                            <div class="time">23:43</div>
-                                            <div class="fuel">16.7 km/l</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="inner-top-list-container">
-                                        <img src="images/kasper.png">
-                                        <span class="player-name">Kapser Legarth</span>
-                                        <div class="results">
-                                            <div class="time">23:43</div>
-                                            <div class="fuel">16.7 km/l</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="inner-top-list-container">
-                                        <img src="images/kasper.png">
-                                        <span class="player-name">Kapser Legarth</span>
-                                        <div class="results">
-                                            <div class="time">23:43</div>
-                                            <div class="fuel">16.7 km/l</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="inner-top-list-container">
-                                        <img src="images/kasper.png">
-                                        <span class="player-name">Kapser Legarth</span>
-                                        <div class="results">
-                                            <div class="time">23:43</div>
-                                            <div class="fuel">16.7 km/l</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="inner-top-list-container">
-                                        <img src="images/kasper.png">
-                                        <span class="player-name">Kapser Legarth</span>
-                                        <div class="results">
-                                            <div class="time">23:43</div>
-                                            <div class="fuel">16.7 km/l</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="inner-top-list-container">
-                                        <img src="images/kasper.png">
-                                        <span class="player-name">Kapser Legarth</span>
-                                        <div class="results">
-                                            <div class="time">23:43</div>
-                                            <div class="fuel">16.7 km/l</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="inner-top-list-container">
-                                        <img src="images/kasper.png">
-                                        <span class="player-name">Kapser Legarth</span>
-                                        <div class="results">
-                                            <div class="time">23:43</div>
-                                            <div class="fuel">16.7 km/l</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="inner-top-list-container">
-                                        <img src="images/kasper.png">
-                                        <span class="player-name">Kapser Legarth</span>
-                                        <div class="results">
-                                            <div class="time">23:43</div>
-                                            <div class="fuel">16.7 km/l</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="inner-top-list-container">
-                                        <img src="images/kasper.png">
-                                        <span class="player-name">Kapser Legarth</span>
-                                        <div class="results">
-                                            <div class="time">23:43</div>
-                                            <div class="fuel">16.7 km/l</div>
-                                        </div>
-                                    </div>
                                 </li>
                             </ul>
                         </div>
@@ -652,8 +354,11 @@
 <script>
     // 'http://rallyscreen.app:3000'
     // 'http://139.59.177.94:3000'
-    //  var socket = io('http://rallyscreen.app:3000');
-    var socket = io('http://139.59.177.94:3000');
+//    4341
+//    6064
+//    0950
+      var socket = io('http://rallyscreen.app:3000');
+//    var socket = io('http://139.59.177.94:3000');
     var test_timer;
 
 export default
@@ -865,7 +570,7 @@ export default
             setTimeout(function() {
                 $('[data-step="'+currentStep+'"]').removeClass('slidein slideout');
 
-                if(currentStep == 4) {
+                if(currentStep == 2) {
                     currentStep = 1;
                 } else {
                     currentStep++;

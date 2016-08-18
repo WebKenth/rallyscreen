@@ -20,6 +20,8 @@ Route::auth();
 Route::get('map', 'ScreenController@map');
 Route::get('stats/{id?}', 'ScreenController@stats');
 
+Route::resource('diims', 'DiimsController');
+
 Route::get('/', 'ScreenController@dashboard');
 Route::resource('driver', 'DriverController');
 Route::post('/driver/{id}/update_relationship','DriverController@update_relationship');

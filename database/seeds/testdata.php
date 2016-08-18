@@ -11,6 +11,27 @@ class testdata extends Seeder
      */
     public function run()
     {
+        // Heat
+        $heat = new \App\Heat();
+        $heat->number = '1';
+        $heat->save();
+
+        // Diimser
+        $diims_1 = new \App\Diims();
+        $diims_1->name = "Diims 1";
+        $diims_1->number = "869606020004341";
+        $diims_1->save();
+
+        $diims_2 = new \App\Diims();
+        $diims_2->name = "Diims 2";
+        $diims_2->number = "869606020006064";
+        $diims_2->save();
+
+        $diims_3 = new \App\Diims();
+        $diims_3->name = "Diims 3";
+        $diims_3->number = "869606020000950";
+        $diims_3->save();
+
         // #1
         $driver = new \App\Driver();
 

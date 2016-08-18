@@ -62,7 +62,7 @@
                         </div>
                         <div class="row">
                             @foreach($heat->drivers as $driver)
-                            <div class="col-md-2">
+                            <div class="col-md-3" style="margin-bottom: 20px">
                                 <!-- Single button -->
                                 <div class="btn-group">
                                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -171,8 +171,8 @@
         // Websocket - Direct Link to Live Score Sites and Map
         // 'http://rallyscreen.app:3000'
         // 'http://139.59.177.94:3000'
-//        var socket = io('http://rallyscreen.app:3000');
-        var socket = io('http://139.59.177.94:3000');
+        var socket = io('http://rallyscreen.app:3000');
+//        var socket = io('http://139.59.177.94:3000');
 
         $('#connectedButton').on('click',function(){
             socket.emit('is_livescore_online','1');
