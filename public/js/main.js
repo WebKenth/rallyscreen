@@ -12104,7 +12104,8 @@ exports.default = {
         child = 1;
         currentStep = 1;
 
-        var stepChanger = setInterval(this.changeStep, 5000);
+        //        var stepChanger = setInterval(this.changeStep, 5000);
+
 
         //        var speedometer = {
         //            lines: 12, // The number of lines to draw

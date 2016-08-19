@@ -715,7 +715,7 @@ export default
         child = 1;
         currentStep = 1;
 
-        var stepChanger = setInterval(this.changeStep, 5000);
+//        var stepChanger = setInterval(this.changeStep, 5000);
 
 
 
