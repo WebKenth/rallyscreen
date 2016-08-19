@@ -12047,6 +12047,10 @@ exports.default = {
             data.rpm = array_2.RPM;
             data._token = vm.csrf_token;
 
+            console.log('kml : ' + kml);
+            console.log('distance : ' + distance);
+            console.log('fuel_used : ' + fuel_used);
+
             this.$http.post('/api/livescore/updateHeatStats/', data).then(function (response) {});
         },
         updateMap: function updateMap(marker) {
