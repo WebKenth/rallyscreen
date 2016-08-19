@@ -10,24 +10,45 @@
         <div class="col-md-12">
             <h2>Liste af Vehicles</h2>
             <div class="row">
-                <div class="col-md-3"><h3>Type</h3></div>
                 <div class="col-md-2"><h3>Navn</h3></div>
+                <div class="col-md-2"><h3>Brand</h3></div>
+                <div class="col-md-1"><h3>Type</h3></div>
+                <div class="col-md-2"><h3>Reg_nr</h3></div>
+                <div class="col-md-1"><h3>Model</h3></div>
+                <div class="col-md-2"><h3>Diims</h3></div>
                 <div class="col-md-2"><h3>Controls</h3></div>
             </div>
             <ul class="list-group">
             @foreach($vehicles as $vehicle)
                 <li class="list-group-item">
-                    <form action="/vehicle" method="POST">
+                    <form action="/vehicle/{{$vehicle->id}}" method="POST">
+                    {{ method_field('PATCH') }}
                     {{ csrf_field() }}
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
+                            <input class="vehicle-rename-input" type="text" name="name" value="{{ $vehicle->name }}"/>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" class="vehicle-rename-input" name="brand" value="{{ $vehicle->brand }}">
+                        </div>
+                        <div class="col-md-1">
                             <select name="type" id="type" class="form-control">
                                 <option value="truck" {{ ($vehicle->type == "truck") ? 'selected' : '' }}>Lastbil</option>
                                 <option value="van" {{ ($vehicle->type == "van") ? 'selected' : '' }}>Van</option>
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <input class="vehicle-rename-input" type="text" name="name" value="{{ $vehicle->name }}"/>
+                            <input type="text" class="vehicle-rename-input" name="reg_nr" value="{{ $vehicle->reg_nr }}">
+                        </div>
+                        <div class="col-md-1">
+                            <input type="text" class="vehicle-rename-input" name="model" value="{{ $vehicle->model }}">
+                        </div>
+                        <div class="col-md-2">
+                            <select name="diims_id" class="form-control" id="diims_id">
+                              @foreach($diims as $diimsen)
+                                <option value="{{ $diimsen->number }}" {{($diimsen->number == $vehicle->diims_id) ? 'selected' : ''}}>{{ $diimsen->name }} | {{ $diimsen->number }}</option>
+                              @endforeach
+                            </select>
                         </div>
                         <div class="col-md-2">
                             <button class="btn btn-success">Update</button>

@@ -56,7 +56,6 @@ class VehicleController extends Controller
         $vehicle->type = $request->type;
         $vehicle->reg_nr = $request->reg_nr;
         $vehicle->model = $request->model;
-        $vehicle->heat = $request->heat;
         $vehicle->diims_id = $request->diims_id;
 
         $vehicle->save();
@@ -95,7 +94,17 @@ class VehicleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $vehicle = Vehicle::find($id);
+
+        $vehicle->name = $request->name;
+        $vehicle->brand = $request->brand;
+        $vehicle->type = $request->type;
+        $vehicle->reg_nr = $request->reg_nr;
+        $vehicle->model = $request->model;
+        $vehicle->diims_id = $request->diims_id;
+
+        $vehicle->save();
+        return back();
     }
 
     /**
