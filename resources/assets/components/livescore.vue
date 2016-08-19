@@ -393,7 +393,8 @@
 .truck-list img, .van-list img {
     height: auto;
     width: 100px;
-    margin-top: 12px;
+    margin-top: 10px;
+    margin-bottom: 5px;
 }
 .player--logo {
 	margin-top: 23px;

@@ -11709,7 +11709,7 @@ exports.insert = function (css) {
 
 },{}],9:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
-var __vueify_style__ = __vueify_insert__.insert("\n.truck-list img, .van-list img {\n    height: auto;\n    width: 100px;\n    margin-top: 12px;\n}\n.player--logo {\n\tmargin-top: 23px;\n}\n\n.player--name {\n\tfont-weight: 600;\n\tfont-size: 18px;\n}\n\n.bil--info span {\n\tcolor: #0099bb;\n}\n\n.bil--info {\n\tfont-weight: 600;\n}\n.list-group {\n    margin-bottom: 0;\n}\n.kmlbox{\n    width: 100%;\n    padding: 5px;\n    margin-left: 15px;\n}\n.kmlbox span{\n    background: #0099bb;\n    padding: 5px;\n    padding-bottom: 10px;\n}\n")
+var __vueify_style__ = __vueify_insert__.insert("\n.truck-list img, .van-list img {\n    height: auto;\n    width: 100px;\n    margin-top: 10px;\n    margin-bottom: 5px;\n}\n.player--logo {\n\tmargin-top: 23px;\n}\n\n.player--name {\n\tfont-weight: 600;\n\tfont-size: 18px;\n}\n\n.bil--info span {\n\tcolor: #0099bb;\n}\n\n.bil--info {\n\tfont-weight: 600;\n}\n.list-group {\n    margin-bottom: 0;\n}\n.kmlbox{\n    width: 100%;\n    padding: 5px;\n    margin-left: 15px;\n}\n.kmlbox span{\n    background: #0099bb;\n    padding: 5px;\n    padding-bottom: 10px;\n}\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12219,7 +12219,7 @@ if (module.hot) {(function () {  module.hot.accept()
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.dispose(function () {
-    __vueify_insert__.cache["\n.truck-list img, .van-list img {\n    height: auto;\n    width: 100px;\n    margin-top: 12px;\n}\n.player--logo {\n\tmargin-top: 23px;\n}\n\n.player--name {\n\tfont-weight: 600;\n\tfont-size: 18px;\n}\n\n.bil--info span {\n\tcolor: #0099bb;\n}\n\n.bil--info {\n\tfont-weight: 600;\n}\n.list-group {\n    margin-bottom: 0;\n}\n.kmlbox{\n    width: 100%;\n    padding: 5px;\n    margin-left: 15px;\n}\n.kmlbox span{\n    background: #0099bb;\n    padding: 5px;\n    padding-bottom: 10px;\n}\n"] = false
+    __vueify_insert__.cache["\n.truck-list img, .van-list img {\n    height: auto;\n    width: 100px;\n    margin-top: 10px;\n    margin-bottom: 5px;\n}\n.player--logo {\n\tmargin-top: 23px;\n}\n\n.player--name {\n\tfont-weight: 600;\n\tfont-size: 18px;\n}\n\n.bil--info span {\n\tcolor: #0099bb;\n}\n\n.bil--info {\n\tfont-weight: 600;\n}\n.list-group {\n    margin-bottom: 0;\n}\n.kmlbox{\n    width: 100%;\n    padding: 5px;\n    margin-left: 15px;\n}\n.kmlbox span{\n    background: #0099bb;\n    padding: 5px;\n    padding-bottom: 10px;\n}\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
