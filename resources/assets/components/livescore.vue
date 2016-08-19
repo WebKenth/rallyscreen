@@ -714,8 +714,8 @@ export default
                         }
 
                         vm.updateHeatStats(order);
+                        vm.updateMap(marker);
                     }
-                    vm.updateMap(marker);
                 }
             });
         },
