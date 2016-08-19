@@ -12036,7 +12036,7 @@ exports.default = {
 
             var kml = 0;
             if (distance_driven_in_km != 0 || litres_of_fuel_used != 0) {
-                kml = litres_of_fuel_used / distance_driven_in_km;
+                kml = distance_driven_in_km / litres_of_fuel_used;
             }
             //            console.log('kml: '+kml);
 
