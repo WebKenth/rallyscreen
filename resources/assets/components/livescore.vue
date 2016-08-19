@@ -46,8 +46,8 @@
                                             <div class="section">{{ (truck_driver.heat_stats.m5_kml) ? truck_driver.heat_stats.m5_kml+' km/l' : '' }}</div>
                                         </div>
                                         <div class="time">
-                                            <span class="progress" data-progress="0"></span>
-                                            <span class="counter">{{ Math.floor((truck_driver.heat_stats.time % 3600) / 60) }}:{{ (truck_driver.heat_stats.time % 3600) % 60 }}</span>
+                                            <span class="progress" data-progress="{{ this.progressSecondsToPercent(truck_driver.heat_stats.time) }}"></span>
+                                            <span class="counter">{{ this.timeSinceInHuman(truck_driver.heat_stats.time) }}</span>
                                         </div>
                                     </div>
                                     <div class="end">
@@ -80,7 +80,7 @@
                                     </div>
                                     <div class="time">
                                         <span class="progress" data-progress="0"></span>
-                                        <span class="counter">{{ Math.floor((van_driver.heat_stats.time % 3600) / 60) }}:{{ (van_driver.heat_stats.time % 3600) % 60 }}</span>
+                                        <span class="counter">{{ this.timeSinceInHuman(van_driver.heat_stats.time) }}</span>
                                     </div>
                                 </div>
                                 <div class="end">
@@ -101,112 +101,137 @@
                     <div class="col-xs-12">
                         <ul class="truck-list">
                             <li>
-                                <div class="static-data">
-                                    <div class="left">
-                                        <img src="/images/truck_2.png">
-                                        <span class="current-driver">
-                                            {{ (truck_1.driver) ? truck_1.driver.first_name : '' }}
-                                            {{ (truck_1.driver) ? truck_1.driver.middle_name : '' }}
-                                            {{ (truck_1.driver) ? truck_1.driver.last_name : '' }}
-                                        </span>
-                                    </div>
-                                    <div class="right">
-                                        <div>
-                                            <span>Mærke: <span class="brand">{{ truck_1.brand }}</span></span>
-                                            Model: <span class="model">{{ truck_1.model }}</span>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <img src="/images/truck_2.png" class="player--logo">
+                                            </div>
                                         </div>
-                                        <div>
-                                            <span>Regnr: <span class="registration">{{ truck_1.reg_nr }}</span></span>
-                                            Køretøj: <span class="track-number">{{truck_1.name}}</span>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="kmlbox">
+                                                    <span class="total">
+                                                        {{ (truck_1.driver.heat_stats) ? truck_1.driver.heat_stats.kml+' km/l' : '0 km/l' }}
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="dynamic-data">
-                                    <div class="left">
-                                        <div class="throttle"></div>
-                                    </div>
-                                    <div class="middle">
-                                        <div class="fuel-usage"></div>
-                                    </div>
-                                    <div class="right">
-                                        <div class="speed-o-meter">
-                                            <canvas id="truck_speedometer{{truck_1.id}}" height="20px" width="50px"></canvas>
-                                            <canvas id="truck_rpm{{truck_1.id}}" height="20px" width="50px"></canvas>
+                                    <div class="col-md-5">
+                                        <div class="row">
+                                            <p class="player--name">
+                                                {{ (truck_1.driver) ? truck_1.driver.first_name : '' }}
+                                                {{ (truck_1.driver) ? truck_1.driver.middle_name : '' }}
+                                                {{ (truck_1.driver) ? truck_1.driver.last_name : '' }}
+                                            </p>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <canvas id="van_speedometer{{truck_1.id}}" height="50px" width="50px"></canvas>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <canvas id="van_rpm{{truck_1.id}}" height="50px" width="50px"></canvas>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="static-data">
-                                    <div class="left">
-                                        <img src="/images/truck_2.png">
-                                        <span class="current-driver">
-                                            {{ (truck_2.driver) ? truck_2.driver.first_name : '' }}
-                                            {{ (truck_2.driver) ? truck_2.driver.middle_name : '' }}
-                                            {{ (truck_2.driver) ? truck_2.driver.last_name : '' }}
-                                        </span>
-                                    </div>
-                                    <div class="right">
-                                        <div>
-                                            <span>Mærke: <span class="brand">{{ truck_2.brand }}</span></span>
-                                            Model: <span class="model">{{ truck_2.model }}</span>
-                                        </div>
-                                        <div>
-                                            <span>Regnr: <span class="registration">{{ truck_2.reg_nr }}</span></span>
-                                            <!--Løbs nummer: <span class="track-number">3</span>-->
-                                            Køretøj: <span class="track-number">{{truck_2.name}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="dynamic-data">
-                                    <div class="left">
-                                        <div class="throttle"></div>
-                                    </div>
-                                    <div class="middle">
-                                        <div class="fuel-usage"></div>
-                                    </div>
-                                    <div class="right">
-                                        <div class="speed-o-meter">
-                                            <canvas id="truck_speedometer{{truck_2.id}}" height="20px" width="50px"></canvas>
-                                            <canvas id="truck_rpm{{truck_2.id}}" height="20px" width="50px"></canvas>
-                                        </div>
+                                    <div class="col-md-4">
+                                        <ul class="list-group list-unstyled bil--info">
+                                            <li><span>Køretøj: </span>{{ truck_1.name }}</li>
+                                            <li><span>Mærke: </span>{{ truck_1.brand }}</li>
+                                            <li><span>Model: </span>{{ truck_1.model }}</li>
+                                            <li><span>Regnr: </span>{{ truck_1.reg_nr }}</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </li>
                             <li>
-                                <div class="static-data">
-                                    <div class="left">
-                                        <img src="/images/truck_2.png">
-                                        <span class="current-driver">
-                                            {{ (truck_3.driver) ? truck_3.driver.first_name : '' }}
-                                            {{ (truck_3.driver) ? truck_3.driver.middle_name : '' }}
-                                            {{ (truck_3.driver) ? truck_3.driver.last_name : '' }}
-                                        </span>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <img src="/images/truck_2.png" class="player--logo">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="kmlbox">
+                                                    <span class="total">
+                                                        {{ (truck_2.driver.heat_stats) ? truck_2.driver.heat_stats.kml+' km/l' : '0 km/l' }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="right">
-                                        <div>
-                                            <span>Mærke: <span class="brand">{{ truck_3.brand }}</span></span>
-                                            Model: <span class="model">{{ truck_3.model }}</span>
+                                    <div class="col-md-5">
+                                        <div class="row">
+                                            <p class="player--name">
+                                                {{ (truck_2.driver) ? truck_2.driver.first_name : '' }}
+                                                {{ (truck_2.driver) ? truck_2.driver.middle_name : '' }}
+                                                {{ (truck_2.driver) ? truck_2.driver.last_name : '' }}
+                                            </p>
                                         </div>
-                                        <div>
-                                            <span>Regnr: <span class="registration">{{ truck_3.reg_nr }}</span></span>
-                                            <!--Løbs nummer: <span class="track-number">3</span>-->
-                                            Køretøj: <span class="track-number">{{truck_3.name}}</span>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <canvas id="van_speedometer{{truck_2.id}}" height="50px" width="50px"></canvas>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <canvas id="van_rpm{{truck_2.id}}" height="50px" width="50px"></canvas>
+                                            </div>
                                         </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <ul class="list-group list-unstyled bil--info">
+                                            <li><span>Køretøj: </span>{{ truck_2.name }}</li>
+                                            <li><span>Mærke: </span>{{ truck_2.brand }}</li>
+                                            <li><span>Model: </span>{{ truck_2.model }}</li>
+                                            <li><span>Regnr: </span>{{ truck_2.reg_nr }}</li>
+                                        </ul>
                                     </div>
                                 </div>
-                                <div class="dynamic-data">
-                                    <div class="left">
-                                        <div class="throttle"></div>
-                                    </div>
-                                    <div class="middle">
-                                        <div class="fuel-usage"></div>
-                                    </div>
-                                    <div class="right">
-                                        <div class="speed-o-meter">
-                                            <canvas id="truck_speedometer{{truck_3.id}}" height="20px" width="50px"></canvas>
-                                            <canvas id="truck_rpm{{truck_3.id}}" height="20px" width="50px"></canvas>
+                            </li>
+                            <li>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <img src="/images/truck_2.png" class="player--logo">
+                                            </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="kmlbox">
+                                                    <span class="total">
+                                                        {{ (truck_3.driver.heat_stats) ? truck_3.driver.heat_stats.kml+' km/l' : '0 km/l' }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="row">
+                                            <p class="player--name">
+                                                {{ (truck_3.driver) ? truck_3.driver.first_name : '' }}
+                                                {{ (truck_3.driver) ? truck_3.driver.middle_name : '' }}
+                                                {{ (truck_3.driver) ? truck_3.driver.last_name : '' }}
+                                            </p>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <canvas id="van_speedometer{{truck_3.id}}" height="50px" width="50px"></canvas>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <canvas id="van_rpm{{truck_3.id}}" height="50px" width="50px"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <ul class="list-group list-unstyled bil--info">
+                                            <li><span>Køretøj: </span>{{ truck_3.name }}</li>
+                                            <li><span>Mærke: </span>{{ truck_3.brand }}</li>
+                                            <li><span>Model: </span>{{ truck_3.model }}</li>
+                                            <li><span>Regnr: </span>{{ truck_3.reg_nr }}</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </li>
@@ -223,113 +248,137 @@
                     <div class="col-xs-12">
                         <ul class="van-list">
                             <li>
-                                <div class="static-data">
-                                    <div class="left">
-                                        <img src="/images/van_2.png">
-                                        <span class="current-driver">
-                                            {{ (van_1.driver) ? van_1.driver.first_name : '' }}
-                                            {{ (van_1.driver) ? van_1.driver.middle_name : '' }}
-                                            {{ (van_1.driver) ? van_1.driver.last_name : '' }}
-                                        </span>
-                                    </div>
-                                    <div class="right">
-                                        <div>
-                                            <span>Mærke: <span class="brand">{{van_1.brand}}</span></span>
-                                            Model: <span class="model">{{van_1.model}}</span>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <img src="/images/truck_2.png" class="player--logo">
+                                            </div>
                                         </div>
-                                        <div>
-                                            <span>Regnr: <span class="registration">{{van_1.reg_nr}}</span></span>
-                                            <!--Løbs nummer: <span class="track-number">3</span>-->
-                                            Køretøj: <span class="track-number">{{van_1.name}}</span>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="kmlbox">
+                                                    <span class="total">
+                                                        {{ (van_1.driver.heat_stats) ? van_1.driver.heat_stats.kml+' km/l' : '0 km/l' }}
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="dynamic-data">
-                                    <div class="left">
-                                        <div class="throttle"></div>
-                                    </div>
-                                    <div class="middle">
-                                        <div class="fuel-usage"></div>
-                                    </div>
-                                    <div class="right">
-                                        <div class="speed-o-meter">
-                                            <canvas id="van_speedometer{{van_1.id}}" height="20px" width="50px"></canvas>
-                                            <canvas id="van_rpm{{van_1.id}}" height="20px" width="50px"></canvas>
+                                    <div class="col-md-5">
+                                        <div class="row">
+                                            <p class="player--name">
+                                                {{ (van_1.driver) ? van_1.driver.first_name : '' }}
+                                                {{ (van_1.driver) ? van_1.driver.middle_name : '' }}
+                                                {{ (van_1.driver) ? van_1.driver.last_name : '' }}
+                                            </p>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <canvas id="van_speedometer{{van_1.id}}" height="50px" width="50px"></canvas>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <canvas id="van_rpm{{van_1.id}}" height="50px" width="50px"></canvas>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="static-data">
-                                    <div class="left">
-                                        <img src="/images/van_2.png">
-                                        <span class="current-driver">
-                                            {{ (van_2.driver) ? van_2.driver.first_name : '' }}
-                                            {{ (van_2.driver) ? van_2.driver.middle_name : '' }}
-                                            {{ (van_2.driver) ? van_2.driver.last_name : '' }}
-                                        </span>
-                                    </div>
-                                    <div class="right">
-                                        <div>
-                                            <span>Mærke: <span class="brand">{{van_2.brand}}</span></span>
-                                            Model: <span class="model">{{van_2.model}}</span>
-                                        </div>
-                                        <div>
-                                            <span>Regnr: <span class="registration">{{van_2.reg_nr}}</span></span>
-                                            <!--Løbs nummer: <span class="track-number">3</span>-->
-                                            Køretøj: <span class="track-number">{{van_2.name}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="dynamic-data">
-                                    <div class="left">
-                                        <div class="throttle"></div>
-                                    </div>
-                                    <div class="middle">
-                                        <div class="fuel-usage"></div>
-                                    </div>
-                                    <div class="right">
-                                        <div class="speed-o-meter">
-                                            <canvas id="van_speedometer{{van_2.id}}" height="20px" width="50px"></canvas>
-                                            <canvas id="van_rpm{{van_2.id}}" height="20px" width="50px"></canvas>
-                                        </div>
+                                    <div class="col-md-4">
+                                        <ul class="list-group list-unstyled bil--info">
+                                            <li><span>Køretøj: </span>{{ van_1.name }}</li>
+                                            <li><span>Mærke: </span>{{ van_1.brand }}</li>
+                                            <li><span>Model: </span>{{ van_1.model }}</li>
+                                            <li><span>Regnr: </span>{{ van_1.reg_nr }}</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </li>
                             <li>
-                                <div class="static-data">
-                                    <div class="left">
-                                        <img src="/images/van_2.png">
-                                        <span class="current-driver">
-                                            {{ (van_3.driver) ? van_3.driver.first_name : '' }}
-                                            {{ (van_3.driver) ? van_3.driver.middle_name : '' }}
-                                            {{ (van_3.driver) ? van_3.driver.last_name : '' }}
-                                        </span>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <img src="/images/truck_2.png" class="player--logo">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="kmlbox">
+                                                    <span class="total">
+                                                        {{ (van_2.driver.heat_stats) ? van_2.driver.heat_stats.kml+' km/l' : '0 km/l' }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="right">
-                                        <div>
-                                            <span>Mærke: <span class="brand">{{van_3.brand}}</span></span>
-                                            Model: <span class="model">{{van_3.model}}</span>
+                                    <div class="col-md-5">
+                                        <div class="row">
+                                            <p class="player--name">
+                                                {{ (van_2.driver) ? van_2.driver.first_name : '' }}
+                                                {{ (van_2.driver) ? van_2.driver.middle_name : '' }}
+                                                {{ (van_2.driver) ? van_2.driver.last_name : '' }}
+                                            </p>
                                         </div>
-                                        <div>
-                                            <span>Regnr: <span class="registration">{{van_3.reg_nr}}</span></span>
-                                            <!--Løbs nummer: <span class="track-number">3</span>-->
-                                            Køretøj: <span class="track-number">{{van_3.name}}</span>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <canvas id="van_speedometer{{van_2.id}}" height="50px" width="50px"></canvas>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <canvas id="van_rpm{{van_2.id}}" height="50px" width="50px"></canvas>
+                                            </div>
                                         </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <ul class="list-group list-unstyled bil--info">
+                                            <li><span>Køretøj: </span>{{ van_2.name }}</li>
+                                            <li><span>Mærke: </span>{{ van_2.brand }}</li>
+                                            <li><span>Model: </span>{{ van_2.model }}</li>
+                                            <li><span>Regnr: </span>{{ van_2.reg_nr }}</li>
+                                        </ul>
                                     </div>
                                 </div>
-                                <div class="dynamic-data">
-                                    <div class="left">
-                                        <div class="throttle"></div>
-                                    </div>
-                                    <div class="middle">
-                                        <div class="fuel-usage"></div>
-                                    </div>
-                                    <div class="right">
-                                        <div class="speed-o-meter">
-                                            <canvas id="van_speedometer{{van_3.id}}" height="20px" width="50px"></canvas>
-                                            <canvas id="van_rpm{{van_3.id}}" height="20px" width="50px"></canvas>
+                            </li>
+                            <li>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <img src="/images/truck_2.png" class="player--logo">
+                                            </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="kmlbox">
+                                                    <span class="total">
+                                                        {{ (van_3.driver.heat_stats) ? van_3.driver.heat_stats.kml+' km/l' : '0 km/l' }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="row">
+                                            <p class="player--name">
+                                                {{ (van_3.driver) ? van_3.driver.first_name : '' }}
+                                                {{ (van_3.driver) ? van_3.driver.middle_name : '' }}
+                                                {{ (van_3.driver) ? van_3.driver.last_name : '' }}
+                                            </p>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <canvas id="van_speedometer{{van_3.id}}" height="50px" width="50px"></canvas>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <canvas id="van_rpm{{van_3.id}}" height="50px" width="50px"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <ul class="list-group list-unstyled bil--info">
+                                            <li><span>Køretøj: </span>{{ van_3.name }}</li>
+                                            <li><span>Mærke: </span>{{ van_3.brand }}</li>
+                                            <li><span>Model: </span>{{ van_3.model }}</li>
+                                            <li><span>Regnr: </span>{{ van_3.reg_nr }}</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </li>
@@ -345,6 +394,35 @@
     height: auto;
     width: 100px;
     margin-top: 12px;
+}
+.player--logo {
+	margin-top: 23px;
+}
+
+.player--name {
+	font-weight: 600;
+	font-size: 18px;
+}
+
+.bil--info span {
+	color: #0099bb;
+}
+
+.bil--info {
+	font-weight: 600;
+}
+.list-group {
+    margin-bottom: 0;
+}
+.kmlbox{
+    width: 100%;
+    padding: 5px;
+    margin-left: 15px;
+}
+.kmlbox span{
+    background: #0099bb;
+    padding: 5px;
+    padding-bottom: 10px;
 }
 </style>
 <script>
@@ -418,18 +496,50 @@ export default
                 }
             },
             diims_data : [],
-            timer_1:{},
-            timer_2:{},
-            timer_3:{},
-            timer_4:{},
-            timer_5:{},
-            timer_6:{},
+            timer_1:{ id : 0, counter : '', timer : 0, uptime : 0},
+            timer_2:{ id : 0, counter : '', timer : 0, uptime : 0},
+            timer_3:{ id : 0, counter : '', timer : 0, uptime : 0},
+            timer_4:{ id : 0, counter : '', timer : 0, uptime : 0},
+            timer_5:{ id : 0, counter : '', timer : 0, uptime : 0},
+            timer_6:{ id : 0, counter : '', timer : 0, uptime : 0},
             heat_refresh_timer:{}
         }
     },
     computed: {
     },
     methods: {
+        progressSecondsToPercent(start_time_in_seconds)
+        {
+            var diff = (Date.now() / 1000) - start_time_in_seconds;
+            var val = 0;
+            if(diff < 150){
+                val = 1;
+            }
+            if(diff < 300){
+                val = 22;
+            }
+            return (diff / 100).toFixed(0);
+        },
+        timeSinceInHuman(start_time_in_seconds)
+        {
+            var time_in_human = '00:00';
+            if(start_time_in_seconds != 0)
+            {
+                var diff = ( Date.now() / 1000 ) - start_time_in_seconds;
+                var seconds = Math.floor(diff % 60);
+                var minutes = Math.floor(diff / 60);
+                if(seconds < 10)
+                {
+                    seconds = "0"+seconds;
+                }
+                if(minutes < 10)
+                {
+                    minutes = "0"+minutes;
+                }
+                time_in_human = minutes+':'+seconds;
+            }
+            return time_in_human;
+        },
         getHeatData(heat_id){
             this.$http.get('/api/livescore/'+heat_id)
                 .then( function(response)
@@ -456,13 +566,6 @@ export default
             vm.stopDriverLoop(4);
             vm.stopDriverLoop(5);
             vm.stopDriverLoop(6);
-            // Top 10
-            //      Update Truck Drivers
-            //      Update Van Drivers
-
-            // Live Vehicle Data
-            //      Update Trucks
-            //      Update Vans
             this.getHeatData(heat_id);
         },
         setActiveDrivers(data)
@@ -487,38 +590,16 @@ export default
         startDriverLoop(vehicle, order, data)
         {
             var vm = this;
-            var driver;
-//            if(order == 1 || order == 2 || order == 3)
-//            {
-//                for (var i = 0; i < vm.van_drivers.length; i++)
-//                {
-//                    if(vm.van_drivers[i].id == data.driver_id)
-//                    {
-//                        vm.van_drivers[i].heat_stats.time++;
-//                    }
-//                }
-//            }
-//            if(order == 4 || order == 5 || order == 6)
-//            {
-//                for (var i = 0; i < vm.truck_drivers.length; i++)
-//                {
-//                    if(vm.truck_drivers[i].id == data.driver_id)
-//                    {
-//                        vm.truck_drivers[i].heat_stats.time++;
-//                        console.log(vm.truck_drivers[i].heat_stats.time);
-//                    }
-//                }
-//            }
-
             var timer = {};
-            timer.id = setInterval(function(){ vm.getDiimsData(vehicle.diims_id, order); },10000);
+            vm.getDiimsData(vehicle.diims_id, order, data);
+            timer.id = setInterval(function(){ vm.getDiimsData(vehicle.diims_id, order, data); },10000);
             timer.counter = 0;
-            if(order == 1){ this.$set('timer_1',timer); }
-            if(order == 2){ this.$set('timer_2',timer); }
-            if(order == 3){ this.$set('timer_3',timer); }
-            if(order == 4){ this.$set('timer_4',timer); }
-            if(order == 5){ this.$set('timer_5',timer); }
-            if(order == 6){ this.$set('timer_6',timer); }
+            if(order == 1){ vm.$set('timer_1',timer); }
+            if(order == 2){ vm.$set('timer_2',timer); }
+            if(order == 3){ vm.$set('timer_3',timer); }
+            if(order == 4){ vm.$set('timer_4',timer); }
+            if(order == 5){ vm.$set('timer_5',timer); }
+            if(order == 6){ vm.$set('timer_6',timer); }
         },
         stopDriverLoop(order)
         {
@@ -530,9 +611,38 @@ export default
             if(order == 5){ clearInterval(vm.timer_5.id); }
             if(order == 6){ clearInterval(vm.timer_6.id); }
         },
-        getDiimsData(diims_id,order)
+//        updateDriverTime(id,order)
+//        {
+//            var vm = this;
+//            var driver;
+//            if(order == 1 || order == 2 || order == 3)
+//            {
+//                for (var i = 0; i < vm.van_drivers.length; i++) {
+//                    if(vm.van_drivers[i].id == id)
+//                    {
+//                        driver = vm.$get('van_drivers['+i+']');
+//                        driver.heat_stats.time++;
+//                    }
+//                }
+//            }
+//            if(order == 4 || order == 5 || order == 6)
+//            {
+//                for (var i = 0; i < vm.truck_drivers.length; i++) {
+//                    if(vm.truck_drivers[i].id == id)
+//                    {
+//                        driver = vm.$get('truck_drivers['+i+']');
+//                        driver.heat_stats.time++;
+//                    }
+//                }
+//            }
+//            vm.$set('timer_'+order+'.uptime',driver.heat_stats.time);
+//        },
+        getDiimsData(diims_id,order, data)
         {
             var vm = this;
+
+            var driver_id = data.driver_id;
+
             $.ajax({
                 type: "POST",
                 url: 'http://eco.commotive.dk/WebService.asmx/GetLatestData',
@@ -544,47 +654,67 @@ export default
                 {
                     var result = JSON.parse(data.d);
                     var marker;
-//                    if(result[0].ReportType != 2 && result[0].IgnitionKey == 2)
-//                    {
+                    if(result[0].ReportType != 2 && result[0].IgnitionKey == 2)
+                    {
                         if(order == 1)
                         {
+                            if(!vm.timer_1.time)
+                            {
+                                vm.$set('timer_1.time', (Date.now()/1000));
+                            }
                             vm.van_1.diims_data.push(result[0]);
                             marker = "van_1";
-                            vm.$set('timer_1.counter', vm.timer_1.counter++)
                         }
                         if(order == 2)
                         {
+                            if(!vm.timer_2.time)
+                            {
+                                vm.$set('timer_2.time', (Date.now()/1000));
+                            }
                             vm.van_2.diims_data.push(result[0]);
                             marker = "van_2";
-                            vm.$set('timer_2.counter', vm.timer_2.counter++)
                         }
                         if(order == 3)
                         {
+                            if(!vm.timer_3.time)
+                            {
+                                vm.$set('timer_3.time', (Date.now()/1000));
+                            }
                             vm.van_3.diims_data.push(result[0]);
                             marker = "van_3";
-                            vm.$set('timer_3.counter', vm.timer_3.counter++)
                         }
                         if(order == 4)
                         {
+                            if(!vm.timer_4.time)
+                            {
+                                console.log('hey');
+                                console.log((Date.now()/1000));
+                                vm.$set('timer_4.time', (Date.now()/1000));
+                            }
                             vm.truck_1.diims_data.push(result[0]);
                             marker = "truck_1";
-                            vm.$set('timer_4.counter', vm.timer_4.counter++)
                         }
                         if(order == 5)
                         {
+                            if(!vm.timer_5.time)
+                            {
+                                vm.$set('timer_5.time', (Date.now()/1000));
+                            }
                             vm.truck_2.diims_data.push(result[0]);
                             marker = "truck_2";
-                            vm.$set('timer_5.counter', vm.timer_5.counter++)
                         }
                         if(order == 6)
                         {
+                            if(!vm.timer_6.time)
+                            {
+                                vm.$set('timer_6.time', (Date.now()/1000));
+                            }
                             vm.truck_3.diims_data.push(result[0]);
                             marker = "truck_3";
-                            vm.$set('timer_6.counter', vm.timer_6.counter++)
                         }
 
                         vm.updateHeatStats(order);
-//                    }
+                    }
                     vm.updateMap(marker);
                 }
             });
@@ -592,7 +722,7 @@ export default
         updateHeatStats(order)
         {
             var vm = this;
-            var counter = vm.$get('timer_'+order+'.counter');
+            var time = vm.$get('timer_'+order+'.time');
             var array_1;
             var length;
             var array_2;
@@ -622,31 +752,31 @@ export default
                 array_1 = vm.truck_3.diims_data[0]; length = vm.truck_3.diims_data.length - 1; array_2 = vm.truck_3.diims_data[length];
                 data = { vehicle_id : vm.truck_3.id, driver_id : vm.truck_3.driver.id, heat_id : vm.heat.id };
             }
-            console.log('::: MATH TIME :::  '+order);
 
             var diims_1_Odometer = array_1.Odometer / 10;
             var diims_2_Odometer = array_2.Odometer / 10;
 //            console.log('Diims_1_odo: '+diims_1_Odometer);
 //            console.log('Diims_2_odo: '+diims_2_Odometer);
 
-            var diims_1_TotalFuelUsed = array_1.TotalFuelUsed;
-            var diims_2_TotalFuelUsed = array_2.TotalFuelUsed;
+            var diims_1_TotalFuelUsed = array_1.TotalFuelUsed / 1000;
+            var diims_2_TotalFuelUsed = array_2.TotalFuelUsed / 1000;
 //            console.log('Diims_1_fuel: '+diims_1_TotalFuelUsed);
 //            console.log('Diims_2_fuel: '+diims_2_TotalFuelUsed);
 
             var distance_driven_in_km = diims_2_Odometer - diims_1_Odometer; // KM siden sidste opdatering
             var litres_of_fuel_used = diims_2_TotalFuelUsed - diims_1_TotalFuelUsed; // L brugt siden sidste opdatering
 
-            console.log('distance in km: '+distance_driven_in_km);
-            console.log('Fuel used in Litres: '+litres_of_fuel_used);
+//            console.log('distance in km: '+distance_driven_in_km);
+//            console.log('Fuel used in Litres: '+litres_of_fuel_used);
 
             var kml = 0;
             if( distance_driven_in_km != 0 || litres_of_fuel_used != 0)
             {
                 kml = distance_driven_in_km / litres_of_fuel_used;
             }
-            console.log('kml: '+kml);
+//            console.log('kml: '+kml);
 
+            data.time = time;
             data.kml = parseFloat(kml).toFixed(3);
             data.distance = parseFloat(distance_driven_in_km).toFixed(3);
             data.fuel_used = parseFloat(litres_of_fuel_used).toFixed(3);
@@ -658,11 +788,6 @@ export default
             {
                 data.kml = 0.00;
             }
-
-
-            console.log('kml : '+data.kml);
-            console.log('distance : '+data.distance);
-            console.log('fuel_used : '+data.fuel_used);
 
             this.$http
                 .post('/api/livescore/updateHeatStats/',data)
@@ -719,7 +844,7 @@ export default
         var vm = this;
         vm.webSocketListeners();
         vm.getHeatData(1);
-        var timer = setInterval(function(){ vm.getHeatData(vm.heat.id) } ,10000);
+        var timer = setInterval(function(){ vm.getHeatData(vm.heat.id) } ,2000);
         vm.$set('heat_refresh_timer',timer);
 
         child = 1;
@@ -730,36 +855,38 @@ export default
 
 
 
-//        var speedometer = {
-//            lines: 12, // The number of lines to draw
-//            angle: 0.15, // The length of each line
-//            lineWidth: 0.44, // The line thickness
-//            pointer: {
-//            length: 0.9, // The radius of the inner circle
-//            strokeWidth: 0.035, // The rotation offset
-//            color: '#000000' // Fill color
-//            },
-//            limitMax: 'false',   // If true, the pointer will not go past the end of the gauge
-//            colorStart: '#bb2b00',   // Colors
-//            colorStop: '#8FC0DA',    // just experiment with them
-//            strokeColor: '#E0E0E0',   // to see which ones work best for you
-//            generateGradient: true
-//        };
-//        var RPM = {
-//            lines: 12, // The number of lines to draw
-//            angle: 0.15, // The length of each line
-//            lineWidth: 0.44, // The line thickness
-//            pointer: {
-//            length: 0.9, // The radius of the inner circle
-//            strokeWidth: 0.035, // The rotation offset
-//            color: '#000000' // Fill color
-//            },
-//            limitMax: 'false',   // If true, the pointer will not go past the end of the gauge
-//            colorStart: '#6FADCF',   // Colors
-//            colorStop: '#8FC0DA',    // just experiment with them
-//            strokeColor: '#E0E0E0',   // to see which ones work best for you
-//            generateGradient: true
-//        };
+        var speedometer = {
+            lines: 12, // The number of lines to draw
+            angle: 0.15, // The length of each line
+            lineWidth: 0.44, // The line thickness
+            pointer: {
+            length: 0.9, // The radius of the inner circle
+            strokeWidth: 0.035, // The rotation offset
+            color: '#000000' // Fill color
+            },
+            limitMax: 'false',   // If true, the pointer will not go past the end of the gauge
+            colorStart: '#bb2b00',   // Colors
+            colorStop: '#8FC0DA',    // just experiment with them
+            strokeColor: '#E0E0E0',   // to see which ones work best for you
+            generateGradient: true
+        };
+        var RPM = {
+            lines: 12, // The number of lines to draw
+            angle: 0.15, // The length of each line
+            lineWidth: 0.44, // The line thickness
+            pointer: {
+            length: 0.9, // The radius of the inner circle
+            strokeWidth: 0.035, // The rotation offset
+            color: '#000000' // Fill color
+            },
+            limitMax: 'false',   // If true, the pointer will not go past the end of the gauge
+            colorStart: '#6FADCF',   // Colors
+            colorStop: '#8FC0DA',    // just experiment with them
+            strokeColor: '#E0E0E0',   // to see which ones work best for you
+            generateGradient: true
+        };
+
+//        var target = $('#van_')
 //        for (var i = 0; i < this.trucks.length; i++)
 //        {
 //            var target = document.getElementById('truck_speedometer'+this.trucks[i].id); // your canvas element

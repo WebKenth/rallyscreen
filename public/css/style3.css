@@ -474,13 +474,13 @@ header {
 
 .truck-list > li, .van-list > li {
     display: block;
-    padding: 10px;
+    padding: 5px;
     margin-bottom: 20px;
     background-color: #444;
     min-height: 100px;
 }
 
-.truck-list > li:after, .van-list > li {
+.truck-list > li:after, .van-list > li:after {
 	display: block;
 	clear: both;
 	content: '';
