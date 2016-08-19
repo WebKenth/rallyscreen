@@ -12040,9 +12040,9 @@ exports.default = {
             }
             //            console.log('kml: '+kml);
 
-            data.kml = kml;
-            data.distance = distance_driven_in_km;
-            data.fuel_used = litres_of_fuel_used;
+            data.kml = parseFloat(kml).toFixed(3);
+            data.distance = parseFloat(distance_driven_in_km).toFixed(3);
+            data.fuel_used = parseFloat(litres_of_fuel_used).toFixed(3);
             data.accelerator = array_2.Accelerator;
             data.rpm = array_2.RPM;
             data._token = vm.csrf_token;
