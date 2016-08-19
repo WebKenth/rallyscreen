@@ -622,7 +622,7 @@ export default
                 array_1 = vm.truck_3.diims_data[0]; length = vm.truck_3.diims_data.length - 1; array_2 = vm.truck_3.diims_data[length];
                 data = { vehicle_id : vm.truck_3.id, driver_id : vm.truck_3.driver.id, heat_id : vm.heat.id };
             }
-//            console.log('::: MATH TIME :::');
+            console.log('::: MATH TIME :::  '+order);
 
             var diims_1_Odometer = array_1.Odometer / 10;
             var diims_2_Odometer = array_2.Odometer / 10;
@@ -637,15 +637,15 @@ export default
             var distance_driven_in_km = diims_2_Odometer - diims_1_Odometer; // KM siden sidste opdatering
             var litres_of_fuel_used = diims_2_TotalFuelUsed - diims_1_TotalFuelUsed; // L brugt siden sidste opdatering
 
-//            console.log('distance in km: '+distance_driven_in_km);
-//            console.log('Fuel used in Litres: '+litres_of_fuel_used);
+            console.log('distance in km: '+distance_driven_in_km);
+            console.log('Fuel used in Litres: '+litres_of_fuel_used);
 
             var kml = 0;
             if( distance_driven_in_km != 0 || litres_of_fuel_used != 0)
             {
                 kml = distance_driven_in_km / litres_of_fuel_used;
             }
-//            console.log('kml: '+kml);
+            console.log('kml: '+kml);
 
             data.kml = parseFloat(kml).toFixed(3);
             data.distance = parseFloat(distance_driven_in_km).toFixed(3);
@@ -653,6 +653,12 @@ export default
             data.accelerator = array_2.Accelerator;
             data.rpm = array_2.RPM;
             data._token = vm.csrf_token;
+
+            if(data.kml == Infinity)
+            {
+                data.kml = 0.00;
+            }
+
 
             console.log('kml : '+data.kml);
             console.log('distance : '+data.distance);
