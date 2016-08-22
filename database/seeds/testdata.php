@@ -143,5 +143,16 @@ class testdata extends Seeder
         $vehicle->diims_id = $diims_3->number;
         $vehicle->save();
 
+
+        // Transporter
+        $vehicle = new \App\Vehicle();
+
+        $vehicle->name = "Transporter";
+        $vehicle->reg_nr = "AP 62 019";
+        $vehicle->type = "truck";
+        $vehicle->model = "T5";
+        $vehicle->diims_id = $diims_3->number;
+        $vehicle->save();
+
     }
 }

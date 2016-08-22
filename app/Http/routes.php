@@ -57,3 +57,5 @@ Route::post('api/livescore/getLiveVehicle','ScreenController@getLiveVehicle');
 
 
 Route::post('api/livescore/updateHeatStats','ScreenController@updateHeatStats');
+Route::post('api/livescore/updateStartTime','ScreenController@updateStartTime');
+Route::post('api/livescore/updateStopTime','ScreenController@updateStopTime');

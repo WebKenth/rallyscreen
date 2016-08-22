@@ -168,6 +168,16 @@ class ScreenController extends Controller
 
     public function updateHeatStats(Request $request)
     {
-        $sql = DB::statement("UPDATE heat_stats SET time = ".$request->time.", distance = ".$request->distance.", fuel_used = ".$request->fuel_used.", kml = ".$request->kml.", rpm = ".$request->rpm.", accelerator = ".$request->accelerator." where heat_id = ".$request->heat_id." AND vehicle_id = ".$request->vehicle_id." AND driver_id = ".$request->driver_id);
+        $sql = DB::statement("UPDATE heat_stats SET distance = ".$request->distance.", fuel_used = ".$request->fuel_used.", kml = ".$request->kml.", rpm = ".$request->rpm.", accelerator = ".$request->accelerator." WHERE heat_id = ".$request->heat_id." AND vehicle_id = ".$request->vehicle_id." AND driver_id = ".$request->driver_id);
+    }
+    
+    public function updateStartTime(Request $request)
+    {
+        $sql = DB::statement("UPDATE heat_stats SET start_time = ".$request->start_time." WHERE heat_id = ".$request->heat_id." AND vehicle_id = ".$request->vehicle_id." AND driver_id = ".$request->driver_id);
+    }
+    public function updateStopTime(Request $request)
+    {
+        
+        $sql = DB::statement("UPDATE heat_stats SET stop_time = ".$request->stop_time." WHERE heat_id = ".$request->heat_id." AND vehicle_id = ".$request->vehicle_id." AND driver_id = ".$request->driver_id);
     }
 }

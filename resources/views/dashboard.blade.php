@@ -57,7 +57,18 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <h3>Start Knapper til Bilerne</h3>
+                                <h3>Control Til Heatet</h3>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button class="btn btn-danger">Stop Alt (Timere)</button>
+                                        <button class="btn btn-danger">Reset Data</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>Start / Stop Knapper til Bilerne</h3>
                             </div>
                         </div>
                         <div class="row">
