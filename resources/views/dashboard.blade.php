@@ -60,8 +60,8 @@
                                 <h3>Control Til Heatet</h3>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button class="btn btn-danger">Stop Alt (Timere)</button>
-                                        <button class="btn btn-danger">Reset Data</button>
+                                        <button id="stop_timers" class="btn btn-danger">Stop Alt (Timere)</button>
+                                        <button id="reset_heat_stats" data-heat_id="{{$heat->id}}" class="btn btn-danger">Reset Data</button>
                                     </div>
                                 </div>
                             </div>
@@ -135,6 +135,7 @@
             </div>
         </div>
     </div>
+    <input type="hidden" id="csrf_token" value="{{ csrf_token() }}">
     <br>
     <style>
         .heat-rename-input{
@@ -189,12 +190,35 @@
             socket.emit('is_livescore_online','1');
             socket.emit('is_map_online','1');
         });
-        $('.activate_heat').on('click',function(){
+        $('.activate_heat').on('click',function(e){
+            e.preventDefault();
             $('.activate_heat').removeClass('btn-success');
             $(this).addClass('btn-success');
             var heat_id = $(this).data('id');
             socket.emit('change_heat', heat_id);
         });
+
+        $('#reset_heat_stats').on('click',function(e){
+            e.preventDefault();
+            var confirm = window.confirm("Er du sikker?");
+            if (confirm == true)
+            {
+                $.ajax({
+                    type: "POST",
+                    url: '/api/livescore/reset_heat_stats',
+                    data: {
+                        _token : $('#csrf_token').val(),
+                        heat_id : $(this).data('heat_id')
+                    }
+                });
+            }
+        });
+
+        $('#stop_timers').on('click',function(e){
+            e.preventDefault();
+            socket.emit('livescore_stop_timers');
+        });
+
         drivers = [];
         $('.driver_start_race').on('click',function(e){
             e.preventDefault();

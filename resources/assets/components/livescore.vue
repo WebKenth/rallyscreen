@@ -128,11 +128,11 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <canvas id="truck_speedometer_1" class="vehicle_gauge"></canvas>
+                                                <canvas id="truck_speedometer_1" class="vehicle_gauge" height="50px" width="100%"></canvas>
                                                 <p class="vehicle_gauge_text">{{ (truck_1.driver.heat_stats) ? 'ACC: '+truck_1.driver.heat_stats.accelerator : '' }}</p>
                                             </div>
                                             <div class="col-md-6">
-                                                <canvas id="truck_rpm_1" class="vehicle_gauge"></canvas>
+                                                <canvas id="truck_rpm_1" class="vehicle_gauge" height="50px" width="100%"></canvas>
                                                 <p class="vehicle_gauge_text">{{ (truck_1.driver.heat_stats) ? 'RPM: '+truck_1.driver.heat_stats.rpm : '' }}</p>
                                             </div>
                                         </div>
@@ -175,11 +175,11 @@
                                         </div>
                                         <div class="row" v-show="truck_2.driver.heat_stats">
                                             <div class="col-md-6">
-                                                <canvas id="truck_speedometer_2" class="vehicle_gauge"></canvas>
+                                                <canvas id="truck_speedometer_2" class="vehicle_gauge" height="50px" width="100%"></canvas>
                                                 <p class="vehicle_gauge_text">{{ (truck_2.driver.heat_stats) ? 'ACC: '+truck_2.driver.heat_stats.accelerator : '' }}</p>
                                             </div>
                                             <div class="col-md-6">
-                                                <canvas id="truck_rpm_2" class="vehicle_gauge"></canvas>
+                                                <canvas id="truck_rpm_2" class="vehicle_gauge" height="50px" width="100%"></canvas>
                                                 <p class="vehicle_gauge_text">{{ (truck_2.driver.heat_stats) ? 'RPM: '+truck_2.driver.heat_stats.rpm : '' }}</p>
                                             </div>
                                         </div>
@@ -222,11 +222,11 @@
                                         </div>
                                         <div class="row" v-show="truck_3.driver.heat_stats">
                                             <div class="col-md-6">
-                                                <canvas id="truck_speedometer_3" class="vehicle_gauge"></canvas>
+                                                <canvas id="truck_speedometer_3" class="vehicle_gauge" height="50px" width="100%"></canvas>
                                                 <p class="vehicle_gauge_text">{{ (truck_3.driver.heat_stats) ? 'ACC: '+truck_3.driver.heat_stats.accelerator : '' }}</p>
                                             </div>
                                             <div class="col-md-6">
-                                                <canvas id="truck_rpm_3" class="vehicle_gauge"></canvas>
+                                                <canvas id="truck_rpm_3" class="vehicle_gauge" height="50px" width="100%"></canvas>
                                                 <p class="vehicle_gauge_text">{{ (truck_3.driver.heat_stats) ? 'RPM: '+truck_3.driver.heat_stats.rpm : '' }}</p>
                                             </div>
                                         </div>
@@ -281,11 +281,11 @@
                                         </div>
                                         <div class="row" v-show="van_1.driver.heat_stats">
                                             <div class="col-md-6">
-                                                <canvas id="van_speedometer_1" class="vehicle_gauge"></canvas>
+                                                <canvas id="van_speedometer_1" class="vehicle_gauge" height="50px" width="100%"></canvas>
                                                 <p class="vehicle_gauge_text">{{ (van_1.driver.heat_stats) ? 'ACC: '+van_1.driver.heat_stats.accelerator : '' }}</p>
                                             </div>
                                             <div class="col-md-6">
-                                                <canvas id="van_rpm_1" class="vehicle_gauge"></canvas>
+                                                <canvas id="van_rpm_1" class="vehicle_gauge" height="50px" width="100%"></canvas>
                                                 <p class="vehicle_gauge_text">{{ (van_1.driver.heat_stats) ? 'RPM: '+van_1.driver.heat_stats.rpm : '' }}</p>
                                             </div>
                                         </div>
@@ -328,11 +328,11 @@
                                         </div>
                                         <div class="row" v-show="van_2.driver.heat_stats">
                                             <div class="col-md-6">
-                                                <canvas id="van_speedometer_2" class="vehicle_gauge"></canvas>
+                                                <canvas id="van_speedometer_2" class="vehicle_gauge" height="50px" width="100%"></canvas>
                                                 <p class="vehicle_gauge_text">{{ (van_2.driver.heat_stats) ? 'ACC: '+van_2.driver.heat_stats.accelerator : '' }}</p>
                                             </div>
                                             <div class="col-md-6">
-                                                <canvas id="van_rpm_2" class="vehicle_gauge"></canvas>
+                                                <canvas id="van_rpm_2" class="vehicle_gauge" height="50px" width="100%"></canvas>
                                                 <p class="vehicle_gauge_text">{{ (van_2.driver.heat_stats) ? 'RPM: '+van_2.driver.heat_stats.rpm : '' }}</p>
                                             </div>
                                         </div>
@@ -375,11 +375,11 @@
                                         </div>
                                         <div class="row" v-show="van_3.driver.heat_stats">
                                             <div class="col-md-6">
-                                                <canvas id="van_speedometer_3" class="vehicle_gauge"></canvas>
+                                                <canvas id="van_speedometer_3" class="vehicle_gauge" height="50px" width="100%"></canvas>
                                                 <p class="vehicle_gauge_text">{{ (van_3.driver.heat_stats) ? 'ACC: '+van_3.driver.heat_stats.accelerator : '' }}</p>
                                             </div>
                                             <div class="col-md-6">
-                                                <canvas id="van_rpm_3" class="vehicle_gauge"></canvas>
+                                                <canvas id="van_rpm_3" class="vehicle_gauge" height="50px" width="100%"></canvas>
                                                 <p class="vehicle_gauge_text">{{ (van_3.driver.heat_stats) ? 'RPM: '+van_3.driver.heat_stats.rpm : '' }}</p>
                                             </div>
                                         </div>
@@ -487,15 +487,9 @@ export default
     methods: {
         progressSecondsToPercent(start_time_in_seconds)
         {
-            var diff = (Date.now() / 1000) - start_time_in_seconds;
-            var val = 0;
-            if(diff < 150){
-                val = 1;
-            }
-            if(diff < 300){
-                val = 22;
-            }
-            return (diff / 100).toFixed(0);
+            var time_passed = (Date.now() / 1000) - start_time_in_seconds;
+            var progress = ( time_passed / 1620 ) * 100;
+            return progress.toFixed(0);
         },
         timeSinceInHuman(start_time_in_seconds)
         {
@@ -537,13 +531,17 @@ export default
         changeHeat(heat_id)
         {
             var vm = this;
+            vm.stopAllTimers();
+            vm.getHeatData(heat_id);
+        },
+        stopAllTimers()
+        {
             vm.stopDriverLoop(1);
             vm.stopDriverLoop(2);
             vm.stopDriverLoop(3);
             vm.stopDriverLoop(4);
             vm.stopDriverLoop(5);
             vm.stopDriverLoop(6);
-            this.getHeatData(heat_id);
         },
         setActiveDrivers(data)
         {
@@ -599,7 +597,6 @@ export default
             var vm = this;
             clearInterval(vm.$get('timer_'+order+'.id'));
             clearInterval(vm.$get('timer_'+order+'.live_counter'));
-
             // send stop data to server;
         },
         getDriver(id,order)
@@ -638,8 +635,8 @@ export default
                 {
                     var result = JSON.parse(data.d);
                     var marker;
-//                    if(result[0].ReportType != 2 && result[0].IgnitionKey == 2)
-//                    {
+                    if(result[0].ReportType != 2 && result[0].IgnitionKey == 2)
+                    {
                         if(order == 1)
                         {
                             vm.van_1.diims_data.push(result[0]);
@@ -673,7 +670,7 @@ export default
 
                         vm.updateHeatStats(order);
                         vm.updateMap(marker);
-//                    }
+                    }
                 }
             });
         },
@@ -742,6 +739,11 @@ export default
             data.accelerator = array_2.Accelerator;
             data.rpm = array_2.RPM;
             data._token = vm.csrf_token;
+            data.m1_kml = null;
+            data.m2_kml = null;
+            data.m3_kml = null;
+            data.m4_kml = null;
+            data.m5_kml = null;
 
             var driver = vm.getDriver(data.driver_id,order);
             driver.heat_stats.kml = data.kml;
@@ -750,11 +752,56 @@ export default
             driver.heat_stats.accelerator = data.accelerator;
             driver.heat_stats.rpm = data.rpm;
 
-            var accelerator = driver.heat_stats.accelerator;
-            if(driver.heat_stats.accelerator == 0)
+            var time_passed = (Date.now() / 1000) - driver.heat_stats.start_time;
+
+            if(time_passed > 300 && time_passed < 315)
             {
-                accelerator = 1;
+                driver.heat_stats.m1_kml = data.kml;
+                data.milestone = 1;
+                vm.$http
+                  .post('/api/livescore/updateMilestone', data)
+                  .then(function(response){
+                });
             }
+            else if(time_passed > 600 && time_passed < 615)
+            {
+                driver.heat_stats.m2_kml = data.kml;
+                data.milestone = 2;
+                vm.$http
+                  .post('/api/livescore/updateMilestone', data)
+                  .then(function(response){
+                });
+            }
+            else if(time_passed > 900 && time_passed < 915)
+            {
+                driver.heat_stats.m3_kml = data.kml;
+                data.milestone = 3;
+                vm.$http
+                  .post('/api/livescore/updateMilestone', data)
+                  .then(function(response){
+                });
+            }
+            else if(time_passed > 1200 && time_passed < 1215)
+            {
+                driver.heat_stats.m4_kml = data.kml;
+                data.milestone = 4;
+                vm.$http
+                  .post('/api/livescore/updateMilestone', data)
+                  .then(function(response){
+                });
+            }
+            else if(time_passed > 1500)
+            {
+                driver.heat_stats.m5_kml = data.kml;
+                data.milestone = 5;
+                vm.$http
+                  .post('/api/livescore/updateMilestone', data)
+                  .then(function(response){
+                });
+            }
+
+            var accelerator = (driver.heat_stats.accelerator == 0) ? driver.heat_stats.accelerator: 1;
+
             if(order == 1)
             {
                 vm.$set('van_1.driver',driver);
@@ -777,7 +824,6 @@ export default
             {
                 vm.$set('truck_1.driver',driver);
                 acc_gauges[3].set(accelerator);
-                console.log(accelerator);
                 rpm_gauges[3].set(driver.heat_stats.rpm);
 
             }
@@ -820,6 +866,9 @@ export default
             });
             socket.on('driver_update', function(data){
                 vm.setActiveDrivers(data);
+            });
+            socket.on('livescore_stop_timers', function(data){
+                vm.stopAllTimers();
             });
         },
         updateSections (section,text) {
@@ -913,9 +962,9 @@ export default
         {
             acc_gauges.push(new Gauge(target_speedometer[i]).setOptions(speedometer));
 
-            acc_gauges[i].maxValue = 5000;
+            acc_gauges[i].maxValue = 100;
             acc_gauges[i].animationSpeed = 32;
-            acc_gauges[i].set(2500);
+            acc_gauges[i].set(50);
         }
 
         for (var i = 0; i < target_rpm.length; i++)

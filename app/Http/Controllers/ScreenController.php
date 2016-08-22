@@ -166,6 +166,11 @@ class ScreenController extends Controller
         return json_encode($data);
     }
 
+    public function updateMilestone(Request $request)
+    {
+        $sql = DB::statement("UPDATE heat_stats SET m".$request->milestone."_kml = ".$request->kml." WHERE heat_id = ".$request->heat_id." AND vehicle_id = ".$request->vehicle_id." AND driver_id = ".$request->driver_id);
+    }
+
     public function updateHeatStats(Request $request)
     {
         $sql = DB::statement("UPDATE heat_stats SET distance = ".$request->distance.", fuel_used = ".$request->fuel_used.", kml = ".$request->kml.", rpm = ".$request->rpm.", accelerator = ".$request->accelerator." WHERE heat_id = ".$request->heat_id." AND vehicle_id = ".$request->vehicle_id." AND driver_id = ".$request->driver_id);
@@ -179,5 +184,10 @@ class ScreenController extends Controller
     {
         
         $sql = DB::statement("UPDATE heat_stats SET stop_time = ".$request->stop_time." WHERE heat_id = ".$request->heat_id." AND vehicle_id = ".$request->vehicle_id." AND driver_id = ".$request->driver_id);
+    }
+    
+    public function resetHeatStats(Request $request)
+    {
+        $sql = DB::statement("UPDATE heat_stats SET start_time = NULL, stop_time = NULL, m1_kml = NULL, m2_kml = NULL, m3_kml = NULL, m4_kml = NULL, m5_kml = NULL, fuel_used = NULL, distance = NULL, kml = NULL, rpm = NULL, accelerator = NULL WHERE heat_id = ".$request->heat_id);
     }
 }
