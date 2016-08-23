@@ -13,6 +13,16 @@
             </div>
         </div>
     </header>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <button @click="changeStep" class="btn btn-default">Switch</button>
+                <!--<button @click="test_started = !test_started" class="btn btn-success">Start | {{test_started}}</button>-->
+                <!--<button @click="test_running = !test_running" class="btn btn-info">Running | {{test_running}}</button>-->
+                <!--<button @click="test_stopped = !test_stopped" class="btn btn-danger">Stop | {{test_stopped}}</button>-->
+            </div>
+        </div>
+    </div>
     <section class="player-score">
         <div class="section-grid" data-step="1">
             <div class="point"></div>
@@ -479,7 +489,10 @@ export default
             timer_3:{ id : 0, counter : '', live_counter : 0},
             timer_4:{ id : 0, counter : '', live_counter : 0},
             timer_5:{ id : 0, counter : '', live_counter : 0},
-            timer_6:{ id : 0, counter : '', live_counter : 0}
+            timer_6:{ id : 0, counter : '', live_counter : 0},
+            test_started: false,
+            test_stopped: false,
+            test_running: false
         }
     },
     computed: {
@@ -626,6 +639,9 @@ export default
                     var reportType = result[0].ReportType;
                     var ignitionKey = result[0].IgnitionKey;
 
+//                    console.log('ReportType: '+reportType);
+//                    console.log('IgnitionKey: '+ignitionKey);
+
                     var vehicle_is_started = reportType == 2 && (ignitionKey == 0 || ignitionKey == 1);
                     var vehicle_is_stopped = reportType == 2 && ignitionKey == 2;
                     var vehicle_is_running = reportType == 0 && ignitionKey == 2;
@@ -633,14 +649,16 @@ export default
 //                    console.log('Started: '+vehicle_is_started);
 //                    console.log('Stopped: '+vehicle_is_stopped);
 //                    console.log('Running: '+vehicle_is_running);
+                    console.log('::::::::::NEW DATA LINE::::::::::');
 
                     if(vehicle_is_started)
                     {
                         console.log('Vehicle is Started:');
+                        console.log('start_time_check: '+driver.heat_stats.start_time);
                         if(!driver.heat_stats.start_time)
                         {
                             driver.heat_stats.start_time = Date.now() / 1000;
-                            console.log('Time not set, Time: '+driver.heat_stats.start_time);
+                            console.log('Start_time not set, Time: '+driver.heat_stats.start_time);
                             var time_data = {
                                 '_token' : vm.csrf_token,
                                 'heat_id' : vm.heat.id,
@@ -648,7 +666,7 @@ export default
                                 'vehicle_id' : vehicle_id,
                                 'start_time' : driver.heat_stats.start_time
                             };
-                            this.$http.post('/api/livescore/updateStartTime/',time_data)
+                            vm.$http.post('/api/livescore/updateStartTime/',time_data)
                                 .then( function(response) {
                                     console.log('Updating Start Time');
                                 });
@@ -656,9 +674,10 @@ export default
 
                         var is_timer_running = vm.$get('timer_'+order+'.live_counter');
 
+                        console.log('is_timer_running: '+is_timer_running);
                         if(!is_timer_running)
                         {
-                            console.log('Timer not Running, starting timer!');
+                            console.log('Start_Timer not Running, starting timer!');
                             var timer_id = setInterval(function(){ vm.updateTime(driver) },1000);
                             vm.$set('timer_'+order+'.live_counter', timer_id );
                         }
@@ -669,14 +688,36 @@ export default
 
                     if(vehicle_is_stopped)
                     {
-                        console.log('Vehicle is Stopped, Stopping timer: '+vm.$get('timer_'+order+'.live_counter'));
-                        clearInterval(vm.$get('timer_'+order+'.live_counter'));
+                        console.log('Vehicle is Stopped');
+                        if(typeof vm.$get('timer_'+order+'.live_counter') != undefined)
+                        {
+                            console.log('Stopping timer: '+vm.$get('timer_'+order+'.live_counter'));
+                            clearInterval(vm.$get('timer_'+order+'.live_counter'));
+                            vm.$set('timer_'+order+'.live_counter', undefined);
+                            console.log(driver.heat_stats.stop_time);
+                            if(!driver.heat_stats.stop_time)
+                            {
+                                driver.heat_stats.stop_time = Date.now() / 1000;
+                                console.log('Stop_Time not set, Time: '+driver.heat_stats.stop_time);
+                                var time_data = {
+                                    '_token' : vm.csrf_token,
+                                    'heat_id' : vm.heat.id,
+                                    'driver_id' : driver.id,
+                                    'vehicle_id' : vehicle_id,
+                                    'stop_time' : driver.heat_stats.stop_time
+                                };
+                                vm.$http.post('/api/livescore/updateStopTime/',time_data)
+                                    .then( function(response) {
+                                        console.log('Updating Stop Time');
+                                    });
+                            }
+                        }
                     }
 
                     if(vehicle_is_running)
                     {
+                        console.log('Vehicle is Running');
                         var marker = vm.updateVehicleDiimsData(order, result[0]);
-                        console.log('Vehicle is Running, POS: '+marker);
                         vm.updateHeatStats(order);
                         vm.updateMap(marker);
                     }
@@ -785,10 +826,7 @@ export default
             data.m3_kml = null;
             data.m4_kml = null;
             data.m5_kml = null;
-            if(data.kml == Infinity)
-            {
-                data.kml = 0.00;
-            }
+            if(data.kml == Infinity) { data.kml = 0.00; }
 
             var driver = vm.getDriver(data.driver_id,order);
             driver.heat_stats.kml = data.kml;
@@ -799,6 +837,7 @@ export default
 
             var time_passed = (Date.now() / 1000) - driver.heat_stats.start_time;
 
+            console.log('Time Passed: '+time_passed);
             if(time_passed > 300 && time_passed < 315)
             {
                 driver.heat_stats.m1_kml = data.kml;
@@ -947,7 +986,7 @@ export default
         child = 1;
         currentStep = 1;
 
-        var stepChanger = setInterval(this.changeStep, 10000); // 10 seconds switch left hand side
+//        var stepChanger = setInterval(this.changeStep, 10000); // 10 seconds switch left hand side
 
         var speedometer = {
             lines: 12, // The number of lines to draw
