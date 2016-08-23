@@ -578,6 +578,11 @@ export default
             timer.id = setInterval(function(){ vm.getDiimsData(vehicle.diims_id, order, data); },10000);
             timer.counter = 0;
             vm.$set('timer_'+order, timer);
+
+
+
+
+            
             // Set Start Time for Driver and start Update Loop
             driver.heat_stats.start_time = Date.now() / 1000;
             var time_data = {
