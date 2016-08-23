@@ -536,6 +536,7 @@ export default
         },
         stopAllTimers()
         {
+            var vm = this;
             vm.stopDriverLoop(1);
             vm.stopDriverLoop(2);
             vm.stopDriverLoop(3);
