@@ -73,65 +73,68 @@
                         </div>
                         <div class="row">
 
-                            {{--<ul class="list-group">--}}
+                            <ul class="list-group list-container">
                             @foreach($heat->drivers as $driver)
-                                {{--<li class="list-group-item"--}}
-                                    {{--data-heat_id="{{ $heat->id }}"--}}
-                                    {{--data-driver_id="{{ $driver->id }}"--}}
-                                    {{--data-vehicle_id="{{ $driver->getHeatVehicleId($heat->id) }}"--}}
-                                {{-->--}}
-                                    {{--<div class="row">--}}
-                                        {{--<div class="col-md-4">--}}
-                                            {{--{{ $driver->first_name }} {{ $driver->middle_name }} {{ $driver->last_name }} | {{ $driver->getHeatVehicle($heat->id)->name }} | {{ $driver->getHeatVehicle($heat->id)->type }}--}}
-                                        {{--</div>--}}
-                                        {{--<div class="col-md-6">--}}
-                                            {{--<div class="row">--}}
-                                                {{--<div class="col-md-12">--}}
-                                                    {{--<p>Placering til højre</p>--}}
-                                                {{--</div>--}}
-                                            {{--</div>--}}
-                                            {{--<div class="row">--}}
-                                                {{--<div class="col-md-6">--}}
-                                                    {{--<a class="btn btn-default">Truck #1</a>--}}
-                                                    {{--<a class="btn btn-default">Truck #2</a>--}}
-                                                    {{--<a class="btn btn-default">Truck #3</a>--}}
-                                                {{--</div>--}}
-                                                {{--<div class="col-md-6">--}}
-                                                    {{--<a class="btn btn-default">Van #4</a>--}}
-                                                    {{--<a class="btn btn-default">Van #5</a>--}}
-                                                    {{--<a class="btn btn-default">Van #6</a>--}}
-                                                {{--</div>--}}
-                                            {{--</div>--}}
-                                        {{--</div>--}}
-                                        {{--<div class="col-md-2">--}}
-                                            {{--<a class="btn btn-default">Tillad Start</a>--}}
-                                            {{--<a class="btn btn-default">Stop Timer</a>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                {{--</li>--}}
-                                <div class="col-md-3" style="margin-bottom: 20px">
-                                    <!-- Single button -->
-                                    <div class="btn-group">
-                                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {{ $driver->first_name }}<span class="caret"></span>
-                                      </button>
-                                      <ul class="dropdown-menu"
-                                          data-heat_id="{{ $heat->id }}"
-                                          data-driver_id="{{ $driver->id }}"
-                                          data-vehicle_id="{{ $driver->getHeatVehicleId($heat->id) }}"
-                                      >
-                                        <li><a href="#" class="driver_start_race" data-order="4">Vis Livescore på #1</a></li>
-                                        <li><a href="#" class="driver_start_race" data-order="5">Vis Livescore på #2</a></li>
-                                        <li><a href="#" class="driver_start_race" data-order="6">Vis Livescore på #3</a></li>
-                                        <li role="separator" class="divider"></li>
-                                        <li><a href="#" class="driver_start_race" data-order="1">Vis Livescore på #4</a></li>
-                                        <li><a href="#" class="driver_start_race" data-order="2">Vis Livescore på #5</a></li>
-                                        <li><a href="#" class="driver_start_race" data-order="3">Vis Livescore på #6</a></li>
-                                      </ul>
+                                <li class="list-group-item"
+                                    data-heat_id="{{ $heat->id }}"
+                                    data-driver_id="{{ $driver->id }}"
+                                    data-vehicle_id="{{ $driver->getHeatVehicleId($heat->id) }}"
+                                    data-csrf_token="{{csrf_token()}}"
+                                >
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p>{{ $driver->first_name }} {{ $driver->middle_name }} {{ $driver->last_name }}</p>
+                                            <p>{{ $driver->getHeatVehicle($heat->id)->type }}, {{ $driver->getHeatVehicle($heat->id)->name }}</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>Placering til højre</p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <a class="btn btn-default setOnLivescore" data-order="4">Truck #1</a>
+                                                    <a class="btn btn-default setOnLivescore" data-order="5">Truck #2</a>
+                                                    <a class="btn btn-default setOnLivescore" data-order="6">Truck #3</a>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <a class="btn btn-default setOnLivescore" data-order="1">Van #4</a>
+                                                    <a class="btn btn-default setOnLivescore" data-order="2">Van #5</a>
+                                                    <a class="btn btn-default setOnLivescore" data-order="3">Van #6</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p>Control</p>
+                                            <a class="btn btn-default livescoreStartTimer" disabled="true">Tillad Start</a>
+                                            <a class="btn btn-default livescoreStopTimer" disabled="true">Stop Timer</a>
+                                        </div>
                                     </div>
-                                </div>
+                                </li>
+                                {{--<div class="col-md-3" style="margin-bottom: 20px">--}}
+                                    {{--<!-- Single button -->--}}
+                                    {{--<div class="btn-group">--}}
+                                      {{--<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
+                                        {{--{{ $driver->first_name }}<span class="caret"></span>--}}
+                                      {{--</button>--}}
+                                      {{--<ul class="dropdown-menu"--}}
+                                          {{--data-heat_id="{{ $heat->id }}"--}}
+                                          {{--data-driver_id="{{ $driver->id }}"--}}
+                                          {{--data-vehicle_id="{{ $driver->getHeatVehicleId($heat->id) }}"--}}
+                                      {{-->--}}
+                                        {{--<li><a href="#" class="driver_start_race" data-order="4">Vis Livescore på #1</a></li>--}}
+                                        {{--<li><a href="#" class="driver_start_race" data-order="5">Vis Livescore på #2</a></li>--}}
+                                        {{--<li><a href="#" class="driver_start_race" data-order="6">Vis Livescore på #3</a></li>--}}
+                                        {{--<li role="separator" class="divider"></li>--}}
+                                        {{--<li><a href="#" class="driver_start_race" data-order="1">Vis Livescore på #4</a></li>--}}
+                                        {{--<li><a href="#" class="driver_start_race" data-order="2">Vis Livescore på #5</a></li>--}}
+                                        {{--<li><a href="#" class="driver_start_race" data-order="3">Vis Livescore på #6</a></li>--}}
+                                      {{--</ul>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
                             @endforeach
-                            {{--</ul>--}}
+                            </ul>
                         </div>
                     </form>
                     </li>
@@ -181,6 +184,13 @@
             width: 100%;
             font-size: 23px;
         }
+        .list-container{
+            max-height: 350px;
+            overflow: auto;
+            border: 10px solid #dddddd;
+            border-left: 3px solid #dddddd;
+            border-right: 3px solid #dddddd;
+        }
     </style>
 @endsection
 
@@ -194,6 +204,13 @@
 
     <script type="text/javascript">
         $('select').select2();
+
+
+        // Websocket - Direct Link to Live Score Sites and Map
+        // 'http://rallyscreen.app:3000'
+        // 'http://139.59.177.94:3000'
+        var socket = io('http://rallyscreen.app:3000');
+//        var socket = io('http://139.59.177.94:3000');
 
         // Driver - Vehicle Relationship Modal
         $('.driver_vehicle_relationship').on('click',function(){
@@ -217,11 +234,27 @@
             });
         });
 
-        // Websocket - Direct Link to Live Score Sites and Map
-        // 'http://rallyscreen.app:3000'
-        // 'http://139.59.177.94:3000'
-//        var socket = io('http://rallyscreen.app:3000');
-        var socket = io('http://139.59.177.94:3000');
+        $('.setOnLivescore').on('click',function(){
+            var data = $(this).closest('li').data();
+            data.order = $(this).data('order');
+            $(this).closest('li').data('order', data.order);
+            $(this).closest('li').find('.livescoreStartTimer').removeAttr('disabled');
+
+            socket.emit('setOnLivescore', data);
+        });
+
+        $('.livescoreStartTimer').on('click',function(){
+            var data = $(this).closest('li').data();
+            $(this).closest('li').find('.livescoreStartTimer').attr('disabled',true);
+            $(this).closest('li').find('.livescoreStopTimer').removeAttr('disabled');
+            socket.emit('startTimerOnLivescore', data);
+        });
+        $('.livescoreStopTimer').on('click',function(){
+            var data = $(this).closest('li').data();
+            $(this).closest('li').find('.livescoreStopTimer').attr('disabled',true);
+            $(this).closest('li').find('.livescoreStartTimer').removeAttr('disabled');
+            socket.emit('stopTimerOnLivescore', data);
+        });
 
         $('#connectedButton').on('click',function(){
             socket.emit('is_livescore_online','1');

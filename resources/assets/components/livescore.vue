@@ -461,8 +461,8 @@
 <script>
     // 'http://rallyscreen.app:3000'
     // 'http://139.59.177.94:3000'
-//      var socket = io('http://rallyscreen.app:3000');
-    var socket = io('http://139.59.177.94:3000');
+      var socket = io('http://rallyscreen.app:3000');
+//    var socket = io('http://139.59.177.94:3000');
     var test_timer;
 
 export default
@@ -566,6 +566,7 @@ export default
         },
         setActiveDrivers(data)
         {
+            console.log(data);
             var vm = this;
             data._token = this.csrf_token;
             order = data.order;
@@ -580,23 +581,30 @@ export default
                     if(order == 4){ vm.$set('truck_1',result.vehicle); }
                     if(order == 5){ vm.$set('truck_2',result.vehicle); }
                     if(order == 6){ vm.$set('truck_3',result.vehicle); }
-                    vm.startDriverLoop(result.vehicle, order, data);
+//                    vm.startDriverLoop(result.vehicle, order, data);
                 });
         },
         updateTime(driver)
         {
             driver.heat_stats.start_time = driver.heat_stats.start_time - 0.000001
         },
-        startDriverLoop(vehicle, order, data)
+        startDriverLoop(data)
         {
             var vm = this;
+            var diims_id;
             var timer = {};
 
-            vm.getDiimsData(vehicle.diims_id, order, data);
-            timer.id = setInterval(function(){ vm.getDiimsData(vehicle.diims_id, order, data); },10000);
-            timer.counter = 0;
-            vm.$set('timer_'+order, timer);
+            if(data.order == 1){ diims_id = vm.$get('van_1.diims_id'); }
+            if(data.order == 2){ diims_id = vm.$get('van_2.diims_id'); }
+            if(data.order == 3){ diims_id = vm.$get('van_3.diims_id'); }
+            if(data.order == 4){ diims_id = vm.$get('truck_1.diims_id'); }
+            if(data.order == 5){ diims_id = vm.$get('truck_2.diims_id'); }
+            if(data.order == 6){ diims_id = vm.$get('truck_3.diims_id'); }
 
+            vm.getDiimsData(diims_id, data.order, data);
+            timer.id = setInterval(function(){ vm.getDiimsData(diims_id, data.order, data); },10000);
+            timer.counter = 0;
+            vm.$set('timer_'+data.order, timer);
         },
         stopDriverLoop(order)
         {
@@ -964,6 +972,18 @@ export default
             });
             socket.on('livescore_stop_timers', function(data){
                 vm.stopAllTimers();
+            });
+            socket.on('setOnLivescore',function(data)
+            {
+                vm.setActiveDrivers(data);
+            });
+            socket.on('startTimerOnLivescore',function(data)
+            {
+                vm.startDriverLoop(data);
+            });
+            socket.on('stopTimerOnLivescore',function(data)
+            {
+                vm.stopDriverLoop(data.order);
             });
         },
         updateSections (section,text) {

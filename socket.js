@@ -31,6 +31,15 @@ io.on('connection', function(socket){
         io.emit('update_map',data);
         // console.log(data);
     });
+    socket.on('setOnLivescore', function(data){
+        io.emit('setOnLivescore',data);
+    });
+    socket.on('startTimerOnLivescore',function(data){
+        io.emit('startTimerOnLivescore',data);
+    });
+    socket.on('stopTimerOnLivescore',function(data){
+        io.emit('stopTimerOnLivescore',data);
+    });
     
     socket.on('test', function(msg){
         io.emit('test', msg);
@@ -39,7 +48,7 @@ io.on('connection', function(socket){
 
 
 
-// http.listen(3000, function(){
-//     console.log('Listening on Port: 3000');
-// });
-http.listen(3000, '139.59.177.94');
+http.listen(3000, function(){
+    console.log('Listening on Port: 3000');
+});
+// http.listen(3000, '139.59.177.94');
