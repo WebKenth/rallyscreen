@@ -72,8 +72,29 @@
                             </div>
                         </div>
                         <div class="row">
+
+                            {{--<ul class="list-group">--}}
                             @foreach($heat->drivers as $driver)
-                            <div class="col-md-3" style="margin-bottom: 20px">
+                                {{--<li class="list-group-item">--}}
+                                    {{--<div class="row">--}}
+                                        {{--<div class="col-md-4">--}}
+                                            {{--{{ $driver->first_name }} | {{ $driver->getHeatVehicle($heat->id)->name }} | {{ $driver->getHeatVehicle($heat->id)->type }}--}}
+                                        {{--</div>--}}
+                                        {{--<div class="col-md-6">--}}
+                                            {{--<button class="btn btn-default"></button>--}}
+                                            {{--<button class="btn btn-default"></button>--}}
+                                            {{--<button class="btn btn-default"></button>--}}
+                                            {{--<button class="btn btn-default"></button>--}}
+                                            {{--<button class="btn btn-default"></button>--}}
+                                            {{--<button class="btn btn-default"></button>--}}
+                                        {{--</div>--}}
+                                        {{--<div class="col-md-2">--}}
+                                            {{--<button class="btn btn-default"></button>--}}
+                                            {{--<button class="btn btn-default"></button>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</li>--}}
+                                <div class="col-md-3" style="margin-bottom: 20px">
                                 <!-- Single button -->
                                 <div class="btn-group">
                                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -95,6 +116,7 @@
                                 </div>
                             </div>
                             @endforeach
+                            {{--</ul>--}}
                         </div>
                     </form>
                     </li>

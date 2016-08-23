@@ -573,6 +573,11 @@ export default
             var timer = {};
             var driver = vm.getDriver(vehicle.driver.id,order);
 
+
+            vm.getDiimsData(vehicle.diims_id, order, data);
+            timer.id = setInterval(function(){ vm.getDiimsData(vehicle.diims_id, order, data); },10000);
+            timer.counter = 0;
+            vm.$set('timer_'+order, timer);
             // Set Start Time for Driver and start Update Loop
             driver.heat_stats.start_time = Date.now() / 1000;
             var time_data = {
@@ -586,11 +591,6 @@ export default
                 .then( function(response) {
                     timer.live_counter = setInterval(function(){ vm.updateTime(driver) },1000);
                 });
-
-            vm.getDiimsData(vehicle.diims_id, order, data);
-            timer.id = setInterval(function(){ vm.getDiimsData(vehicle.diims_id, order, data); },10000);
-            timer.counter = 0;
-            vm.$set('timer_'+order, timer);
 
         },
         stopDriverLoop(order)
@@ -713,8 +713,8 @@ export default
 //            console.log('Diims_1_odo: '+diims_1_Odometer);
 //            console.log('Diims_2_odo: '+diims_2_Odometer);
 
-            var diims_1_TotalFuelUsed = array_1.TotalFuelUsed / 1000;
-            var diims_2_TotalFuelUsed = array_2.TotalFuelUsed / 1000;
+            var diims_1_TotalFuelUsed = array_1.TotalFuelUsed / 100;
+            var diims_2_TotalFuelUsed = array_2.TotalFuelUsed / 100;
 //            console.log('Diims_1_fuel: '+diims_1_TotalFuelUsed);
 //            console.log('Diims_2_fuel: '+diims_2_TotalFuelUsed);
 
@@ -730,10 +730,6 @@ export default
                 kml = distance_driven_in_km / litres_of_fuel_used;
             }
 
-            if(data.kml == Infinity)
-            {
-                data.kml = 0.00;
-            }
             data.kml = parseFloat(kml).toFixed(1);
             data.distance = parseFloat(distance_driven_in_km).toFixed(3);
             data.fuel_used = parseFloat(litres_of_fuel_used).toFixed(3);
@@ -745,6 +741,10 @@ export default
             data.m3_kml = null;
             data.m4_kml = null;
             data.m5_kml = null;
+            if(data.kml == Infinity)
+            {
+                data.kml = 0.00;
+            }
 
             var driver = vm.getDriver(data.driver_id,order);
             driver.heat_stats.kml = data.kml;

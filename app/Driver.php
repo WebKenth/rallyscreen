@@ -42,7 +42,7 @@ class Driver extends Model
         $vehicle = Vehicle::find($sql[0]->vehicle_id);
         if($vehicle)
         {
-            return $vehicle->name;
+            return $vehicle;
         }
         return "Mangler Bil Forhold";
     }
