@@ -11841,7 +11841,6 @@ exports.default = {
         startDriverLoop: function startDriverLoop(vehicle, order, data) {
             var vm = this;
             var timer = {};
-            var driver = vm.getDriver(vehicle.driver.id, order);
 
             vm.getDiimsData(vehicle.diims_id, order, data);
             timer.id = setInterval(function () {
@@ -11849,21 +11848,6 @@ exports.default = {
             }, 10000);
             timer.counter = 0;
             vm.$set('timer_' + order, timer);
-
-            // Set Start Time for Driver and start Update Loop
-            driver.heat_stats.start_time = Date.now() / 1000;
-            var time_data = {
-                '_token': vm.csrf_token,
-                'heat_id': vm.heat.id,
-                'driver_id': driver.id,
-                'vehicle_id': vehicle.id,
-                'start_time': driver.heat_stats.start_time
-            };
-            this.$http.post('/api/livescore/updateStartTime/', time_data).then(function (response) {
-                timer.live_counter = setInterval(function () {
-                    vm.updateTime(driver);
-                }, 1000);
-            });
         },
         stopDriverLoop: function stopDriverLoop(order) {
             var vm = this;
@@ -11890,6 +11874,8 @@ exports.default = {
         },
         getDiimsData: function getDiimsData(diims_id, order, data) {
             var vm = this;
+            var driver = vm.getDriver(data.driver_id, order);
+            var vehicle_id = data.vehicle_id;
             $.ajax({
                 type: "POST",
                 url: 'http://eco.commotive.dk/WebService.asmx/GetLatestData',
@@ -11899,38 +11885,91 @@ exports.default = {
                 dataType: "json",
                 success: function success(data) {
                     var result = JSON.parse(data.d);
-                    var marker;
-                    if (result[0].ReportType != 2 && result[0].IgnitionKey == 2) {
-                        if (order == 1) {
-                            vm.van_1.diims_data.push(result[0]);
-                            marker = "van_1";
-                        }
-                        if (order == 2) {
-                            vm.van_2.diims_data.push(result[0]);
-                            marker = "van_2";
-                        }
-                        if (order == 3) {
-                            vm.van_3.diims_data.push(result[0]);
-                            marker = "van_3";
-                        }
-                        if (order == 4) {
-                            vm.truck_1.diims_data.push(result[0]);
-                            marker = "truck_1";
-                        }
-                        if (order == 5) {
-                            vm.truck_2.diims_data.push(result[0]);
-                            marker = "truck_2";
-                        }
-                        if (order == 6) {
-                            vm.truck_3.diims_data.push(result[0]);
-                            marker = "truck_3";
+
+                    var reportType = result[0].ReportType;
+                    var ignitionKey = result[0].IgnitionKey;
+
+                    var vehicle_is_started = reportType == 2 && (ignitionKey == 0 || ignitionKey == 1);
+                    var vehicle_is_stopped = reportType == 2 && ignitionKey == 2;
+                    var vehicle_is_running = reportType == 0 && ignitionKey == 2;
+
+                    //                    console.log('Started: '+vehicle_is_started);
+                    //                    console.log('Stopped: '+vehicle_is_stopped);
+                    //                    console.log('Running: '+vehicle_is_running);
+
+                    if (vehicle_is_started) {
+                        console.log('Vehicle is Started:');
+                        if (!driver.heat_stats.start_time) {
+                            driver.heat_stats.start_time = Date.now() / 1000;
+                            console.log('Time not set, Time: ' + driver.heat_stats.start_time);
+                            var time_data = {
+                                '_token': vm.csrf_token,
+                                'heat_id': vm.heat.id,
+                                'driver_id': driver.id,
+                                'vehicle_id': vehicle_id,
+                                'start_time': driver.heat_stats.start_time
+                            };
+                            this.$http.post('/api/livescore/updateStartTime/', time_data).then(function (response) {
+                                console.log('Updating Start Time');
+                            });
                         }
 
+                        var is_timer_running = vm.$get('timer_' + order + '.live_counter');
+
+                        if (!is_timer_running) {
+                            console.log('Timer not Running, starting timer!');
+                            var timer_id = setInterval(function () {
+                                vm.updateTime(driver);
+                            }, 1000);
+                            vm.$set('timer_' + order + '.live_counter', timer_id);
+                        }
+                        var marker = vm.updateVehicleDiimsData(order, result[0]);
+                        vm.updateHeatStats(order);
+                        vm.updateMap(marker);
+                    }
+
+                    if (vehicle_is_stopped) {
+                        console.log('Vehicle is Stopped, Stopping timer: ' + vm.$get('timer_' + order + '.live_counter'));
+                        clearInterval(vm.$get('timer_' + order + '.live_counter'));
+                    }
+
+                    if (vehicle_is_running) {
+                        var marker = vm.updateVehicleDiimsData(order, result[0]);
+                        console.log('Vehicle is Running, POS: ' + marker);
                         vm.updateHeatStats(order);
                         vm.updateMap(marker);
                     }
                 }
             });
+        },
+        updateVehicleDiimsData: function updateVehicleDiimsData(order, diims_data) {
+            var vm = this;
+            var marker;
+            if (order == 1) {
+                vm.van_1.diims_data.push(diims_data);
+                marker = "van_1";
+            }
+            if (order == 2) {
+                vm.van_2.diims_data.push(diims_data);
+                marker = "van_2";
+            }
+            if (order == 3) {
+                vm.van_3.diims_data.push(diims_data);
+                marker = "van_3";
+            }
+            if (order == 4) {
+                vm.truck_1.diims_data.push(diims_data);
+                marker = "truck_1";
+            }
+            if (order == 5) {
+                vm.truck_2.diims_data.push(diims_data);
+                marker = "truck_2";
+            }
+            if (order == 6) {
+                vm.truck_3.diims_data.push(diims_data);
+                marker = "truck_3";
+            }
+            return marker;
         },
         updateHeatStats: function updateHeatStats(order) {
             var vm = this;

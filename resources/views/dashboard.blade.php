@@ -60,8 +60,8 @@
                                 <h3>Control Til Heatet</h3>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button id="stop_timers" class="btn btn-danger">Stop Alt (Timere)</button>
-                                        <button id="reset_heat_stats" data-heat_id="{{$heat->id}}" class="btn btn-danger">Reset Data</button>
+                                        <button class="stop_timers btn btn-danger">Stop Alt (Timere)</button>
+                                        <button data-heat_id="{{$heat->id}}" class="reset_heat_stats btn btn-danger">Reset Data</button>
                                     </div>
                                 </div>
                             </div>
@@ -81,16 +81,16 @@
                                             {{--{{ $driver->first_name }} | {{ $driver->getHeatVehicle($heat->id)->name }} | {{ $driver->getHeatVehicle($heat->id)->type }}--}}
                                         {{--</div>--}}
                                         {{--<div class="col-md-6">--}}
-                                            {{--<button class="btn btn-default"></button>--}}
-                                            {{--<button class="btn btn-default"></button>--}}
-                                            {{--<button class="btn btn-default"></button>--}}
-                                            {{--<button class="btn btn-default"></button>--}}
-                                            {{--<button class="btn btn-default"></button>--}}
-                                            {{--<button class="btn btn-default"></button>--}}
+                                            {{--<button class="btn btn-default">#1</button>--}}
+                                            {{--<button class="btn btn-default">#2</button>--}}
+                                            {{--<button class="btn btn-default">#3</button>--}}
+                                            {{--<button class="btn btn-default">#4</button>--}}
+                                            {{--<button class="btn btn-default">#5</button>--}}
+                                            {{--<button class="btn btn-default">#6</button>--}}
                                         {{--</div>--}}
                                         {{--<div class="col-md-2">--}}
-                                            {{--<button class="btn btn-default"></button>--}}
-                                            {{--<button class="btn btn-default"></button>--}}
+                                            {{--<button class="btn btn-default">Tillad Start</button>--}}
+                                            {{--<button class="btn btn-default">Stop Timer</button>--}}
                                         {{--</div>--}}
                                     {{--</div>--}}
                                 {{--</li>--}}
@@ -98,7 +98,7 @@
                                 <!-- Single button -->
                                 <div class="btn-group">
                                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{ $driver->first_name }} | {{ $driver->getHeatVehicle($heat->id) }} <span class="caret"></span>
+                                    {{ $driver->first_name }} | {{ $driver->getHeatVehicle($heat->id)->name }} <span class="caret"></span>
                                   </button>
                                   <ul class="dropdown-menu"
                                       data-heat_id="{{ $heat->id }}"
@@ -220,7 +220,7 @@
             socket.emit('change_heat', heat_id);
         });
 
-        $('#reset_heat_stats').on('click',function(e){
+        $('.reset_heat_stats').on('click',function(e){
             e.preventDefault();
             var confirm = window.confirm("Er du sikker?");
             if (confirm == true)
@@ -236,7 +236,7 @@
             }
         });
 
-        $('#stop_timers').on('click',function(e){
+        $('.stop_timers').on('click',function(e){
             e.preventDefault();
             socket.emit('livescore_stop_timers');
         });
