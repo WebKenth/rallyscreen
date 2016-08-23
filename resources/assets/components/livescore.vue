@@ -500,8 +500,15 @@ export default
     methods: {
         progressSecondsToPercent(start_time_in_seconds)
         {
-            var time_passed = (Date.now() / 1000) - start_time_in_seconds;
-            var progress = ( time_passed / 1620 ) * 100;
+            if(start_time_in_seconds)
+            {
+                var time_passed = (Date.now() / 1000) - start_time_in_seconds;
+
+                var progress = ( time_passed / 1620 ) * 100;
+
+                if(progress > 100){ progress = 100; }
+            }
+            else{ progress = 0; }
             return progress.toFixed(0);
         },
         timeSinceInHuman(start_time_in_seconds)
@@ -639,12 +646,15 @@ export default
                     var reportType = result[0].ReportType;
                     var ignitionKey = result[0].IgnitionKey;
 
-//                    console.log('ReportType: '+reportType);
-//                    console.log('IgnitionKey: '+ignitionKey);
-
-                    var vehicle_is_started = reportType == 2 && (ignitionKey == 0 || ignitionKey == 1);
-                    var vehicle_is_stopped = reportType == 2 && ignitionKey == 2;
-                    var vehicle_is_running = reportType == 0 && ignitionKey == 2;
+//                    0 = Data under kørsel
+//                    10 = Tænding fra
+//                    11 = Tænding til
+//                    var vehicle_is_started = reportType == 2 && (ignitionKey == 0 || ignitionKey == 1);
+//                    var vehicle_is_stopped = reportType == 2 && ignitionKey == 2;
+//                    var vehicle_is_running = reportType == 0 && ignitionKey == 2;
+                    var vehicle_is_started = reportType == 11;
+                    var vehicle_is_stopped = reportType == 10;
+                    var vehicle_is_running = reportType == 0;
 
 //                    console.log('Started: '+vehicle_is_started);
 //                    console.log('Stopped: '+vehicle_is_stopped);
@@ -834,6 +844,7 @@ export default
             driver.heat_stats.fuel_used = data.fuel_used;
             driver.heat_stats.accelerator = data.accelerator;
             driver.heat_stats.rpm = data.rpm;
+            driver.heat_stats.distance = data.distance.toFixed(1);
 
             var time_passed = (Date.now() / 1000) - driver.heat_stats.start_time;
 

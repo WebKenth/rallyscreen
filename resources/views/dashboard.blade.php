@@ -75,46 +75,61 @@
 
                             {{--<ul class="list-group">--}}
                             @foreach($heat->drivers as $driver)
-                                {{--<li class="list-group-item">--}}
+                                {{--<li class="list-group-item"--}}
+                                    {{--data-heat_id="{{ $heat->id }}"--}}
+                                    {{--data-driver_id="{{ $driver->id }}"--}}
+                                    {{--data-vehicle_id="{{ $driver->getHeatVehicleId($heat->id) }}"--}}
+                                {{-->--}}
                                     {{--<div class="row">--}}
                                         {{--<div class="col-md-4">--}}
-                                            {{--{{ $driver->first_name }} | {{ $driver->getHeatVehicle($heat->id)->name }} | {{ $driver->getHeatVehicle($heat->id)->type }}--}}
+                                            {{--{{ $driver->first_name }} {{ $driver->middle_name }} {{ $driver->last_name }} | {{ $driver->getHeatVehicle($heat->id)->name }} | {{ $driver->getHeatVehicle($heat->id)->type }}--}}
                                         {{--</div>--}}
                                         {{--<div class="col-md-6">--}}
-                                            {{--<button class="btn btn-default">#1</button>--}}
-                                            {{--<button class="btn btn-default">#2</button>--}}
-                                            {{--<button class="btn btn-default">#3</button>--}}
-                                            {{--<button class="btn btn-default">#4</button>--}}
-                                            {{--<button class="btn btn-default">#5</button>--}}
-                                            {{--<button class="btn btn-default">#6</button>--}}
+                                            {{--<div class="row">--}}
+                                                {{--<div class="col-md-12">--}}
+                                                    {{--<p>Placering til højre</p>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                            {{--<div class="row">--}}
+                                                {{--<div class="col-md-6">--}}
+                                                    {{--<a class="btn btn-default">Truck #1</a>--}}
+                                                    {{--<a class="btn btn-default">Truck #2</a>--}}
+                                                    {{--<a class="btn btn-default">Truck #3</a>--}}
+                                                {{--</div>--}}
+                                                {{--<div class="col-md-6">--}}
+                                                    {{--<a class="btn btn-default">Van #4</a>--}}
+                                                    {{--<a class="btn btn-default">Van #5</a>--}}
+                                                    {{--<a class="btn btn-default">Van #6</a>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
                                         {{--</div>--}}
                                         {{--<div class="col-md-2">--}}
-                                            {{--<button class="btn btn-default">Tillad Start</button>--}}
-                                            {{--<button class="btn btn-default">Stop Timer</button>--}}
+                                            {{--<a class="btn btn-default">Tillad Start</a>--}}
+                                            {{--<a class="btn btn-default">Stop Timer</a>--}}
                                         {{--</div>--}}
                                     {{--</div>--}}
                                 {{--</li>--}}
                                 <div class="col-md-3" style="margin-bottom: 20px">
-                                <!-- Single button -->
-                                <div class="btn-group">
-                                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{ $driver->first_name }} | {{ $driver->getHeatVehicle($heat->id)->name }} <span class="caret"></span>
-                                  </button>
-                                  <ul class="dropdown-menu"
-                                      data-heat_id="{{ $heat->id }}"
-                                      data-driver_id="{{ $driver->id }}"
-                                      data-vehicle_id="{{ $driver->getHeatVehicleId($heat->id) }}"
-                                  >
-                                    <li><a href="#" class="driver_start_race" data-order="4">Vis Livescore på #1</a></li>
-                                    <li><a href="#" class="driver_start_race" data-order="5">Vis Livescore på #2</a></li>
-                                    <li><a href="#" class="driver_start_race" data-order="6">Vis Livescore på #3</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="#" class="driver_start_race" data-order="1">Vis Livescore på #4</a></li>
-                                    <li><a href="#" class="driver_start_race" data-order="2">Vis Livescore på #5</a></li>
-                                    <li><a href="#" class="driver_start_race" data-order="3">Vis Livescore på #6</a></li>
-                                  </ul>
+                                    <!-- Single button -->
+                                    <div class="btn-group">
+                                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{ $driver->first_name }}<span class="caret"></span>
+                                      </button>
+                                      <ul class="dropdown-menu"
+                                          data-heat_id="{{ $heat->id }}"
+                                          data-driver_id="{{ $driver->id }}"
+                                          data-vehicle_id="{{ $driver->getHeatVehicleId($heat->id) }}"
+                                      >
+                                        <li><a href="#" class="driver_start_race" data-order="4">Vis Livescore på #1</a></li>
+                                        <li><a href="#" class="driver_start_race" data-order="5">Vis Livescore på #2</a></li>
+                                        <li><a href="#" class="driver_start_race" data-order="6">Vis Livescore på #3</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="#" class="driver_start_race" data-order="1">Vis Livescore på #4</a></li>
+                                        <li><a href="#" class="driver_start_race" data-order="2">Vis Livescore på #5</a></li>
+                                        <li><a href="#" class="driver_start_race" data-order="3">Vis Livescore på #6</a></li>
+                                      </ul>
+                                    </div>
                                 </div>
-                            </div>
                             @endforeach
                             {{--</ul>--}}
                         </div>
