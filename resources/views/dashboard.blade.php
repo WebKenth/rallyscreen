@@ -75,6 +75,7 @@
 
                             <ul class="list-group list-container">
                             @foreach($heat->drivers as $driver)
+                            @if($driver->getHeatVehicle($heat->id))
                                 <li class="list-group-item"
                                     data-heat_id="{{ $heat->id }}"
                                     data-driver_id="{{ $driver->id }}"
@@ -84,7 +85,7 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <p>{{ $driver->first_name }} {{ $driver->middle_name }} {{ $driver->last_name }}</p>
-                                            <p>{{ $driver->getHeatVehicle($heat->id)->type }}, {{ $driver->getHeatVehicle($heat->id)->name }}</p>
+                                                <p>{{ $driver->getHeatVehicle($heat->id)->type }}, {{ $driver->getHeatVehicle($heat->id)->name }}</p>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="row">
@@ -112,27 +113,7 @@
                                         </div>
                                     </div>
                                 </li>
-                                {{--<div class="col-md-3" style="margin-bottom: 20px">--}}
-                                    {{--<!-- Single button -->--}}
-                                    {{--<div class="btn-group">--}}
-                                      {{--<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
-                                        {{--{{ $driver->first_name }}<span class="caret"></span>--}}
-                                      {{--</button>--}}
-                                      {{--<ul class="dropdown-menu"--}}
-                                          {{--data-heat_id="{{ $heat->id }}"--}}
-                                          {{--data-driver_id="{{ $driver->id }}"--}}
-                                          {{--data-vehicle_id="{{ $driver->getHeatVehicleId($heat->id) }}"--}}
-                                      {{-->--}}
-                                        {{--<li><a href="#" class="driver_start_race" data-order="4">Vis Livescore på #1</a></li>--}}
-                                        {{--<li><a href="#" class="driver_start_race" data-order="5">Vis Livescore på #2</a></li>--}}
-                                        {{--<li><a href="#" class="driver_start_race" data-order="6">Vis Livescore på #3</a></li>--}}
-                                        {{--<li role="separator" class="divider"></li>--}}
-                                        {{--<li><a href="#" class="driver_start_race" data-order="1">Vis Livescore på #4</a></li>--}}
-                                        {{--<li><a href="#" class="driver_start_race" data-order="2">Vis Livescore på #5</a></li>--}}
-                                        {{--<li><a href="#" class="driver_start_race" data-order="3">Vis Livescore på #6</a></li>--}}
-                                      {{--</ul>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
+                            @endif
                             @endforeach
                             </ul>
                         </div>
@@ -209,8 +190,8 @@
         // Websocket - Direct Link to Live Score Sites and Map
         // 'http://rallyscreen.app:3000'
         // 'http://139.59.177.94:3000'
-        var socket = io('http://rallyscreen.app:3000');
-//        var socket = io('http://139.59.177.94:3000');
+//        var socket = io('http://rallyscreen.app:3000');
+        var socket = io('http://139.59.177.94:3000');
 
         // Driver - Vehicle Relationship Modal
         $('.driver_vehicle_relationship').on('click',function(){
@@ -235,6 +216,7 @@
         });
 
         $('.setOnLivescore').on('click',function(){
+            $(this).addClass('btn-success');
             var data = $(this).closest('li').data();
             data.order = $(this).data('order');
             $(this).closest('li').data('order', data.order);
@@ -310,3 +292,27 @@
         });
     </script>
 @endsection
+
+
+
+{{--<div class="col-md-3" style="margin-bottom: 20px">--}}
+    {{--<!-- Single button -->--}}
+    {{--<div class="btn-group">--}}
+      {{--<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
+        {{--{{ $driver->first_name }}<span class="caret"></span>--}}
+      {{--</button>--}}
+      {{--<ul class="dropdown-menu"--}}
+          {{--data-heat_id="{{ $heat->id }}"--}}
+          {{--data-driver_id="{{ $driver->id }}"--}}
+          {{--data-vehicle_id="{{ $driver->getHeatVehicleId($heat->id) }}"--}}
+      {{-->--}}
+        {{--<li><a href="#" class="driver_start_race" data-order="4">Vis Livescore på #1</a></li>--}}
+        {{--<li><a href="#" class="driver_start_race" data-order="5">Vis Livescore på #2</a></li>--}}
+        {{--<li><a href="#" class="driver_start_race" data-order="6">Vis Livescore på #3</a></li>--}}
+        {{--<li role="separator" class="divider"></li>--}}
+        {{--<li><a href="#" class="driver_start_race" data-order="1">Vis Livescore på #4</a></li>--}}
+        {{--<li><a href="#" class="driver_start_race" data-order="2">Vis Livescore på #5</a></li>--}}
+        {{--<li><a href="#" class="driver_start_race" data-order="3">Vis Livescore på #6</a></li>--}}
+      {{--</ul>--}}
+    {{--</div>--}}
+{{--</div>--}}

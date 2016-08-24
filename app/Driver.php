@@ -44,7 +44,7 @@ class Driver extends Model
         {
             return $vehicle;
         }
-        return "Mangler Bil Forhold";
+        return false;
     }
 
     public function hasVehicleInHeat($heat_id,$driver_id,$vehicle_id)
