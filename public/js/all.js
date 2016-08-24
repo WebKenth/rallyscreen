@@ -13118,7 +13118,7 @@ exports.default = {
             driver.heat_stats.fuel_used = data.fuel_used;
             driver.heat_stats.accelerator = data.accelerator;
             driver.heat_stats.rpm = data.rpm;
-            driver.heat_stats.distance = data.distance.toFixed(1);
+            driver.heat_stats.distance = parseFloat(data.distance).toFixed(1);
 
             var time_passed = Date.now() / 1000 - driver.heat_stats.start_time;
 
