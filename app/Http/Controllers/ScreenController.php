@@ -107,15 +107,15 @@ class ScreenController extends Controller
 
         if($heat->van_1)
         {
-            $heat->van_1 = HeatStat::find($heat->van_1)->first();
+            $heat->van_1 = HeatStat::find($heat->van_1)->fresh();
         }
         if($heat->van_2)
         {
-            $heat->van_2 = HeatStat::find($heat->van_2)->first();
+            $heat->van_2 = HeatStat::find($heat->van_2)->fresh();
         }
         if($heat->van_3)
         {
-            $heat->van_3 = HeatStat::find($heat->van_3)->first();
+            $heat->van_3 = HeatStat::find($heat->van_3)->fresh();
         }
         if($heat->truck_1)
         {
