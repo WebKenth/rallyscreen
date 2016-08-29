@@ -55,6 +55,10 @@ Route::get('api/livescore/getLiveVehicle/{heat_id}/{driver_id}','ScreenControlle
 
 Route::post('api/livescore/getLiveVehicle','ScreenController@getLiveVehicle');
 
+Route::post('api/livescore/addDriver', 'ScreenController@addDriver');
+Route::post('api/livescore/switchHeatType', 'ScreenController@switchHeatType');
+Route::post('api/livescore/setActiveHeatStatsDriver', 'ScreenController@setActiveHeatStatsDriver');
+Route::post('api/livescore/bundleGetLiveVehicle', 'ScreenController@bundleGetLiveVehicle');
 
 Route::post('api/livescore/updateHeatStats','ScreenController@updateHeatStats');
 Route::post('api/livescore/updateStartTime','ScreenController@updateStartTime');

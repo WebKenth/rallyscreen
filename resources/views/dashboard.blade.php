@@ -25,6 +25,7 @@
                             <div class="col-md-1">
                                 <p></p>
                                 <a href="#" class="btn btn-default activate_heat" data-id="{{ $heat->id }}">Aktiver</a>
+                                <a href="#" class="btn btn-default switch_type" data-id="{{ $heat->id }}">Skift Type</a>
                             </div>
                             <div class="col-md-2">
                                 <p></p>
@@ -190,8 +191,8 @@
         // Websocket - Direct Link to Live Score Sites and Map
         // 'http://rallyscreen.app:3000'
         // 'http://139.59.177.94:3000'
-//        var socket = io('http://rallyscreen.app:3000');
-        var socket = io('http://139.59.177.94:3000');
+        var socket = io('http://rallyscreen.app:3000');
+//        var socket = io('http://139.59.177.94:3000');
 
         // Driver - Vehicle Relationship Modal
         $('.driver_vehicle_relationship').on('click',function(){
@@ -247,6 +248,20 @@
             $('.activate_heat').removeClass('btn-success');
             $(this).addClass('btn-success');
             var heat_id = $(this).data('id');
+            socket.emit('change_heat', heat_id);
+        });
+
+        $('.switch_type').on('click', function(e){
+            e.preventDefault();
+            var heat_id = $(this).data('id');
+            $.ajax({
+                type: "POST",
+                url: '/api/livescore/switchHeatType',
+                data: {
+                    _token : $('#csrf_token').val(),
+                    heat_id : $(this).data('id')
+                }
+            });
             socket.emit('change_heat', heat_id);
         });
 

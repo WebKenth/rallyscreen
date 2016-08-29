@@ -13,6 +13,7 @@ class CreateHeatVehicleTable extends Migration
     public function up()
     {
         Schema::create('heat_vehicle', function (Blueprint $table) {
+            $table->increments('id');
             $table->integer('heat_id')->unsigned();
             $table->integer('vehicle_id')->unsigned();
             

@@ -65,11 +65,11 @@ header {
 .live-vans { padding-bottom: 20px; }
 
 .section-grid {
-	position: absolute;
-	top: 60px;
-	right: 135px;
-	bottom: 60px;
-	left: 110px;
+    position: absolute;
+    top: 60px;
+    right: 110px;
+    bottom: 60px;
+    left: 90px;
 }
 
 .section-grid[data-step="2"], .section-grid[data-step="4"] {
@@ -132,11 +132,11 @@ header {
 	width: calc(100% - 30px);
 	opacity: 0;
 	visibility: hidden;
-	-moz-transform: translateX(200px);
-	-webkit-transform: translateX(200px);
-	-o-transform: translateX(200px);
-	-ms-transform: translateX(200px);
-	transform: translateX(200px);
+	-moz-transform: translateX(50px);
+	-webkit-transform: translateX(50px);
+	-o-transform: translateX(50px);
+	-ms-transform: translateX(50px);
+	transform: translateX(50px);
 }
 
 .step.slidein {
@@ -147,26 +147,26 @@ header {
 	-o-transform: translateX(0);
 	-ms-transform: translateX(0);
 	transform: translateX(0);
-	-webkit-transition: all .75s ease;
-	-moz-transition: all .75s ease;
-	-ms-transition: all .75s ease;
-	-o-transition: all .75s ease;
-	transition: all .75s ease;
+	-webkit-transition: all .5s ease;
+	-moz-transition: all .5s ease;
+	-ms-transition: all .5s ease;
+	-o-transition: all .5s ease;
+	transition: all .5s ease;
 }
 
 .step.slideout {
 	opacity: 0;
 	visibility: hidden;
-	-moz-transform: translateX(-200px);
-	-webkit-transform: translateX(-200px);
-	-o-transform: translateX(-200px);
-	-ms-transform: translateX(-200px);
-	transform: translateX(-200px);
-	-webkit-transition: all .75s ease;
-	-moz-transition: all .75s ease;
-	-ms-transition: all .75s ease;
-	-o-transition: all .75s ease;
-	transition: all .75s ease;
+	-moz-transform: translateX(-50px);
+	-webkit-transform: translateX(-50px);
+	-o-transform: translateX(-50px);
+	-ms-transform: translateX(-50px);
+	transform: translateX(-50px);
+	-webkit-transition: all .5s ease;
+	-moz-transition: all .5s ease;
+	-ms-transition: all .5s ease;
+	-o-transition: all .5s ease;
+	transition: all .5s ease;
 }
 
 [data-step="1"] {
