@@ -105,30 +105,29 @@ class ScreenController extends Controller
             }
         }
 
-        dd($heat);
         if($heat->van_1)
         {
-            $heat->van_1 = HeatStat::find($heat->van_1)->fresh();
+            $heat->van_1 = HeatStat::find($heat->van_1)->get();
         }
         if($heat->van_2)
         {
-            $heat->van_2 = HeatStat::find($heat->van_2)->fresh();
+            $heat->van_2 = HeatStat::find($heat->van_2)->get();
         }
         if($heat->van_3)
         {
-            $heat->van_3 = HeatStat::find($heat->van_3)->fresh();
+            $heat->van_3 = HeatStat::find($heat->van_3)->get();
         }
         if($heat->truck_1)
         {
-            $heat->truck_1 = HeatStat::find($heat->truck_1)->fresh();
+            $heat->truck_1 = HeatStat::find($heat->truck_1)->get();
         }
         if($heat->truck_2)
         {
-            $heat->truck_2 = HeatStat::find($heat->truck_2)->fresh();
+            $heat->truck_2 = HeatStat::find($heat->truck_2)->get();
         }
         if($heat->truck_3)
         {
-            $heat->truck_3 = HeatStat::find($heat->truck_3)->fresh();
+            $heat->truck_3 = HeatStat::find($heat->truck_3)->get();
         }
 
         $data = new \stdClass();
