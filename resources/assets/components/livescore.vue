@@ -13,18 +13,18 @@
             </div>
         </div>
     </header>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <button @click="changeStep" class="btn btn-default">Switch</button>
-                <button @click="test_started = !test_started" class="btn btn-success">Start | {{test_started}}</button>
-                <button @click="test_running = !test_running" class="btn btn-info">Running | {{test_running}}</button>
-                <button @click="test_stopped = !test_stopped" class="btn btn-danger">Stop | {{test_stopped}}</button>
-                <button @click="this.changeOrder(1)" class="btn btn-default">Sort Vans</button>
-                <button @click="this.changeOrder(4)" class="btn btn-default">Sort Trucks</button>
-            </div>
-        </div>
-    </div>
+    <!--<div class="container">-->
+        <!--<div class="row">-->
+            <!--<div class="col-md-12">-->
+                <!--<button @click="changeStep" class="btn btn-default">Switch</button>-->
+                <!--<button @click="test_started = !test_started" class="btn btn-success">Start | {{test_started}}</button>-->
+                <!--<button @click="test_running = !test_running" class="btn btn-info">Running | {{test_running}}</button>-->
+                <!--<button @click="test_stopped = !test_stopped" class="btn btn-danger">Stop | {{test_stopped}}</button>-->
+                <!--<button @click="this.changeOrder(1)" class="btn btn-default">Sort Vans</button>-->
+                <!--<button @click="this.changeOrder(4)" class="btn btn-default">Sort Trucks</button>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
     <section class="player-score">
         <div class="section-grid" data-step="1">
             <div class="point"></div>
@@ -463,8 +463,8 @@
 <script>
     // 'http://rallyscreen.app:3000'
     // 'http://139.59.177.94:3000'
-      var socket = io('http://rallyscreen.app:3000');
-//    var socket = io('http://139.59.177.94:3000');
+//      var socket = io('http://rallyscreen.app:3000');
+    var socket = io('http://139.59.177.94:3000');
     var test_timer;
 
 export default
@@ -1257,7 +1257,7 @@ export default
         child = 1;
         currentStep = 1;
 
-//        var stepChanger = setInterval(this.changeStep, 10000); // 10 seconds switch left hand side
+        var stepChanger = setInterval(this.changeStep, 10000); // 10 seconds switch left hand side
 
         var acc = {
             lines: 12, // The number of lines to draw

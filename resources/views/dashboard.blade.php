@@ -191,8 +191,8 @@
         // Websocket - Direct Link to Live Score Sites and Map
         // 'http://rallyscreen.app:3000'
         // 'http://139.59.177.94:3000'
-        var socket = io('http://rallyscreen.app:3000');
-//        var socket = io('http://139.59.177.94:3000');
+//        var socket = io('http://rallyscreen.app:3000');
+        var socket = io('http://139.59.177.94:3000');
 
         // Driver - Vehicle Relationship Modal
         $('.driver_vehicle_relationship').on('click',function(){
