@@ -51,6 +51,7 @@ header {
 	height: 100%;
 	color: #fff;
 	background-color: #555;
+	overflow: hidden;
 }
 
 .live-trucks, .live-vans {
