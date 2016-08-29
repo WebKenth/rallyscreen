@@ -193,6 +193,7 @@ class ScreenController extends Controller
     public function addDriver(Request $request)
     {
         $heat = Heat::find($request->heat_id)->first();
+        dd($heat);
         $heat_stat = DB::table('heat_stats')
                 ->select('*')
                 ->where('heat_id',$request->heat_id)
