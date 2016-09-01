@@ -109,8 +109,8 @@
                                         </div>
                                         <div class="col-md-3">
                                             <p>Control</p>
-                                            <a class="btn btn-default livescoreStartTimer" disabled="true">Tillad Start</a>
-                                            <a class="btn btn-default livescoreStopTimer" disabled="true">Stop Timer</a>
+                                            <a class="btn btn-default livescoreStartTimer" >Tillad Start</a>
+                                            <a class="btn btn-default livescoreStopTimer" >Stop Timer</a>
                                         </div>
                                     </div>
                                 </li>
@@ -218,26 +218,50 @@
         });
 
         $('.setOnLivescore').on('click',function(){
-            $(this).addClass('btn-success');
             var data = $(this).closest('li').data();
             data.order = $(this).data('order');
             $(this).closest('li').data('order', data.order);
-            $(this).closest('li').find('.livescoreStartTimer').removeAttr('disabled');
 
             socket.emit('setOnLivescore', data);
         });
 
         $('.livescoreStartTimer').on('click',function(){
             var data = $(this).closest('li').data();
-            $(this).closest('li').find('.livescoreStartTimer').attr('disabled',true);
-            $(this).closest('li').find('.livescoreStopTimer').removeAttr('disabled');
-            socket.emit('startTimerOnLivescore', data);
+            data.active = 1;
+            data._token = $('#csrf_token').val();
+            $.ajax({
+                type: "POST",
+                url: '/api/livescore/getLivescoreOrder',
+                data: data,
+                success: function (response){
+                    if(parseInt(response))
+                    {
+                        data.order = response;
+                        socket.emit('startTimerOnLivescore', data);
+                    }else{
+                        $(this).addClass('btn-danger');
+                    }
+                }
+            });
         });
         $('.livescoreStopTimer').on('click',function(){
             var data = $(this).closest('li').data();
-            $(this).closest('li').find('.livescoreStopTimer').attr('disabled',true);
-            $(this).closest('li').find('.livescoreStartTimer').removeAttr('disabled');
-            socket.emit('stopTimerOnLivescore', data);
+            data.active = 0;
+            data._token = $('#csrf_token').val();
+            $.ajax({
+                type: "POST",
+                url: '/api/livescore/getLivescoreOrder',
+                data: data,
+                success: function (response){
+                    if(parseInt(response))
+                    {
+                        data.order = response;
+                        socket.emit('stopTimerOnLivescore', data);
+                    }else{
+                        $(this).addClass('btn-danger');
+                    }
+                }
+            });
         });
 
         $('#connectedButton').on('click',function(){
@@ -246,9 +270,15 @@
         });
         $('.activate_heat').on('click',function(e){
             e.preventDefault();
-            $('.activate_heat').removeClass('btn-success');
-            $(this).addClass('btn-success');
             var heat_id = $(this).data('id');
+            $.ajax({
+                type: "POST",
+                url: '/api/livescore/setActiveHeat',
+                data: {
+                    _token : $('#csrf_token').val(),
+                    heat_id : heat_id
+                }
+            });
             socket.emit('change_heat', heat_id);
         });
 

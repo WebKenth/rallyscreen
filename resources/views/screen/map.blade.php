@@ -142,7 +142,7 @@
     ]
             };
             map = new google.maps.Map(mapDiv, myOptions);
-            var truck_img = {
+            truck_img = {
                 url: 'images/truck.png',
                 // This marker is 20 pixels wide by 32 pixels high.
                 size: new google.maps.Size(128, 64),
@@ -152,7 +152,7 @@
                 anchor: new google.maps.Point(64, 64)
 //                scaledSize: new google.maps.Size(100,100)
             };
-            var van_img = {
+            van_img = {
                 url: 'images/van.png',
                 // This marker is 20 pixels wide by 32 pixels high.
                 size: new google.maps.Size(128, 64),
@@ -215,6 +215,8 @@
                 icon: truck_img,
                 map: map
             });
+
+
             markers = [
                 truck_1,
                 truck_2,

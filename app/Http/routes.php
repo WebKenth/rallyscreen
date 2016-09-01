@@ -16,14 +16,19 @@
 // 	- Driver -- Resource
 // 	- Vehicle -- Resource
 
+
+
 Route::auth();
-Route::get('map', 'ScreenController@map');
-Route::get('stats/{id?}', 'ScreenController@stats');
+
+Route::group(['middleware' => 'auth'], function (){
+    Route::get('/', 'ScreenController@dashboard');
+    Route::get('map', 'ScreenController@map');
+    Route::get('stats/{id?}', 'ScreenController@stats');
+});
 
 Route::resource('diims', 'DiimsController');
 Route::get('diims/delete/{id}', 'DiimsController@destroy');
 
-Route::get('/', 'ScreenController@dashboard');
 Route::resource('driver', 'DriverController');
 Route::post('/driver/{id}/update_relationship','DriverController@update_relationship');
 Route::post('/driver/{id}/change_name','DriverController@change_name');
@@ -48,7 +53,7 @@ Route::get('/drivers/relationships/add','HeatController@relationshipCreate');
 
 //livescore
 
-Route::get('api/livescore/{heat_id}','ScreenController@getHeatData');
+Route::post('api/livescore/','ScreenController@getHeatData');
 
 Route::get('api/heat_stats/driver_update/{heat_id}/{driver_id}/{vehicle_id}', 'ScreenController@updateDriverHeatData');
 Route::get('api/livescore/getLiveVehicle/{heat_id}/{driver_id}','ScreenController@getActiveDrivers');
@@ -56,6 +61,8 @@ Route::get('api/livescore/getLiveVehicle/{heat_id}/{driver_id}','ScreenControlle
 Route::post('api/livescore/getLiveVehicle','ScreenController@getLiveVehicle');
 
 Route::post('api/livescore/addDriver', 'ScreenController@addDriver');
+Route::post('api/livescore/setActiveHeat', 'ScreenController@setActiveHeat');
+Route::post('api/livescore/getLivescoreOrder', 'ScreenController@getLivescoreOrder');
 Route::post('api/livescore/switchHeatType', 'ScreenController@switchHeatType');
 Route::post('api/livescore/setActiveHeatStatsDriver', 'ScreenController@setActiveHeatStatsDriver');
 Route::post('api/livescore/bundleGetLiveVehicle', 'ScreenController@bundleGetLiveVehicle');

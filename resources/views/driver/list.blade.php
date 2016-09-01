@@ -9,7 +9,14 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <h1>Driver's Vehicles</h1>
+        <img src="/images/dansk.png" alt="">
+        <img src="/images/svensk.png" alt="">
+        <img src="/images/norsk.png" alt="">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h1>Driver's</h1>
         @include('driver.vehicle')
     </div>
 </div>

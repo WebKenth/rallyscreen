@@ -52,9 +52,22 @@ class ScreenController extends Controller
         return view('screen.stats', compact('heat','drivers','vehicles'));
     }
 
-    public function getHeatData($heat_id)
+    public function getHeatData(Request $request)
     {
-        $heat = Heat::find($heat_id);
+        if($request->heat_id)
+        {
+            $heat = Heat::find($request->heat_id);
+        }else
+        {
+            $heat = Heat::where('active', 1)->get();
+            if($heat->first())
+            {
+                $heat = $heat->first();
+            }else{
+                $heat = Heat::first();
+            }
+        }
+
 
         $trucks = $heat->vehicles()->where('type','truck')->get();
         $vans = $heat->vehicles()->where('type','van')->get();
@@ -76,7 +89,7 @@ class ScreenController extends Controller
         {
             $sql_rows = DB::table('heat_stats')
                 ->select('*')
-                ->where('heat_id',$heat_id)
+                ->where('heat_id', $heat->id)
                 ->where('driver_id',$driver->id)
                 ->get();
             foreach ($sql_rows as $row)
@@ -85,7 +98,7 @@ class ScreenController extends Controller
             }
             $sql = DB::table('driver_heat')
                 ->select('vehicle_id')
-                ->where('heat_id',$heat_id)
+                ->where('heat_id', $heat->id)
                 ->where('driver_id',$driver->id)
                 ->get();
             $vehicle_id = $sql[0]->vehicle_id;
@@ -177,22 +190,29 @@ class ScreenController extends Controller
     
     public function updateStartTime(Request $request)
     {
-        $sql = DB::statement("UPDATE heat_stats SET start_time = ".$request->start_time." WHERE heat_id = ".$request->heat_id." AND vehicle_id = ".$request->vehicle_id." AND driver_id = ".$request->driver_id);
+        $sql = DB::statement("UPDATE heat_stats SET start_time = ".$request->start_time.", stop_time = NULL WHERE heat_id = ".$request->heat_id." AND vehicle_id = ".$request->vehicle_id." AND driver_id = ".$request->driver_id);
     }
 
     public function updateStopTime(Request $request)
     {
-        $sql = DB::statement("UPDATE heat_stats SET stop_time = ".$request->stop_time." WHERE heat_id = ".$request->heat_id." AND vehicle_id = ".$request->vehicle_id." AND driver_id = ".$request->driver_id);
+        $heat_stat = HeatStat::where('heat_id', $request->driver_id)
+            ->where('driver_id', $request->driver_id)
+            ->where('vehicle_id', $request->vehicle_id)
+            ->first();
+
+        $heat_stat->stop_time = $request->stop_time;
+        $heat_stat->save();
     }
     
     public function resetHeatStats(Request $request)
     {
-        $sql = DB::statement("UPDATE heat_stats SET start_time = NULL, stop_time = NULL, m1_kml = NULL, m2_kml = NULL, m3_kml = NULL, m4_kml = NULL, m5_kml = NULL, fuel_used = NULL, distance = NULL, kml = NULL, rpm = NULL, accelerator = NULL WHERE heat_id = ".$request->heat_id);
+        $sql = DB::statement("UPDATE heat_stats SET start_time = NULL, time_lapsed = 0, stop_time = NULL, m1_kml = NULL, m2_kml = NULL, m3_kml = NULL, m4_kml = NULL, m5_kml = NULL, fuel_used = NULL, distance = NULL, kml = NULL, rpm = NULL, accelerator = NULL WHERE heat_id = ".$request->heat_id);
     }
 
     public function addDriver(Request $request)
     {
-        $heat = Heat::find($request->heat_id)->first();
+//        $heat = Heat::find($request->heat_id)->first();
+        $heat = Heat::where('id',$request->heat_id)->first();
         $heat_stat = DB::table('heat_stats')
                 ->select('*')
                 ->where('heat_id',$request->heat_id)
@@ -226,6 +246,56 @@ class ScreenController extends Controller
 
         return $heat_stat->id;
     }
+    
+    public function setActiveHeat(Request $request)
+    {
+        $heats = Heat::all();
+        foreach ($heats as $item)
+        {
+            if($item->id == $request->heat_id)
+            {
+                $item->active = 1;
+            }else{
+                $item->active = 0;
+            }
+            $item->save();
+        }
+    }
+    
+    public function getLivescoreOrder(Request $request)
+    {
+        $heat = Heat::find($request->heat_id);
+        $heat_stat = HeatStat::where('vehicle_id',$request->vehicle_id)
+                             ->where('driver_id', $request->driver_id)
+                             ->where('heat_id', $request->heat_id)
+                             ->first();
+        $order = null;
+
+        switch ($heat_stat->id){
+            case $heat->van_1:
+                $order = 1;
+                break;
+            case $heat->van_2:
+                $order = 2;
+                break;
+            case $heat->van_3:
+                $order = 3;
+                break;
+            case $heat->truck_1:
+                $order = 4;
+                break;
+            case $heat->truck_2:
+                $order = 5;
+                break;
+            case $heat->truck_3:
+                $order = 6;
+                break;
+            default:
+
+        }
+
+        return $order;
+    }
 
     public function switchHeatType(Request $request)
     {
@@ -243,8 +313,8 @@ class ScreenController extends Controller
                 ->where('vehicle_id',$request->vehicle_id)
                 ->first();
 
-        $value = $heat_stat->active ? 'false' : 'true';
-        $sql = DB::statement("UPDATE heat_stats SET active = ". $value ." WHERE heat_id = ".$request->heat_id." AND vehicle_id = ".$request->vehicle_id." AND driver_id = ".$request->driver_id);
+        $active = $request->active;
+        $sql = DB::statement("UPDATE heat_stats SET active = ". $active ." WHERE heat_id = ".$request->heat_id." AND vehicle_id = ".$request->vehicle_id." AND driver_id = ".$request->driver_id);
     }
 
     public function bundleGetLiveVehicle(Request $request)

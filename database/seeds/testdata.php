@@ -11,6 +11,12 @@ class testdata extends Seeder
      */
     public function run()
     {
+        $user = new \App\User();
+        $user->name = "Martin";
+        $user->email = "admin@webkenth.dk";
+        $user->password = bcrypt('password');
+        $user->save();
+
         // Heat
         $heat = new \App\Heat();
         $heat->number = '1';
@@ -32,13 +38,38 @@ class testdata extends Seeder
         $diims_3->number = "869606020000950";
         $diims_3->save();
 
+        $diims_4 = new \App\Diims();
+        $diims_4->name = "Diims 4";
+        $diims_4->number = "869606020050351";
+        $diims_4->save();
+
+        $diims_5 = new \App\Diims();
+        $diims_5->name = "Diims 5";
+        $diims_5->number = "869606020051326";
+        $diims_5->save();
+
+        $diims_6 = new \App\Diims();
+        $diims_6->name = "Diims 6";
+        $diims_6->number = "869606020052522";
+        $diims_6->save();
+
+        $diims_7 = new \App\Diims();
+        $diims_7->name = "Diims 7";
+        $diims_7->number = "869606020050153";
+        $diims_7->save();
+
+        $diims_8 = new \App\Diims();
+        $diims_8->name = "Diims 8";
+        $diims_8->number = "869606020051557";
+        $diims_8->save();
+
         // #1
         $driver = new \App\Driver();
 
         $driver->first_name = "Morten";
         $driver->middle_name = "Skøtt";
         $driver->last_name = "Gregersen";
-        $driver->image = "/images/Morten.png";
+        $driver->image = "/images/svensk.png";
         $driver->save();
 
         // #2
@@ -47,7 +78,7 @@ class testdata extends Seeder
         $driver->first_name = "Martin";
         $driver->middle_name = "Kenth";
         $driver->last_name = "Knudsen";
-        $driver->image = "/images/Martin.png";
+        $driver->image = "/images/dansk.png";
         $driver->save();
 
         // #3
@@ -56,7 +87,7 @@ class testdata extends Seeder
         $driver->first_name = "Kasper";
         $driver->middle_name = "";
         $driver->last_name = "Legarth";
-        $driver->image = "/images/KasperLegarth.png";
+        $driver->image = "/images/norsk.png";
         $driver->save();
 
         // #4
@@ -113,7 +144,7 @@ class testdata extends Seeder
         $vehicle->name = "Van #3";
         $vehicle->reg_nr = "KJ 54 234";
         $vehicle->type = "van";
-        $vehicle->diims_id = $diims_3->number;
+        $vehicle->diims_id = $diims_4->number;
         $vehicle->save();
 
         // Truck #1
@@ -140,7 +171,7 @@ class testdata extends Seeder
         $vehicle->name = "Truck #3";
         $vehicle->reg_nr = "LX 21 454";
         $vehicle->type = "truck";
-        $vehicle->diims_id = $diims_3->number;
+        $vehicle->diims_id = $diims_4->number;
         $vehicle->save();
 
 
