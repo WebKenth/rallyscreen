@@ -98,7 +98,6 @@
                                                 <div class="col-md-6">
                                                     <a class="btn btn-default setOnLivescore" data-order="4">Truck #1</a>
                                                     <a class="btn btn-default setOnLivescore" data-order="5">Truck #2</a>
-                                                    <a class="btn btn-default setOnLivescore" data-order="6">Truck #3</a>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <a class="btn btn-default setOnLivescore" data-order="1">Van #4</a>
