@@ -790,14 +790,14 @@ export default
         stopAllTimers()
         {
             var vm = this;
-            vm.stopDriverLoop(1);
-            vm.stopDriverLoop(2);
-            vm.stopDriverLoop(3);
-            vm.stopDriverLoop(4);
-            vm.stopDriverLoop(5);
+            for (var i = 1; i != 6; i++) {
+                clearInterval(vm.$get('timer_'+i+'.id'));
+                clearInterval(vm.$get('timer_'+i+'.live_counter'));
+            }
         },
         setActiveDrivers(data)
         {
+            console.log(data);
             var vm = this;
             data._token = vm.csrf_token;
             order = data.order;
@@ -821,7 +821,8 @@ export default
         startDriverLoop(data)
         {
             var driver = vm.getDriver(data.driver_id, data.order);
-            console.log('Starting: '+driver.first_name);
+            console.log(driver);
+//            console.log('Starting: '+driver.first_name);
             var vm = this;
             var diims_id;
             var timer = {};
@@ -842,7 +843,9 @@ export default
         {
             var vm = this;
             var driver = vm.getDriver(data.driver_id, data.order);
-            console.log('Stopping: '+driver.first_name);
+            console.log(data);
+            console.log(driver);
+//            console.log('Stopping: '+driver.first_name);
 
             clearInterval(vm.$get('timer_'+data.order+'.id'));
             clearInterval(vm.$get('timer_'+data.order+'.live_counter'));

@@ -25,7 +25,7 @@
                             <div class="col-md-1">
                                 <p></p>
                                 <a href="#" class="btn btn-default activate_heat" data-id="{{ $heat->id }}">Aktiver</a>
-                                <a href="#" class="btn btn-default switch_type" data-id="{{ $heat->id }}">Skift Type</a>
+                                {{--<a href="#" class="btn btn-default switch_type" data-id="{{ $heat->id }}">Skift Type</a>--}}
                             </div>
                             <div class="col-md-2">
                                 <p></p>
