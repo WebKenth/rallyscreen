@@ -12106,9 +12106,10 @@ exports.default = {
             driver.heat_stats.start_time = driver.heat_stats.start_time - 0.000001;
         },
         startDriverLoop: function startDriverLoop(data) {
+            console.log(data);
             var driver = vm.getDriver(data.driver_id, data.order);
             console.log(driver);
-            //            console.log('Starting: '+driver.first_name);
+            console.log('Starting: ' + driver.first_name);
             var vm = this;
             var diims_id;
             var timer = {};
