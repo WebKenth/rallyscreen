@@ -868,6 +868,7 @@ export default
         },
         getDriver(id)
         {
+            console.log(id);
             var vm = this;
             for (var i = 0; i < vm.van_drivers.length; i++) {
                 if(vm.van_drivers[i].id == id)
