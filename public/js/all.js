@@ -12107,7 +12107,7 @@ exports.default = {
         },
         startDriverLoop: function startDriverLoop(data) {
             console.log(data);
-            var driver = vm.getDriver(data.driver_id, data.order);
+            var driver = vm.getDriver(data.driver_id);
             console.log(driver);
             console.log('Starting: ' + driver.first_name);
             var vm = this;
@@ -12140,7 +12140,7 @@ exports.default = {
         },
         stopDriverLoop: function stopDriverLoop(data) {
             var vm = this;
-            var driver = vm.getDriver(data.driver_id, data.order);
+            var driver = vm.getDriver(data.driver_id);
             console.log(data);
             console.log(driver);
             //            console.log('Stopping: '+driver.first_name);
@@ -12162,26 +12162,22 @@ exports.default = {
                 //                    console.log('Updating Stop Time');
             });
         },
-        getDriver: function getDriver(id, order) {
+        getDriver: function getDriver(id) {
             var vm = this;
-            if (order == 1 || order == 2 || order == 3) {
-                for (var i = 0; i < vm.van_drivers.length; i++) {
-                    if (vm.van_drivers[i].id == id) {
-                        return vm.$get('van_drivers[' + i + ']');
-                    }
+            for (var i = 0; i < vm.van_drivers.length; i++) {
+                if (vm.van_drivers[i].id == id) {
+                    return vm.$get('van_drivers[' + i + ']');
                 }
             }
-            if (order == 4 || order == 5) {
-                for (var i = 0; i < vm.truck_drivers.length; i++) {
-                    if (vm.truck_drivers[i].id == id) {
-                        return vm.$get('truck_drivers[' + i + ']');
-                    }
+            for (var i = 0; i < vm.truck_drivers.length; i++) {
+                if (vm.truck_drivers[i].id == id) {
+                    return vm.$get('truck_drivers[' + i + ']');
                 }
             }
         },
         getDiimsData: function getDiimsData(diims_id, order, data) {
             var vm = this;
-            var driver = vm.getDriver(data.driver_id, order);
+            var driver = vm.getDriver(data.driver_id);
             var vehicle_id = data.vehicle_id;
             $.ajax({
                 type: "POST",
@@ -12355,7 +12351,7 @@ exports.default = {
                 data.kml = 0.00;
             }
 
-            var driver = vm.getDriver(data.driver_id, order);
+            var driver = vm.getDriver(data.driver_id);
             driver.heat_stats.kml = data.kml;
             driver.heat_stats.distance = data.distance;
             driver.heat_stats.fuel_used = data.fuel_used;
