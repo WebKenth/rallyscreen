@@ -199,7 +199,7 @@ class ScreenController extends Controller
             ->where('driver_id', $request->driver_id)
             ->where('vehicle_id', $request->vehicle_id)
             ->first();
-
+        dd($heat_stat);
         $heat_stat->stop_time = $request->stop_time;
         $heat_stat->save();
     }
