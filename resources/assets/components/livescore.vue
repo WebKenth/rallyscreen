@@ -820,11 +820,11 @@ export default
         },
         startDriverLoop(data)
         {
+            var vm = this;
             console.log(data);
             var driver = vm.getDriver(data.driver_id);
             console.log(driver);
             console.log('Starting: '+driver.first_name);
-            var vm = this;
             var diims_id;
             var timer = {};
             data._token = vm.csrf_token;
