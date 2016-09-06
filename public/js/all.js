@@ -12107,10 +12107,7 @@ exports.default = {
         },
         startDriverLoop: function startDriverLoop(data) {
             var vm = this;
-            console.log(data);
-            var driver = vm.getDriver(data.driver_id);
-            console.log(driver);
-            console.log('Starting: ' + driver.first_name);
+            //            var driver = vm.getDriver(data.driver_id);
             var diims_id;
             var timer = {};
             data._token = vm.csrf_token;
@@ -12141,9 +12138,6 @@ exports.default = {
         stopDriverLoop: function stopDriverLoop(data) {
             var vm = this;
             var driver = vm.getDriver(data.driver_id);
-            console.log(data);
-            console.log(driver);
-            //            console.log('Stopping: '+driver.first_name);
 
             clearInterval(vm.$get('timer_' + data.order + '.id'));
             clearInterval(vm.$get('timer_' + data.order + '.live_counter'));
@@ -12163,7 +12157,6 @@ exports.default = {
             });
         },
         getDriver: function getDriver(id) {
-            console.log(id);
             var vm = this;
             for (var i = 0; i < vm.van_drivers.length; i++) {
                 if (vm.van_drivers[i].id == id) {
