@@ -195,11 +195,10 @@ class ScreenController extends Controller
 
     public function updateStopTime(Request $request)
     {
-        $heat_stat = HeatStat::where('heat_id', $request->driver_id)
+        $heat_stat = HeatStat::where('heat_id', $request->heat_id)
             ->where('driver_id', $request->driver_id)
             ->where('vehicle_id', $request->vehicle_id)
             ->first();
-        dd($heat_stat);
         $heat_stat->stop_time = $request->stop_time;
         $heat_stat->save();
     }
