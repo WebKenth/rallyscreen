@@ -41,38 +41,60 @@ class HeatController extends Controller
     {
         $heat = Heat::find($request->id);
         $heat->number = $request->number;
-        $heat->vehicles()->detach();
-        $heat_stats = HeatStat::all()->where('heat_id',$heat->id);
-        foreach ($heat_stats as $heat_stat)
+        $heat->save();
+
+        $heat_vehicle_ids = array();
+        foreach ($heat->vehicles()->get() as $vehicle)
         {
-            $heat_stat->delete();
+            $heat_vehicle_ids[] = $vehicle->id;
+        }
+        $heat_driver_ids = array();
+        foreach ($heat->drivers()->get() as $driver)
+        {
+            $heat_driver_ids[] = $driver->id;
         }
         if(count($request->vehicles) != 0)
         {
-            foreach ($request->vehicles as $key => $val)
+            foreach ($request->vehicles as $vehicle)
             {
-                $vehicle = Vehicle::find($val);
-                $heat->addVehicle($vehicle);
+                if(!in_array($vehicle,$heat_vehicle_ids))
+                {
+                    $heat_vehicle_ids[] = $vehicle;
+                    $vehicle_obj = Vehicle::find($vehicle);
+                    $heat->addVehicle($vehicle_obj);
+                }
+            }
+            $vehicles = array_diff($request->vehicles,$heat_vehicle_ids);
+            foreach ($vehicles as $vehicle)
+            {
+                $heat->vehicles()->detach($vehicle);
             }
         }
-        $heat->drivers()->detach();
+
         if(count($request->drivers) != 0)
         {
-            foreach ($request->drivers as $key => $val)
+            foreach ($request->drivers as $driver)
             {
-                $driver = Driver::find($val);
-                $heat->addDriver($driver);
+                if(!in_array($driver,$heat_driver_ids))
+                {
+                    $heat_driver_ids[] = $driver;
+                    $driver_obj = Driver::find($driver);
+                    $heat->addDriver($driver_obj);
+
+                    $heat_stat = new HeatStat();
+                    $heat_stat->heat_id = $heat->id;
+                    $heat_stat->driver_id = $driver_obj->id;
+                    $heat_stat->start_time;
+                    $heat_stat->save();
+                }
+            }
+            $drivers = array_diff($request->drivers,$heat_driver_ids);
+            foreach ($drivers as $driver)
+            {
+                $heat->drivers()->detach($driver);
             }
         }
-        $heat->save();
-        foreach ($heat->drivers as $driver)
-        {
-            $heat_stat = new HeatStat();
-            $heat_stat->heat_id = $heat->id;
-            $heat_stat->driver_id = $driver->id;
-            $heat_stat->start_time;
-            $heat_stat->save();
-        }
+
         return back();
     }
 

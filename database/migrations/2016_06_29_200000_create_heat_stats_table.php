@@ -23,11 +23,17 @@ class CreateHeatStatsTable extends Migration
             $table->string('distance')->nullable();
             $table->string('fuel_used')->nullable();
             $table->string('kml')->nullable();
+            $table->string('speed')->nullable();
             $table->string('m1_kml')->nullable();
             $table->string('m2_kml')->nullable();
             $table->string('m3_kml')->nullable();
             $table->string('m4_kml')->nullable();
             $table->string('m5_kml')->nullable();
+            $table->string('m1_fuel_used')->nullable();
+            $table->string('m2_fuel_used')->nullable();
+            $table->string('m3_fuel_used')->nullable();
+            $table->string('m4_fuel_used')->nullable();
+            $table->string('m5_fuel_used')->nullable();
             $table->string('rpm')->nullable();
             $table->string('accelerator')->nullable();
             $table->timestamps();

@@ -180,12 +180,12 @@ class ScreenController extends Controller
 
     public function updateMilestone(Request $request)
     {
-        $sql = DB::statement("UPDATE heat_stats SET m".$request->milestone."_kml = ".$request->kml." WHERE heat_id = ".$request->heat_id." AND vehicle_id = ".$request->vehicle_id." AND driver_id = ".$request->driver_id);
+        $sql = DB::statement("UPDATE heat_stats SET m".$request->milestone."_kml = ".$request->kml.", m".$request->milestone."_fuel_used = ".$request->fuel_used." WHERE heat_id = ".$request->heat_id." AND vehicle_id = ".$request->vehicle_id." AND driver_id = ".$request->driver_id);
     }
 
     public function updateHeatStats(Request $request)
     {
-        $sql = DB::statement("UPDATE heat_stats SET distance = ".$request->distance.", fuel_used = ".$request->fuel_used.", kml = ".$request->kml.", rpm = ".$request->rpm.", accelerator = ".$request->accelerator." WHERE heat_id = ".$request->heat_id." AND vehicle_id = ".$request->vehicle_id." AND driver_id = ".$request->driver_id);
+        $sql = DB::statement("UPDATE heat_stats SET speed = ".$request->speed.", distance = ".$request->distance.", fuel_used = ".$request->fuel_used.", kml = ".$request->kml.", rpm = ".$request->rpm.", accelerator = ".$request->accelerator." WHERE heat_id = ".$request->heat_id." AND vehicle_id = ".$request->vehicle_id." AND driver_id = ".$request->driver_id);
     }
     
     public function updateStartTime(Request $request)
@@ -199,13 +199,14 @@ class ScreenController extends Controller
             ->where('driver_id', $request->driver_id)
             ->where('vehicle_id', $request->vehicle_id)
             ->first();
+
         $heat_stat->stop_time = $request->stop_time;
         $heat_stat->save();
     }
     
     public function resetHeatStats(Request $request)
     {
-        $sql = DB::statement("UPDATE heat_stats SET start_time = NULL, time_lapsed = 0, stop_time = NULL, m1_kml = NULL, m2_kml = NULL, m3_kml = NULL, m4_kml = NULL, m5_kml = NULL, fuel_used = NULL, distance = NULL, kml = NULL, rpm = NULL, accelerator = NULL WHERE heat_id = ".$request->heat_id);
+        $sql = DB::statement("UPDATE heat_stats SET start_time = NULL, stop_time = NULL, m1_kml = NULL, m2_kml = NULL, m3_kml = NULL, m4_kml = NULL, m5_kml = NULL, m1_fuel_used = NULL, m2_fuel_used = NULL, m3_fuel_used = NULL, m4_fuel_used = NULL, m5_fuel_used = NULL, fuel_used = NULL, speed = NULL, distance = NULL, kml = NULL, rpm = NULL, accelerator = NULL WHERE heat_id = ".$request->heat_id);
     }
 
     public function addDriver(Request $request)

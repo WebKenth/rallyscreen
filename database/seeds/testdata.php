@@ -17,9 +17,16 @@ class testdata extends Seeder
         $user->password = bcrypt('password');
         $user->save();
 
+        $user = new \App\User();
+        $user->name = "Frank";
+        $user->email = "fs@commotive.com";
+        $user->password = bcrypt('password');
+        $user->save();
+
         // Heat
         $heat = new \App\Heat();
         $heat->number = '1';
+        $heat->active = 1;
         $heat->save();
 
         // Diimser

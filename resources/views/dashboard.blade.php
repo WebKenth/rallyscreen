@@ -16,7 +16,7 @@
                 <legend>Liste af Heats</legend>
                 <ul class="list-group">
                 @foreach($heats as $heat)
-                    <li class="list-group-item">
+                    <li class="list-group-item @if($heat->active == 0) heat-container @endif">
                     <form action="/heats" method="POST">
                     {{ method_field('PATCH') }}
                     {{ csrf_field() }}
@@ -172,7 +172,13 @@
             border-left: 3px solid #dddddd;
             border-right: 3px solid #dddddd;
         }
+        .heat-container{
+            height: 70px;
+            overflow: hidden;
+        }
     </style>
+
+    <p>Version : 0.9</p>
 @endsection
 
 @section('links')
@@ -191,7 +197,6 @@
         // 'http://rallyscreen.app:3000'
         // 'http://139.59.177.94:3000'
 //        var socket = io('http://rallyscreen.app:3000');
-
         var socket = io('http://139.59.177.94:3000');
 
         // Driver - Vehicle Relationship Modal
@@ -267,18 +272,39 @@
             socket.emit('is_livescore_online','1');
             socket.emit('is_map_online','1');
         });
+
         $('.activate_heat').on('click',function(e){
             e.preventDefault();
-            var heat_id = $(this).data('id');
-            $.ajax({
-                type: "POST",
-                url: '/api/livescore/setActiveHeat',
-                data: {
-                    _token : $('#csrf_token').val(),
-                    heat_id : heat_id
+
+            var confirm = window.confirm("Er du sikker?");
+            if (confirm == true)
+            {
+                var li = $(this).closest('li');
+                var ul = $(this).closest('ul');
+                var lis = ul.children();
+
+                lis.each(function(index){
+                    $(this).removeClass('heat-container');
+                    $(this).addClass('heat-container');
+                });
+
+                if(li.hasClass('heat-container'))
+                {
+                    li.removeClass('heat-container');
+                    var heat_id = $(this).data('id');
+                    $.ajax({
+                        type: "POST",
+                        url: '/api/livescore/setActiveHeat',
+                        data: {
+                            _token : $('#csrf_token').val(),
+                            heat_id : heat_id
+                        }
+                    });
+                    socket.emit('change_heat', heat_id);
+                }else{
+                    li.addClass('heat-container');
                 }
-            });
-            socket.emit('change_heat', heat_id);
+            }
         });
 
         $('.switch_type').on('click', function(e){

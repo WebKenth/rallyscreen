@@ -16,12 +16,14 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <!--<button @click="changeStep" class="btn btn-default">Switch</button>-->
-                <!--<button @click="test_started = !test_started" class="btn btn-success">Start | {{test_started}}</button>-->
-                <!--<button @click="test_running = !test_running" class="btn btn-info">Running | {{test_running}}</button>-->
-                <!--<button @click="test_stopped = !test_stopped" class="btn btn-danger">Stop | {{test_stopped}}</button>-->
-                <!--<button @click="this.changeOrder(1)" class="btn btn-default">Sort Vans</button>-->
-                <!--<button @click="this.changeOrder(4)" class="btn btn-default">Sort Trucks</button>-->
+                <div class="test-data-container">
+                    <button @click="changeStep" class="btn btn-default">Switch</button>
+                    <!--<button @click="test_started = !test_started" class="btn btn-success">Start | {{test_started}}</button>-->
+                    <!--<button @click="test_running = !test_running" class="btn btn-info">Running | {{test_running}}</button>-->
+                    <!--<button @click="test_stopped = !test_stopped" class="btn btn-danger">Stop | {{test_stopped}}</button>-->
+                    <!--<button @click="this.changeOrder(1)" class="btn btn-default">Sort Vans</button>-->
+                    <!--<button @click="this.changeOrder(4)" class="btn btn-default">Sort Trucks</button>-->
+                </div>
             </div>
         </div>
     </div>
@@ -51,11 +53,26 @@
                                     </div>
                                     <div class="right">
                                         <div class="sections">
-                                            <div class="section">{{ (truck_driver.heat_stats.m1_kml) ? truck_driver.heat_stats.m1_kml+' km/l' : '' }}</div>
-                                            <div class="section">{{ (truck_driver.heat_stats.m2_kml) ? truck_driver.heat_stats.m2_kml+' km/l' : '' }}</div>
-                                            <div class="section">{{ (truck_driver.heat_stats.m3_kml) ? truck_driver.heat_stats.m3_kml+' km/l' : '' }}</div>
-                                            <div class="section">{{ (truck_driver.heat_stats.m4_kml) ? truck_driver.heat_stats.m4_kml+' km/l' : '' }}</div>
-                                            <div class="section">{{ (truck_driver.heat_stats.m5_kml) ? truck_driver.heat_stats.m5_kml+' km/l' : '' }}</div>
+                                            <div class="section">
+                                                <p>{{ (truck_driver.heat_stats.m1_kml) ? truck_driver.heat_stats.m1_kml+' km/l' : '' }}</p>
+                                                <p>{{ (truck_driver.heat_stats.m1_fuel_used) ? truck_driver.heat_stats.m1_fuel_used+' L' : '' }}</p>
+                                            </div>
+                                            <div class="section">
+                                                <p>{{ (truck_driver.heat_stats.m2_kml) ? truck_driver.heat_stats.m2_kml+' km/l' : '' }}</p>
+                                                <p>{{ (truck_driver.heat_stats.m2_fuel_used) ? truck_driver.heat_stats.m2_fuel_used+' L' : '' }}</p>
+                                            </div>
+                                            <div class="section">
+                                                <p>{{ (truck_driver.heat_stats.m3_kml) ? truck_driver.heat_stats.m3_kml+' km/l' : '' }}</p>
+                                                <p>{{ (truck_driver.heat_stats.m3_fuel_used) ? truck_driver.heat_stats.m3_fuel_used+' L' : '' }}</p>
+                                            </div>
+                                            <div class="section">
+                                                <p>{{ (truck_driver.heat_stats.m4_kml) ? truck_driver.heat_stats.m4_kml+' km/l' : '' }}</p>
+                                                <p>{{ (truck_driver.heat_stats.m4_fuel_used) ? truck_driver.heat_stats.m4_fuel_used+' L' : '' }}</p>
+                                            </div>
+                                            <div class="section">
+                                                <p>{{ (truck_driver.heat_stats.m5_kml) ? truck_driver.heat_stats.m5_kml+' km/l' : '' }}</p>
+                                                <p>{{ (truck_driver.heat_stats.m5_fuel_used) ? truck_driver.heat_stats.m5_fuel_used+' L' : '' }}</p>
+                                            </div>
                                         </div>
                                         <div class="time">
                                             <span class="progress" data-progress="{{ this.progressSecondsToPercent(truck_driver) }}"></span>
@@ -63,7 +80,10 @@
                                         </div>
                                     </div>
                                     <div class="end">
-                                        <span class="total">{{ (truck_driver.heat_stats.kml) ? truck_driver.heat_stats.kml+' km/l' : 'Venter på Start' }}</span>
+                                        <span class="total">
+                                            {{ (truck_driver.heat_stats.kml) ? truck_driver.heat_stats.kml+' km/l' : 'Venter på Start' }}
+                                            {{ (truck_driver.heat_stats.fuel_used) ? truck_driver.heat_stats.fuel_used+' L' : ''}}
+                                        </span>
                                     </div>
                                 </li>
 
@@ -84,11 +104,26 @@
                                 </div>
                                 <div class="right">
                                     <div class="sections">
-                                            <div class="section">{{ (van_driver.heat_stats.m1_kml) ? van_driver.heat_stats.m1_kml+' km/l' : '' }}</div>
-                                            <div class="section">{{ (van_driver.heat_stats.m2_kml) ? van_driver.heat_stats.m2_kml+' km/l' : '' }}</div>
-                                            <div class="section">{{ (van_driver.heat_stats.m3_kml) ? van_driver.heat_stats.m3_kml+' km/l' : '' }}</div>
-                                            <div class="section">{{ (van_driver.heat_stats.m4_kml) ? van_driver.heat_stats.m4_kml+' km/l' : '' }}</div>
-                                            <div class="section">{{ (van_driver.heat_stats.m5_kml) ? van_driver.heat_stats.m5_kml+' km/l' : '' }}</div>
+                                            <div class="section">
+                                                {{ (van_driver.heat_stats.m1_kml) ? van_driver.heat_stats.m1_kml+' km/l' : '' }}
+                                                {{ (van_driver.heat_stats.m1_fuel_used) ? van_driver.heat_stats.m1_fuel_used+' L' : '' }}
+                                            </div>
+                                            <div class="section">
+                                                {{ (van_driver.heat_stats.m2_kml) ? van_driver.heat_stats.m2_kml+' km/l' : '' }}
+                                                {{ (van_driver.heat_stats.m2_fuel_used) ? van_driver.heat_stats.m2_fuel_used+' L' : '' }}
+                                            </div>
+                                            <div class="section">
+                                                {{ (van_driver.heat_stats.m3_kml) ? van_driver.heat_stats.m3_kml+' km/l' : '' }}
+                                                {{ (van_driver.heat_stats.m3_fuel_used) ? van_driver.heat_stats.m3_fuel_used+' L' : '' }}
+                                            </div>
+                                            <div class="section">
+                                                {{ (van_driver.heat_stats.m4_kml) ? van_driver.heat_stats.m4_kml+' km/l' : '' }}
+                                                {{ (van_driver.heat_stats.m4_fuel_used) ? van_driver.heat_stats.m4_fuel_used+' L' : '' }}
+                                            </div>
+                                            <div class="section">
+                                                {{ (van_driver.heat_stats.m5_kml) ? van_driver.heat_stats.m5_kml+' km/l' : '' }}
+                                                {{ (van_driver.heat_stats.m5_fuel_used) ? van_driver.heat_stats.m5_fuel_used+' L' : '' }}
+                                            </div>
                                     </div>
                                     <div class="time">
                                         <span class="progress" data-progress="{{ this.progressSecondsToPercent(van_driver) }}"></span>
@@ -132,8 +167,9 @@
                                                         <div class="vehicle_gauge_distance">{{ truck_1.driver.heat_stats ? truck_1.driver.heat_stats.distance : 0 }} KM</div>
                                                     </span>
                                                     <span class="gauge-fuel">
-                                                        <canvas id="truck_1_gauge_fuel" class="vehicle_gauge" height="50px" width="100%"></canvas>
-                                                        <span class="vehicle_gauge_text">{{ truck_1.driver.heat_stats ? truck_1.driver.heat_stats.fuel_used : 0 }} L</span>
+                                                        <span class="vehicle_gauge_text kmt">{{ truck_1.driver.heat_stats ? truck_1.driver.heat_stats.speed : 0 }} km/t</span>
+                                                        <!--<canvas id="truck_1_gauge_fuel" class="vehicle_gauge" height="50px" width="100%"></canvas>-->
+                                                        <span class="vehicle_gauge_text fuel_used">{{ truck_1.driver.heat_stats ? truck_1.driver.heat_stats.fuel_used : 0 }} L</span>
                                                     </span>
                                                     <span class="gauge-kml">
                                                         <canvas id="truck_1_gauge_kml" class="vehicle_gauge" height="50px" width="100%"></canvas>
@@ -169,8 +205,9 @@
                                                         <div class="vehicle_gauge_distance">{{ truck_2.driver.heat_stats ? truck_2.driver.heat_stats.distance : 0 }} KM</div>
                                                     </span>
                                                     <span class="gauge-fuel">
-                                                        <canvas id="truck_2_gauge_fuel" class="vehicle_gauge" height="50px" width="100%"></canvas>
-                                                        <span class="vehicle_gauge_text">{{ truck_2.driver.heat_stats ? truck_2.driver.heat_stats.fuel_used : 0 }} L</span>
+                                                        <span class="vehicle_gauge_text kmt">{{ truck_2.driver.heat_stats ? truck_2.driver.heat_stats.speed : 0 }} km/t</span>
+                                                        <!--<canvas id="truck_2_gauge_fuel" class="vehicle_gauge" height="50px" width="100%"></canvas>-->
+                                                        <span class="vehicle_gauge_text fuel_used">{{ truck_2.driver.heat_stats ? truck_2.driver.heat_stats.fuel_used : 0 }} L</span>
                                                     </span>
                                                     <span class="gauge-kml">
                                                         <canvas id="truck_2_gauge_kml" class="vehicle_gauge" height="50px" width="100%"></canvas>
@@ -217,8 +254,9 @@
                                                         <div class="vehicle_gauge_distance">{{ van_1.driver.heat_stats ? van_1.driver.heat_stats.distance : 0 }} KM</div>
                                                     </span>
                                                     <span class="gauge-fuel">
-                                                        <canvas id="van_1_gauge_fuel" class="vehicle_gauge" height="50px" width="100%"></canvas>
-                                                        <span class="vehicle_gauge_text">{{ van_1.driver.heat_stats ? van_1.driver.heat_stats.fuel_used : 0 }} L</span>
+                                                        <span class="vehicle_gauge_text kmt">{{ van_1.driver.heat_stats ? van_1.driver.heat_stats.speed : 0 }} km/t</span>
+                                                        <!--<canvas id="truck_1_gauge_fuel" class="vehicle_gauge" height="50px" width="100%"></canvas>-->
+                                                        <span class="vehicle_gauge_text fuel_used">{{ van_1.driver.heat_stats ? van_1.driver.heat_stats.fuel_used : 0 }} L</span>
                                                     </span>
                                                     <span class="gauge-kml">
                                                         <canvas id="van_1_gauge_kml" class="vehicle_gauge" height="50px" width="100%"></canvas>
@@ -253,8 +291,9 @@
                                                         <div class="vehicle_gauge_distance">{{ van_2.driver.heat_stats ? van_2.driver.heat_stats.distance : 0 }} KM</div>
                                                     </span>
                                                     <span class="gauge-fuel">
-                                                        <canvas id="van_2_gauge_fuel" class="vehicle_gauge" height="50px" width="100%"></canvas>
-                                                        <span class="vehicle_gauge_text">{{ van_2.driver.heat_stats ? van_2.driver.heat_stats.fuel_used : 0 }} L</span>
+                                                        <span class="vehicle_gauge_text kmt">{{ van_2.driver.heat_stats ? van_2.driver.heat_stats.speed : 0 }} km/t</span>
+                                                        <!--<canvas id="van_2_gauge_fuel" class="vehicle_gauge" height="50px" width="100%"></canvas>-->
+                                                        <span class="vehicle_gauge_text fuel_used">{{ van_2.driver.heat_stats ? van_2.driver.heat_stats.fuel_used : 0 }} L</span>
                                                     </span>
                                                     <span class="gauge-kml">
                                                         <canvas id="van_2_gauge_kml" class="vehicle_gauge" height="50px" width="100%"></canvas>
@@ -289,8 +328,9 @@
                                                         <div class="vehicle_gauge_distance">{{ van_3.driver.heat_stats ? van_3.driver.heat_stats.distance : 0 }} KM</div>
                                                     </span>
                                                     <span class="gauge-fuel">
-                                                        <canvas id="van_3_gauge_fuel" class="vehicle_gauge" height="50px" width="100%"></canvas>
-                                                        <span class="vehicle_gauge_text">{{ van_3.driver.heat_stats ? van_3.driver.heat_stats.fuel_used : 0 }} L</span>
+                                                        <span class="vehicle_gauge_text kmt">{{ van_3.driver.heat_stats ? van_3.driver.heat_stats.speed : 0 }} km/t</span>
+                                                        <!--<canvas id="van_3_gauge_fuel" class="vehicle_gauge" height="50px" width="100%"></canvas>-->
+                                                        <span class="vehicle_gauge_text fuel_used">{{ van_3.driver.heat_stats ? van_3.driver.heat_stats.fuel_used : 0 }} L</span>
                                                     </span>
                                                     <span class="gauge-kml">
                                                         <canvas id="van_3_gauge_kml" class="vehicle_gauge" height="50px" width="100%"></canvas>
@@ -314,6 +354,12 @@
     </section>
 </template>
 <style>
+    .section p {
+        font-size: 15px;
+        padding: 0;
+        margin-top: -10px;
+        height: 30px;
+    }
     .post-nord-logo {
         filter: brightness(0) invert(1);
         -webkit-filter: brightness(0) invert(1);
@@ -421,8 +467,15 @@
         padding: 0;
         position: absolute !important;
         z-index: 200;
-        left: 44%;
+        left: 1em;
         bottom: 0;
+        width: 100%;
+    }
+    .kmt{
+        bottom: 42px;
+    }
+    .fuel_used{
+        left: 18px;
     }
     .vehicle_gauge_distance {
         padding-top: 13px;
@@ -436,6 +489,16 @@
         position: relative;
         flex-grow: 1;
         text-align: center;
+    }
+    .gauge-kml, .gauge-rpm{
+        width: 15%;
+        padding-left: 15px;
+    }
+    .test-data-container {
+        position: absolute;
+        z-index: 100;
+        top: -50px;
+        left: 35%;
     }
 </style>
 <script>
@@ -512,7 +575,6 @@ export default
             var stop_time_in_seconds = driver.heat_stats.stop_time;
             var time_in_human = "00:00";
             var diff;
-
 
             if(start_time_in_seconds && stop_time_in_seconds)
             { // car has a start and stop time
@@ -816,12 +878,11 @@ export default
         },
         updateTime(driver)
         {
-            driver.heat_stats.start_time = driver.heat_stats.start_time - 0.000001
+            driver.heat_stats.start_time = driver.heat_stats.start_time - 0.0000001
         },
         startDriverLoop(data)
         {
             var vm = this;
-//            var driver = vm.getDriver(data.driver_id);
             var diims_id;
             var timer = {};
             data._token = vm.csrf_token;
@@ -840,25 +901,9 @@ export default
         stopDriverLoop(data)
         {
             var vm = this;
-            var driver = vm.getDriver(data.driver_id);
-
+//            var driver = vm.getDriver(data.driver_id);
             clearInterval(vm.$get('timer_'+data.order+'.id'));
             clearInterval(vm.$get('timer_'+data.order+'.live_counter'));
-
-            driver.heat_stats.stop_time = Date.now() / 1000;
-
-            var time_data = {
-                '_token' : vm.csrf_token,
-                'heat_id' : vm.heat.id,
-                'driver_id' : driver.id,
-                'vehicle_id' : data.vehicle_id,
-                'stop_time' : driver.heat_stats.stop_time
-            };
-
-            vm.$http.post('/api/livescore/updateStopTime/',time_data)
-                .then( function(response) {
-//                    console.log('Updating Stop Time');
-                });
         },
         getDriver(id)
         {
@@ -895,26 +940,24 @@ export default
                     var reportType = result[0].ReportType;
                     var ignitionKey = result[0].IgnitionKey;
 
-                    var vehicle_is_started = reportType == 11;
-                    var vehicle_is_stopped = reportType == 10;
-                    var vehicle_is_running = reportType == 0;
-//                    var vehicle_is_started = vm.test_started;
-//                    var vehicle_is_stopped = vm.test_stopped;
-//                    var vehicle_is_running = vm.test_running;
+//                    var vehicle_is_started = reportType == 11;
+//                    var vehicle_is_stopped = reportType == 10;
+//                    var vehicle_is_running = reportType == 0;
+                    var vehicle_is_started = vm.test_started;
+                    var vehicle_is_stopped = vm.test_stopped;
+                    var vehicle_is_running = vm.test_running;
 
 //                    console.log('Started: '+vehicle_is_started);
 //                    console.log('Stopped: '+vehicle_is_stopped);
 //                    console.log('Running: '+vehicle_is_running);
-//                    console.log('::::::::::NEW DATA LINE::::::::::');
-
+                    console.log('New Data');
                     if(vehicle_is_started)
                     {
                         console.log('Vehicle is Started:');
-//                        console.log('start_time_check: '+driver.heat_stats.start_time);
                         if(!driver.heat_stats.start_time)
                         {
-                            driver.heat_stats.start_time = Date.now() / 1000;
-//                            console.log('Start_time not set, Time: '+driver.heat_stats.start_time);
+                            driver.heat_stats.start_time = (Date.parse(result[0].SendTime) / 1000) + 7200;
+
                             var time_data = {
                                 '_token' : vm.csrf_token,
                                 'heat_id' : vm.heat.id,
@@ -924,16 +967,13 @@ export default
                             };
                             vm.$http.post('/api/livescore/updateStartTime/',time_data)
                                 .then( function(response) {
-//                                    console.log('Updating Start Time');
+                                    console.log('Updating Start Time');
                                 });
                         }
 
                         var is_timer_running = vm.$get('timer_'+order+'.live_counter');
-
-//                        console.log('is_timer_running: '+is_timer_running);
                         if(!is_timer_running)
                         {
-//                            console.log('Start_Timer not Running, starting timer!');
                             var timer_id = setInterval(function(){ vm.updateTime(driver) },1000);
                             vm.$set('timer_'+order+'.live_counter', timer_id );
                         }
@@ -945,16 +985,34 @@ export default
                     if(vehicle_is_stopped)
                     {
                         console.log('Vehicle is Stopped');
-                        var diff = driver.heat_stats.stop_time - driver.heat_stats.start_time;
-                        if(diff <= 1800)
+                        if(driver.heat_stats.start_time)
                         {
-                            // race still going
+//                            clearInterval(vm.$get('timer_'+data.order+'.live_counter'));
+                            driver.heat_stats.stop_time = (Date.parse(result[0].SendTime) / 1000) + 7200;
+
+                            var time_data = {
+                                '_token' : vm.csrf_token,
+                                'heat_id' : vm.heat.id,
+                                'driver_id' : driver.id,
+                                'vehicle_id' : vehicle_id,
+                                'stop_time' : driver.heat_stats.stop_time
+                            };
+
+                            vm.$http.post('/api/livescore/updateStopTime/',time_data)
+                                .then( function(response) {
+                                    console.log('Updating Stop Time');
+                                });
                         }
-                        if(diff >= 1800)
-                        {
-                            // finished race
-                            console.log('else');
-                        }
+//                        var diff = driver.heat_stats.stop_time - driver.heat_stats.start_time;
+//                        if(diff <= 1800)
+//                        {
+//                            // race still going
+//                        }
+//                        if(diff >= 1800)
+//                        {
+//                            // finished race
+//                            console.log('else');
+//                        }
                     }
 
                     if(vehicle_is_running)
@@ -1058,12 +1116,18 @@ export default
             data.fuel_used = parseFloat(litres_of_fuel_used).toFixed(2);
             data.accelerator = array_2.Accelerator;
             data.rpm = array_2.RPM;
+            data.speed = array_2.Speed;
             data._token = vm.csrf_token;
             data.m1_kml = null;
             data.m2_kml = null;
             data.m3_kml = null;
             data.m4_kml = null;
             data.m5_kml = null;
+            data.m1_fuel_used = null;
+            data.m2_fuel_used = null;
+            data.m3_fuel_used = null;
+            data.m4_fuel_used = null;
+            data.m5_fuel_used = null;
             if(data.kml == Infinity) { data.kml = 0.00; }
 
             var driver = vm.getDriver(data.driver_id);
@@ -1073,6 +1137,7 @@ export default
             driver.heat_stats.accelerator = data.accelerator;
             driver.heat_stats.rpm = data.rpm;
             driver.heat_stats.distance = parseFloat(data.distance).toFixed(1);
+            driver.heat_stats.speed = data.speed;
 
             var time_passed = (Date.now() / 1000) - driver.heat_stats.start_time;
 
@@ -1080,6 +1145,7 @@ export default
             if(time_passed > 300 && time_passed < 315)
             {
                 driver.heat_stats.m1_kml = data.kml;
+                driver.heat_stats.m1_fuel_used = data.fuel_used;
                 data.milestone = 1;
                 vm.$http
                   .post('/api/livescore/updateMilestone', data)
@@ -1089,6 +1155,7 @@ export default
             else if(time_passed > 600 && time_passed < 615)
             {
                 driver.heat_stats.m2_kml = data.kml;
+                driver.heat_stats.m2_fuel_used = data.fuel_used;
                 data.milestone = 2;
                 vm.$http
                   .post('/api/livescore/updateMilestone', data)
@@ -1098,6 +1165,7 @@ export default
             else if(time_passed > 900 && time_passed < 915)
             {
                 driver.heat_stats.m3_kml = data.kml;
+                driver.heat_stats.m3_fuel_used = data.fuel_used;
                 data.milestone = 3;
                 vm.$http
                   .post('/api/livescore/updateMilestone', data)
@@ -1107,15 +1175,17 @@ export default
             else if(time_passed > 1200 && time_passed < 1215)
             {
                 driver.heat_stats.m4_kml = data.kml;
+                driver.heat_stats.m4_fuel_used = data.fuel_used;
                 data.milestone = 4;
                 vm.$http
                   .post('/api/livescore/updateMilestone', data)
                   .then(function(response){
                 });
             }
-            else if(time_passed > 1500)
+            else if(time_passed > 1500 && time_passed < 1600)
             {
                 driver.heat_stats.m5_kml = data.kml;
+                driver.heat_stats.m5_fuel_used = data.fuel_used;
                 data.milestone = 5;
                 vm.$http
                   .post('/api/livescore/updateMilestone', data)
@@ -1127,29 +1197,28 @@ export default
             if(order == 1)
             {
                 vm.$set('van_1.driver', driver);
-                fuel_gauges[2].set(driver.heat_stats.fuel_used);
+//                fuel_gauges[2].set(driver.heat_stats.fuel_used);
                 kml_gauges[2].set(driver.heat_stats.kml);
                 rpm_gauges[2].set(driver.heat_stats.rpm);
             }
             if(order == 2)
             {
                 vm.$set('van_2.driver', driver);
-                fuel_gauges[3].set(driver.heat_stats.fuel_used);
+//                fuel_gauges[3].set(driver.heat_stats.fuel_used);
                 kml_gauges[3].set(driver.heat_stats.kml);
                 rpm_gauges[3].set(driver.heat_stats.rpm);
             }
             if(order == 3)
             {
                 vm.$set('van_3.driver', driver);
-                fuel_gauges[4].set(driver.heat_stats.fuel_used);
+//                fuel_gauges[4].set(driver.heat_stats.fuel_used);
                 kml_gauges[4].set(driver.heat_stats.kml);
                 rpm_gauges[4].set(driver.heat_stats.rpm);
             }
             if(order == 4)
             {
                 vm.$set('truck_1.driver', driver);
-                console.log(vm.$get('truck_1.driver'));
-                fuel_gauges[0].set(driver.heat_stats.fuel_used);
+//                fuel_gauges[0].set(driver.heat_stats.fuel_used);
                 kml_gauges[0].set(driver.heat_stats.kml);
                 rpm_gauges[0].set(driver.heat_stats.rpm);
 
@@ -1157,7 +1226,7 @@ export default
             if(order == 5)
             {
                 vm.$set('truck_2.driver', driver);
-                fuel_gauges[1].set(driver.heat_stats.fuel_used);
+//                fuel_gauges[1].set(driver.heat_stats.fuel_used);
                 kml_gauges[1].set(driver.heat_stats.kml);
                 rpm_gauges[1].set(driver.heat_stats.rpm);
             }
@@ -1200,6 +1269,7 @@ export default
             });
             socket.on('startTimerOnLivescore',function(data)
             {
+                console.log('Start Msg');
                 data._token = vm.csrf_token;
                 vm.$http.post('/api/livescore/setActiveHeatStatsDriver', data);
                 vm.startDriverLoop(data);
@@ -1237,7 +1307,7 @@ export default
         child = 1;
         currentStep = 1;
 
-//        var stepChanger = setInterval(this.changeStep, 10000); // 10 seconds switch left hand side
+        var stepChanger = setInterval(this.changeStep, 10000); // 10 seconds switch left hand side
 
         var acc = {
             lines: 12, // The number of lines to draw
@@ -1278,34 +1348,34 @@ export default
         target_kml = [];
         target_rpm = [];
 
-        target_fuel.push($('#truck_1_gauge_fuel')[0]);
+//        target_fuel.push($('#truck_1_gauge_fuel')[0]);
         target_kml.push($('#truck_1_gauge_kml')[0]);
         target_rpm.push($('#truck_1_gauge_rpm')[0]);
 
-        target_fuel.push($('#truck_2_gauge_fuel')[0]);
+//        target_fuel.push($('#truck_2_gauge_fuel')[0]);
         target_kml.push($('#truck_2_gauge_kml')[0]);
         target_rpm.push($('#truck_2_gauge_rpm')[0]);
 
-        target_fuel.push($('#van_1_gauge_fuel')[0]);
+//        target_fuel.push($('#van_1_gauge_fuel')[0]);
         target_kml.push($('#van_1_gauge_kml')[0]);
         target_rpm.push($('#van_1_gauge_rpm')[0]);
 
-        target_fuel.push($('#van_2_gauge_fuel')[0]);
+//        target_fuel.push($('#van_2_gauge_fuel')[0]);
         target_kml.push($('#van_2_gauge_kml')[0]);
         target_rpm.push($('#van_2_gauge_rpm')[0]);
 
-        target_fuel.push($('#van_3_gauge_fuel')[0]);
+//        target_fuel.push($('#van_3_gauge_fuel')[0]);
         target_kml.push($('#van_3_gauge_kml')[0]);
         target_rpm.push($('#van_3_gauge_rpm')[0]);
 
-        for (var i = 0; i < target_fuel.length; i++)
-        {
-            fuel_gauges.push(new Gauge(target_fuel[i]).setOptions(acc));
-
-            fuel_gauges[i].maxValue = 100;
-            fuel_gauges[i].animationSpeed = 32;
-            fuel_gauges[i].set(0);
-        }
+//        for (var i = 0; i < target_fuel.length; i++)
+//        {
+//            fuel_gauges.push(new Gauge(target_fuel[i]).setOptions(acc));
+//
+//            fuel_gauges[i].maxValue = 100;
+//            fuel_gauges[i].animationSpeed = 32;
+//            fuel_gauges[i].set(0);
+//        }
         for (var i = 0; i < target_kml.length; i++)
         {
             kml_gauges.push(new Gauge(target_kml[i]).setOptions(acc));

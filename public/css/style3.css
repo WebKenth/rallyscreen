@@ -47,7 +47,7 @@ header {
 
 .player-score > .outer-container, .live-trucks > .outer-container, .live-vans > .outer-container {
 	display: block;
-	padding: 30px;
+	padding: 20px;
 	height: 100%;
 	color: #fff;
 	background-color: #555;
@@ -218,7 +218,7 @@ header {
 	display: block;
 	margin: 0;
 	width: 50px;
-	height: auto;
+	height: 50px;
 }
 
 .player-list .left:before {
@@ -237,7 +237,7 @@ header {
 	width: 50px;
 	height: 25px;
 	line-height: 25px;
-	background-color: #444;
+	background-color: #333;
 }
 
 .player-list .right {
@@ -412,6 +412,7 @@ header {
 	text-align: center;
 	font-size: 18px;
 	background-color: #0099bb;
+	height: 100%;
 }
 
 .top-list {
