@@ -178,7 +178,7 @@
         }
     </style>
 
-    <p>Version : 0.9</p>
+    <p>Version : 0.91</p>
 @endsection
 
 @section('links')
