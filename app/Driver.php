@@ -32,6 +32,11 @@ class Driver extends Model
         return false;
     }
 
+//    public function getHeatStatId()
+//    {
+//
+//    }
+
     public function getHeatVehicle($heat_id)
     {
         $sql = DB::table('driver_heat')

@@ -131,7 +131,10 @@
                                     </div>
                                 </div>
                                 <div class="end">
-                                    <span class="total">{{ (van_driver.heat_stats.kml) ? van_driver.heat_stats.kml+' km/l' : 'Venter på Start' }}</span>
+                                    <span class="total">
+                                        {{ (van_driver.heat_stats.kml) ? van_driver.heat_stats.kml+' km/l' : 'Venter på Start' }}
+                                        {{ (van_driver.heat_stats.fuel_used) ? van_driver.heat_stats.fuel_used+' L' : 'Venter på Start' }}
+                                    </span>
                                 </div>
                                 </li>
                             </ul>
@@ -573,26 +576,21 @@ export default
             var vm = this;
             var start_time_in_seconds = driver.heat_stats.start_time;
             var stop_time_in_seconds = driver.heat_stats.stop_time;
+            var now = Date.now() / 1000;
             var time_in_human = "00:00";
-            var diff;
 
-            if(start_time_in_seconds && stop_time_in_seconds)
-            { // car has a start and stop time
-                diff = stop_time_in_seconds - start_time_in_seconds;
-                time_in_human = vm.timeToHuman(diff);
-            }
-            else if(start_time_in_seconds && !stop_time_in_seconds)
+            if(!stop_time_in_seconds)
             {
-                diff = ( Date.now() / 1000 ) - start_time_in_seconds;
-                time_in_human = vm.timeToHuman(diff);
-            }
-
-            if(start_time_in_seconds == null && stop_time_in_seconds == null)
+                if(start_time_in_seconds)
+                {
+                    return vm.timeToHuman(now - start_time_in_seconds);
+                }else{
+                    return time_in_human;
+                }
+            }else
             {
-                time_in_human = "00:00"
+                return vm.timeToHuman(stop_time_in_seconds - start_time_in_seconds);
             }
-
-            return time_in_human;
         },
         timeToHuman: function(time_in_seconds)
         {
@@ -1000,7 +998,33 @@ export default
 
                             vm.$http.post('/api/livescore/updateStopTime/',time_data)
                                 .then( function(response) {
-                                    console.log('Updating Stop Time');
+                                    if(data.order == 1)
+                                    {
+                                        kml_gauges[2].set(0);
+                                        rpm_gauges[2].set(0);
+                                    }
+                                    if(data.order == 2)
+                                    {
+                                        kml_gauges[3].set(0);
+                                        rpm_gauges[3].set(0);
+                                    }
+                                    if(data.order == 3)
+                                    {
+                                        kml_gauges[4].set(0);
+                                        rpm_gauges[4].set(0);
+                                    }
+                                    if(data.order == 4)
+                                    {
+                                        kml_gauges[0].set(0);
+                                        rpm_gauges[0].set(0);
+
+                                    }
+                                    if(data.order == 5)
+                                    {
+                                        kml_gauges[1].set(0);
+                                        rpm_gauges[1].set(0);
+                                    }
+
                                 });
                         }
 //                        var diff = driver.heat_stats.stop_time - driver.heat_stats.start_time;
@@ -1142,7 +1166,7 @@ export default
             var time_passed = (Date.now() / 1000) - driver.heat_stats.start_time;
 
 //            console.log('Time Passed: '+time_passed);
-            if(time_passed > 300 && time_passed < 315)
+            if(time_passed > 290 && time_passed < 315)
             {
                 driver.heat_stats.m1_kml = data.kml;
                 driver.heat_stats.m1_fuel_used = data.fuel_used;
@@ -1197,28 +1221,24 @@ export default
             if(order == 1)
             {
                 vm.$set('van_1.driver', driver);
-//                fuel_gauges[2].set(driver.heat_stats.fuel_used);
                 kml_gauges[2].set(driver.heat_stats.kml);
                 rpm_gauges[2].set(driver.heat_stats.rpm);
             }
             if(order == 2)
             {
                 vm.$set('van_2.driver', driver);
-//                fuel_gauges[3].set(driver.heat_stats.fuel_used);
                 kml_gauges[3].set(driver.heat_stats.kml);
                 rpm_gauges[3].set(driver.heat_stats.rpm);
             }
             if(order == 3)
             {
                 vm.$set('van_3.driver', driver);
-//                fuel_gauges[4].set(driver.heat_stats.fuel_used);
                 kml_gauges[4].set(driver.heat_stats.kml);
                 rpm_gauges[4].set(driver.heat_stats.rpm);
             }
             if(order == 4)
             {
                 vm.$set('truck_1.driver', driver);
-//                fuel_gauges[0].set(driver.heat_stats.fuel_used);
                 kml_gauges[0].set(driver.heat_stats.kml);
                 rpm_gauges[0].set(driver.heat_stats.rpm);
 
@@ -1226,7 +1246,6 @@ export default
             if(order == 5)
             {
                 vm.$set('truck_2.driver', driver);
-//                fuel_gauges[1].set(driver.heat_stats.fuel_used);
                 kml_gauges[1].set(driver.heat_stats.kml);
                 rpm_gauges[1].set(driver.heat_stats.rpm);
             }
