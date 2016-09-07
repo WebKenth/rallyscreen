@@ -12170,12 +12170,12 @@ exports.default = {
                     var reportType = result[0].ReportType;
                     var ignitionKey = result[0].IgnitionKey;
 
-                    //                    var vehicle_is_started = reportType == 11;
-                    //                    var vehicle_is_stopped = reportType == 10;
-                    //                    var vehicle_is_running = reportType == 0;
-                    var vehicle_is_started = vm.test_started;
-                    var vehicle_is_stopped = vm.test_stopped;
-                    var vehicle_is_running = vm.test_running;
+                    var vehicle_is_started = reportType == 11;
+                    var vehicle_is_stopped = reportType == 10;
+                    var vehicle_is_running = reportType == 0;
+                    //                    var vehicle_is_started = vm.test_started;
+                    //                    var vehicle_is_stopped = vm.test_stopped;
+                    //                    var vehicle_is_running = vm.test_running;
 
                     //                    console.log('Started: '+vehicle_is_started);
                     //                    console.log('Stopped: '+vehicle_is_stopped);
