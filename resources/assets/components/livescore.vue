@@ -17,12 +17,12 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="test-data-container">
-                    <button @click="changeStep" class="btn btn-default">Switch</button>
-                    <button @click="test_started = !test_started" class="btn btn-success">Start | {{test_started}}</button>
-                    <button @click="test_running = !test_running" class="btn btn-info">Running | {{test_running}}</button>
-                    <button @click="test_stopped = !test_stopped" class="btn btn-danger">Stop | {{test_stopped}}</button>
-                    <button @click="this.changeOrder(1)" class="btn btn-default">Sort Vans</button>
-                    <button @click="this.changeOrder(4)" class="btn btn-default">Sort Trucks</button>
+                    <!--<button @click="changeStep" class="btn btn-default">Switch</button>-->
+                    <!--<button @click="test_started = !test_started" class="btn btn-success">Start | {{test_started}}</button>-->
+                    <!--<button @click="test_running = !test_running" class="btn btn-info">Running | {{test_running}}</button>-->
+                    <!--<button @click="test_stopped = !test_stopped" class="btn btn-danger">Stop | {{test_stopped}}</button>-->
+                    <!--<button @click="this.changeOrder(1)" class="btn btn-default">Sort Vans</button>-->
+                    <!--<button @click="this.changeOrder(4)" class="btn btn-default">Sort Trucks</button>-->
                 </div>
             </div>
         </div>
@@ -46,7 +46,6 @@
                             <ul class="player-list">
                                 <li v-for="truck_driver in truck_drivers | orderBy 'position'">
                                     <p>{{truck_driver.first_name+' '+truck_driver.middle_name+' '+truck_driver.last_name}}</p>
-                                    <p class="test-data">Time: {{ truck_driver.heat_stats.start_time }} Distance: {{ truck_driver.heat_stats.distance }} Fuel Used: {{ truck_driver.heat_stats.fuel_used }} km/l: {{ truck_driver.heat_stats.kml }} RPM: {{ truck_driver.heat_stats.rpm }} Accelerator: {{ truck_driver.heat_stats.accelerator }}</p>
                                     <div class="left">
                                         <img v-bind:src="truck_driver.image">
                                         <span>Tid:</span>
@@ -97,7 +96,6 @@
                             <ul class="player-list">
                                 <li class="moving-item" v-for="van_driver in van_drivers | orderBy 'position'">
                                     <p>{{van_driver.first_name+' '+van_driver.middle_name+' '+van_driver.last_name}}</p>
-                                    <p class="test-data">Time: {{ van_driver.heat_stats.start_time }} Distance: {{ van_driver.heat_stats.distance }} Fuel Used: {{ van_driver.heat_stats.fuel_used }} km/l: {{ van_driver.heat_stats.kml }} RPM: {{ van_driver.heat_stats.rpm }} Accelerator: {{ van_driver.heat_stats.accelerator }}</p>
                                 <div class="left">
                                     <img v-bind:src="van_driver.image">
                                     <span>Tid:</span>
