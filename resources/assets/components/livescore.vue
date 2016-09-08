@@ -650,100 +650,58 @@ export default
                 array = vm.$get('truck_drivers');
             }
 
-            var array_m0 = [];
-            var array_m1 = [];
-            var array_m2 = [];
-            var array_m3 = [];
-            var array_m4 = [];
-            var array_m5 = [];
-
+            var value = [];
+            var trash = [];
             array.forEach(function(element,index,array){
-                var heat_stats = element.heat_stats;
-                var is_m5 = heat_stats.m5_fuel_used ? heat_stats.m5_fuel_used : false;
-                var is_m4 = heat_stats.m4_fuel_used && !heat_stats.m5_fuel_used ? heat_stats.m4_fuel_used : false;
-                var is_m3 = heat_stats.m3_fuel_used && (!heat_stats.m5_fuel_used && !heat_stats.m4_fuel_used) ? heat_stats.m3_fuel_used : false;
-                var is_m2 = heat_stats.m2_fuel_used && (!heat_stats.m5_fuel_used && !heat_stats.m4_fuel_used && !heat_stats.m3_fuel_used) ? heat_stats.m2_fuel_used : false;
-                var is_m1 = heat_stats.m1_fuel_used && (!heat_stats.m5_fuel_used && !heat_stats.m4_fuel_used && !heat_stats.m3_fuel_used && !heat_stats.m2_fuel_used) ? heat_stats.m1_fuel_used : false;
-                if(is_m5){ array_m5.push(element); }
-                else if(is_m4){ array_m4.push(element); }
-                else if(is_m3){ array_m3.push(element); }
-                else if(is_m2){ array_m2.push(element); }
-                else if(is_m1){ array_m1.push(element); }
-                else{ array_m0.push(element);}
+                if(element.heat_stats.m1_fuel_used)
+                {
+                    value.push(element);
+                }else{
+                    trash.push(element);
+                }
             });
-
-            var sort_m1 = array_m1.slice().sort(function(driver_1, driver_2){
-                var fuel_used_1 = parseInt(driver_1.heat_stats.m1_fuel_used);
-                var fuel_used_2 = parseInt(driver_2.heat_stats.m1_fuel_used);
-                var result;
-                if (fuel_used_1 > fuel_used_2) { result = 1 }
-                else if (fuel_used_1 < fuel_used_2) { result = -1 }
-                else { result = 0 }
-                return result;
+            var sorted_value = value.slice().sort(function(driver_1,driver_2)
+            {
+                if(driver_1.heat_stats.m5_fuel_used && driver_2.heat_stats.m5_fuel_used)
+                {
+                    if(parseInt(driver_1.heat_stats.m5_fuel_used) > parseInt(driver_2.heat_stats.m5_fuel_used)) { return 1; }
+                    else if(parseInt(driver_1.heat_stats.m5_fuel_used) < parseInt(driver_2.heat_stats.m5_fuel_used)){ return -1; }
+                }
+                if(driver_1.heat_stats.m4_fuel_used && driver_2.heat_stats.m4_fuel_used)
+                {
+                    if(parseInt(driver_1.heat_stats.m4_fuel_used) > parseInt(driver_2.heat_stats.m4_fuel_used)) { return 1; }
+                    else if(parseInt(driver_1.heat_stats.m4_fuel_used) < parseInt(driver_2.heat_stats.m4_fuel_used)){ return -1; }
+                }
+                if(driver_1.heat_stats.m3_fuel_used && driver_2.heat_stats.m3_fuel_used)
+                {
+                    if(parseInt(driver_1.heat_stats.m3_fuel_used) > parseInt(driver_2.heat_stats.m3_fuel_used)) { return 1; }
+                    else if(parseInt(driver_1.heat_stats.m3_fuel_used) < parseInt(driver_2.heat_stats.m3_fuel_used)){ return -1; }
+                }
+                if(driver_1.heat_stats.m2_fuel_used && driver_2.heat_stats.m2_fuel_used)
+                {
+                    if(parseInt(driver_1.heat_stats.m2_fuel_used) > parseInt(driver_2.heat_stats.m2_fuel_used)) { return 1; }
+                    else if(parseInt(driver_1.heat_stats.m2_fuel_used) < parseInt(driver_2.heat_stats.m2_fuel_used)){ return -1; }
+                }
+                if(driver_1.heat_stats.m1_fuel_used && driver_2.heat_stats.m1_fuel_used)
+                {
+                    if(parseInt(driver_1.heat_stats.m1_fuel_used) > parseInt(driver_2.heat_stats.m1_fuel_used)) { return 1; }
+                    else if(parseInt(driver_1.heat_stats.m1_fuel_used) < parseInt(driver_2.heat_stats.m1_fuel_used)){ return -1; }
+                }
             });
-            var sort_m2 = array_m2.slice().sort(function(driver_1, driver_2){
-                var fuel_used_1 = parseInt(driver_1.heat_stats.m2_fuel_used);
-                var fuel_used_2 = parseInt(driver_2.heat_stats.m2_fuel_used);
-                var result;
-                if (fuel_used_1 > fuel_used_2) { result = 1 }
-                else if (fuel_used_1 < fuel_used_2) { result = -1 }
-                else { result = 0 }
-                return result;
-            });
-            var sort_m3 = array_m3.slice().sort(function(driver_1, driver_2){
-                var fuel_used_1 = parseInt(driver_1.heat_stats.m3_fuel_used);
-                var fuel_used_2 = parseInt(driver_2.heat_stats.m3_fuel_used);
-                var result;
-                if (fuel_used_1 > fuel_used_2) { result = 1 }
-                else if (fuel_used_1 < fuel_used_2) { result = -1 }
-                else { result = 0 }
-                return result;
-            });
-            var sort_m4 = array_m4.slice().sort(function(driver_1, driver_2){
-                var fuel_used_1 = parseInt(driver_1.heat_stats.m4_fuel_used);
-                var fuel_used_2 = parseInt(driver_2.heat_stats.m4_fuel_used);
-                var result;
-                if (fuel_used_1 > fuel_used_2) { result = 1 }
-                else if (fuel_used_1 < fuel_used_2) { result = -1 }
-                else { result = 0 }
-                return result;
-            });
-            var sort_m5 = array_m5.slice().sort(function(driver_1, driver_2){
-                var fuel_used_1 = parseInt(driver_1.heat_stats.m5_fuel_used);
-                var fuel_used_2 = parseInt(driver_2.heat_stats.m5_fuel_used);
-                var result;
-                if (fuel_used_1 > fuel_used_2) { result = 1 }
-                else if (fuel_used_1 < fuel_used_2) { result = -1 }
-                else { result = 0 }
-                return result;
-            });
-
             var sorted_array = [];
-            sort_m5.forEach(function(element,index,array){
+            sorted_value.forEach(function(element,index,array){
                 sorted_array.push(element);
             });
-            sort_m4.forEach(function(element,index,array){
+            trash.forEach(function(element,index,array){
                 sorted_array.push(element);
             });
-            sort_m3.forEach(function(element,index,array){
-                sorted_array.push(element);
-            });
-            sort_m2.forEach(function(element,index,array){
-                sorted_array.push(element);
-            });
-            sort_m1.forEach(function(element,index,array){
-                sorted_array.push(element);
-            });
-
             sorted_array.forEach(function (item, index) {
                 item.position = index;
             });
         },
         sortDrivers: function(){
             var vm = this;
-//            console.log(1)
             vm.changeOrder(1);
-//            console.log(2);
             vm.changeOrder(4);
         },
         getHeatData(heat_id)
@@ -1375,7 +1333,7 @@ export default
                         height = $('.step2').prop('scrollHeight') - $('.player-score > .outer-container').height();
                     }
                     if (height > 0){
-                        $('.player-score > .outer-container').animate({easing: "linear", scrollTop: height }, 14000);
+//                        $('.player-score > .outer-container').animate({easing: "linear", scrollTop: height }, 14000);
                     }
                 }, '5000');
 
@@ -1392,7 +1350,7 @@ export default
 
         child = 1;
         currentStep = 1;
-        var stepChanger = setInterval(this.changeStep, 20000); // 15 seconds switch left hand side
+        var stepChanger = setInterval(this.changeStep, 10000); // 15 seconds switch left hand side
 
         var acc = {
             lines: 12, // The number of lines to draw
