@@ -70,59 +70,36 @@ class testdata extends Seeder
         $diims_8->number = "869606020051557";
         $diims_8->save();
 
-        // #1
-        $driver = new \App\Driver();
+        $c = 1;
+        for ($i = 0; $i < 30; $i++)
+        {
+            switch ($c)
+            {
+                case 1:
+                    $image = '/images/dansk.png';
+                    break;
+                case 2:
+                    $image = '/images/svensk.png';
+                    break;
+                case 3:
+                    $image = '/images/norsk.png';
+                    break;
+            }
+            $driver = new \App\Driver();
 
-        $driver->first_name = "Morten";
-        $driver->middle_name = "Skøtt";
-        $driver->last_name = "Gregersen";
-        $driver->image = "/images/svensk.png";
-        $driver->save();
+            $driver->first_name = "Kører #" . $i;
+            $driver->middle_name = "";
+            $driver->last_name = "";
+            $driver->image = $image;
+            $driver->save();
 
-        // #2
-        $driver = new \App\Driver();
-
-        $driver->first_name = "Martin";
-        $driver->middle_name = "Kenth";
-        $driver->last_name = "Knudsen";
-        $driver->image = "/images/dansk.png";
-        $driver->save();
-
-        // #3
-        $driver = new \App\Driver();
-
-        $driver->first_name = "Kasper";
-        $driver->middle_name = "";
-        $driver->last_name = "Legarth";
-        $driver->image = "/images/norsk.png";
-        $driver->save();
-
-        // #4
-        $driver = new \App\Driver();
-
-        $driver->first_name = "Kristoffer";
-        $driver->middle_name = "Kjær";
-        $driver->last_name = "Nielsen";
-        $driver->image = "/images/Kristoffer.png";
-        $driver->save();
-
-        // #5
-        $driver = new \App\Driver();
-
-        $driver->first_name = "Jeppe";
-        $driver->middle_name = "M.";
-        $driver->last_name = "Rahbek";
-        $driver->image = "/images/Jeppe.png";
-        $driver->save();
-
-        // #6
-        $driver = new \App\Driver();
-
-        $driver->first_name = "Stig";
-        $driver->middle_name = "";
-        $driver->last_name = "";
-        $driver->image = "/images/Driver.png";
-        $driver->save();
+            if ($c == 3)
+            {
+                $c = 1;
+            }else{
+                $c++;
+            }
+        }
 
         ////////////////////////////////
         // Vehicles

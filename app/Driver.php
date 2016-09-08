@@ -32,10 +32,12 @@ class Driver extends Model
         return false;
     }
 
-//    public function getHeatStatId()
-//    {
-//
-//    }
+    public function getHeatStats($heat_id)
+    {
+        $heat_stat = HeatStat::where('heat_id', $heat_id)->where('driver_id',$this->id)->first();
+//        dd($heat_stat);
+        return $heat_stat;
+    }
 
     public function getHeatVehicle($heat_id)
     {

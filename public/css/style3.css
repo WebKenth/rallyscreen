@@ -139,6 +139,7 @@ header {
 	-o-transform: translateX(50px);
 	-ms-transform: translateX(50px);
 	transform: translateX(50px);
+    padding-bottom: 20px;
 }
 
 .step.slidein {
@@ -513,7 +514,7 @@ header {
 .player-list p {
     margin-bottom: 0;
     width: 100%;
-    font-size: 20px;
+    font-size: 30px;
 }
 .list-indikator {
     font-size: 20px;

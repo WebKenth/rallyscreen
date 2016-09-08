@@ -63,6 +63,12 @@
                                     <div class="col-md-12">
                                         <button class="stop_timers btn btn-danger">Stop Alt (Timere)</button>
                                         <button data-heat_id="{{$heat->id}}" class="reset_heat_stats btn btn-danger">Reset Data</button>
+                                        <span style="padding-left: 15px;">Slet Bil på Live (til højre): </span>
+                                        <button class="btn btn-default reset_livescore_vehicle" data-heat_id="{{$heat->id}}" data-order="4" data-csrf_token="{{csrf_token()}}">Truck_1</button>
+                                        <button class="btn btn-default reset_livescore_vehicle" data-heat_id="{{$heat->id}}" data-order="5" data-csrf_token="{{csrf_token()}}">Truck_2</button>
+                                        <button class="btn btn-default reset_livescore_vehicle" data-heat_id="{{$heat->id}}" data-order="1" data-csrf_token="{{csrf_token()}}">Van_1</button>
+                                        <button class="btn btn-default reset_livescore_vehicle" data-heat_id="{{$heat->id}}" data-order="2" data-csrf_token="{{csrf_token()}}">Van_2</button>
+                                        <button class="btn btn-default reset_livescore_vehicle" data-heat_id="{{$heat->id}}" data-order="3" data-csrf_token="{{csrf_token()}}">Van_3</button>
                                     </div>
                                 </div>
                             </div>
@@ -96,19 +102,19 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <a class="btn btn-default setOnLivescore" data-order="4">Truck #1</a>
-                                                    <a class="btn btn-default setOnLivescore" data-order="5">Truck #2</a>
+                                                    <a class="btn btn-default setOnLivescore @if($driver->getHeatStats($heat->id)->id == $heat->truck_1) btn-success @endif" data-order="4">Truck #1</a>
+                                                    <a class="btn btn-default setOnLivescore @if($driver->getHeatStats($heat->id)->id == $heat->truck_2) btn-success @endif" data-order="5">Truck #2</a>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <a class="btn btn-default setOnLivescore" data-order="1">Van #4</a>
-                                                    <a class="btn btn-default setOnLivescore" data-order="2">Van #5</a>
-                                                    <a class="btn btn-default setOnLivescore" data-order="3">Van #6</a>
+                                                    <a class="btn btn-default setOnLivescore @if($driver->getHeatStats($heat->id)->id == $heat->van_1) btn-success @endif" data-order="1">Van #4</a>
+                                                    <a class="btn btn-default setOnLivescore @if($driver->getHeatStats($heat->id)->id == $heat->van_2) btn-success @endif" data-order="2">Van #5</a>
+                                                    <a class="btn btn-default setOnLivescore @if($driver->getHeatStats($heat->id)->id == $heat->van_3) btn-success @endif" data-order="3">Van #6</a>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <p>Control</p>
-                                            <a class="btn btn-default livescoreStartTimer" >Tillad Start</a>
+                                            <a class="btn btn-default livescoreStartTimer @if($driver->getHeatStats($heat->id)->active == 1) btn-success @endif" >Tillad Start</a>
                                             <a class="btn btn-default livescoreStopTimer" >Stop Timer</a>
                                         </div>
                                     </div>
@@ -178,7 +184,7 @@
         }
     </style>
 
-    <p>Version : 0.91</p>
+    <p>Version : 0.95</p>
 @endsection
 
 @section('links')
@@ -221,11 +227,37 @@
             });
         });
 
+        $('.reset_livescore_vehicle').on('click',function(e){
+            e.preventDefault();
+            var data = {
+                heat_id : $(this).data('heat_id'),
+                order : $(this).data('order'),
+                _token : $(this).data('csrf_token')
+            };
+            var element = $(this);
+            element.toggleClass('btn-success');
+
+            $.ajax({
+                type: "POST",
+                url: '/api/livescore/deactivateVehicle',
+                dataType: "html",
+                data: data,
+                success: function (response)
+                {
+                    setTimeout(function(){
+                        element.toggleClass('btn-success');
+                    }, 2000);
+                    socket.emit('change_heat', data.heat_id);
+                }
+            });
+
+        });
+
         $('.setOnLivescore').on('click',function(){
             var data = $(this).closest('li').data();
             data.order = $(this).data('order');
             $(this).closest('li').data('order', data.order);
-
+            $(this).toggleClass('btn-success');
             socket.emit('setOnLivescore', data);
         });
 

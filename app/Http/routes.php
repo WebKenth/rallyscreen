@@ -73,3 +73,5 @@ Route::post('api/livescore/updateStopTime','ScreenController@updateStopTime');
 
 Route::post('api/livescore/reset_heat_stats', 'ScreenController@resetHeatStats');
 Route::post('api/livescore/updateMilestone', 'ScreenController@updateMilestone');
+
+Route::post('api/livescore/deactivateVehicle', 'HeatController@deactivateVehicle');

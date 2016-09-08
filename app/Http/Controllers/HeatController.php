@@ -64,7 +64,7 @@ class HeatController extends Controller
                     $heat->addVehicle($vehicle_obj);
                 }
             }
-            $vehicles = array_diff($request->vehicles,$heat_vehicle_ids);
+            $vehicles = array_diff($heat_vehicle_ids,$request->vehicles);
             foreach ($vehicles as $vehicle)
             {
                 $heat->vehicles()->detach($vehicle);
@@ -88,7 +88,7 @@ class HeatController extends Controller
                     $heat_stat->save();
                 }
             }
-            $drivers = array_diff($request->drivers,$heat_driver_ids);
+            $drivers = array_diff($heat_driver_ids,$request->drivers);
             foreach ($drivers as $driver)
             {
                 $heat->drivers()->detach($driver);
@@ -128,5 +128,30 @@ class HeatController extends Controller
             $sql = DB::statement("UPDATE heat_stats SET vehicle_id = ".$request->vehicles[$key]." where heat_id = ".$request->heat_id." AND driver_id = ".$driver_id."");
         }
         return back();
+    }
+    
+    public function deactivateVehicle(Request $request)
+    {
+        $string = '';
+        switch ($request->order) {
+            case 1:
+                $string = 'van_1 = NULL';
+                break;
+            case 2:
+                $string = 'van_2 = NULL';
+                break;
+            case 3:
+                $string = 'van_3 = NULL';
+                break;
+            case 4:
+                $string = 'truck_1 = NULL';
+                break;
+            case 5:
+                $string = 'truck_2 = NULL';
+                break;
+        }
+        if($string != ''){
+            $sql = DB::statement("UPDATE heats SET ".$string." where id = ".$request->heat_id);
+        }
     }
 }
