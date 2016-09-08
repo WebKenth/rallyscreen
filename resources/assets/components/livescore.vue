@@ -17,12 +17,12 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="test-data-container">
-                    <button @click="changeStep" class="btn btn-default">Switch</button>
-                    <button @click="test_started = !test_started" class="btn btn-success">Start | {{test_started}}</button>
-                    <button @click="test_running = !test_running" class="btn btn-info">Running | {{test_running}}</button>
-                    <button @click="test_stopped = !test_stopped" class="btn btn-danger">Stop | {{test_stopped}}</button>
-                    <button @click="this.changeOrder(1)" class="btn btn-default">Sort Vans</button>
-                    <button @click="this.changeOrder(4)" class="btn btn-default">Sort Trucks</button>
+                    <!--<button @click="changeStep" class="btn btn-default">Switch</button>-->
+                    <!--<button @click="test_started = !test_started" class="btn btn-success">Start | {{test_started}}</button>-->
+                    <!--<button @click="test_running = !test_running" class="btn btn-info">Running | {{test_running}}</button>-->
+                    <!--<button @click="test_stopped = !test_stopped" class="btn btn-danger">Stop | {{test_stopped}}</button>-->
+                    <!--<button @click="this.changeOrder(1)" class="btn btn-default">Sort Vans</button>-->
+                    <!--<button @click="this.changeOrder(4)" class="btn btn-default">Sort Trucks</button>-->
                 </div>
             </div>
         </div>
@@ -940,12 +940,12 @@ export default
                     var reportType = result[0].ReportType;
                     var ignitionKey = result[0].IgnitionKey;
 
-//                    var vehicle_is_started = reportType == 11;
-//                    var vehicle_is_stopped = reportType == 10;
-//                    var vehicle_is_running = reportType == 0;
-                    var vehicle_is_started = vm.test_started;
-                    var vehicle_is_stopped = vm.test_stopped;
-                    var vehicle_is_running = vm.test_running;
+                    var vehicle_is_started = reportType == 11;
+                    var vehicle_is_stopped = reportType == 10;
+                    var vehicle_is_running = reportType == 0;
+//                    var vehicle_is_started = vm.test_started;
+//                    var vehicle_is_stopped = vm.test_stopped;
+//                    var vehicle_is_running = vm.test_running;
 
 //                    console.log('Started: '+vehicle_is_started);
 //                    console.log('Stopped: '+vehicle_is_stopped);
