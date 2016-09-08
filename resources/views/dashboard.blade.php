@@ -186,6 +186,10 @@
             max-height: 100px;
             overflow: auto;
         }
+        span.select2.select2-container.select2-container--default {
+            max-height: 100px;
+            overflow: auto;
+        }
     </style>
 
     <p>Version : 0.95</p>
