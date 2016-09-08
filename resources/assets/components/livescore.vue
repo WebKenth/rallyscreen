@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="test-data-container">
-                    <!--<button @click="changeStep" class="btn btn-default">Switch</button>-->
+                    <button @click="changeStep" class="btn btn-default">Switch</button>
                     <!--<button @click="test_started = !test_started" class="btn btn-success">Start | {{test_started}}</button>-->
                     <!--<button @click="test_running = !test_running" class="btn btn-info">Running | {{test_running}}</button>-->
                     <!--<button @click="test_stopped = !test_stopped" class="btn btn-danger">Stop | {{test_stopped}}</button>-->
@@ -1332,7 +1332,7 @@ export default
                         height = $('.step2').prop('scrollHeight') - $('.player-score > .outer-container').height();
                     }
                     if (height > 0){
-                        $('.player-score > .outer-container').animate({easing: "linear", scrollTop: height }, 14000);
+//                        $('.player-score > .outer-container').animate({easing: "linear", scrollTop: height }, 14000);
                     }
                 }, '1000');
 
