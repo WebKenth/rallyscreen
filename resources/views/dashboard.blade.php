@@ -182,7 +182,7 @@
             height: 70px;
             overflow: hidden;
         }
-        .select2-container {
+        span.select2.select2-container.select2-container--default.select2-container--below {
             max-height: 100px;
             overflow: auto;
         }
