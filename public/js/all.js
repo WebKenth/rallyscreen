@@ -12105,7 +12105,7 @@ exports.default = {
             });
         },
         updateTime: function updateTime(driver) {
-            driver.heat_stats.start_time = driver.heat_stats.start_time - 0.0000001;
+            driver.heat_stats.start_time = driver.heat_stats.start_time - 0.000001;
         },
         startDriverLoop: function startDriverLoop(data) {
             var vm = this;
@@ -12172,12 +12172,12 @@ exports.default = {
                     var reportType = result[0].ReportType;
                     var ignitionKey = result[0].IgnitionKey;
 
-                    var vehicle_is_started = reportType == 11;
-                    var vehicle_is_stopped = reportType == 10;
-                    var vehicle_is_running = reportType == 0;
-                    //                    var vehicle_is_started = vm.test_started;
-                    //                    var vehicle_is_stopped = vm.test_stopped;
-                    //                    var vehicle_is_running = vm.test_running;
+                    //                    var vehicle_is_started = reportType == 11;
+                    //                    var vehicle_is_stopped = reportType == 10;
+                    //                    var vehicle_is_running = reportType == 0;
+                    var vehicle_is_started = vm.test_started;
+                    var vehicle_is_stopped = vm.test_stopped;
+                    var vehicle_is_running = vm.test_running;
 
                     //                    console.log('Started: '+vehicle_is_started);
                     //                    console.log('Stopped: '+vehicle_is_stopped);
@@ -12381,7 +12381,7 @@ exports.default = {
 
             var time_passed = Date.now() / 1000 - driver.heat_stats.start_time;
 
-            //            console.log('Time Passed: '+time_passed);
+            console.log('Time Passed: ' + time_passed);
             if (time_passed > 290 && time_passed < 315) {
                 driver.heat_stats.m1_kml = data.kml;
                 driver.heat_stats.m1_fuel_used = data.fuel_used;
@@ -12516,7 +12516,7 @@ exports.default = {
 
         child = 1;
         currentStep = 1;
-        var stepChanger = setInterval(this.changeStep, 16000); // 15 seconds switch left hand side
+        //        var stepChanger = setInterval(this.changeStep, 16000); // 15 seconds switch left hand side
 
         var acc = {
             lines: 12, // The number of lines to draw
