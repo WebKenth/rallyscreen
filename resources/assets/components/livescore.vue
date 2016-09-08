@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="test-data-container">
-                    <button @click="changeStep" class="btn btn-default">Switch</button>
+                    <!--<button @click="changeStep" class="btn btn-default">Switch</button>-->
                     <!--<button @click="test_started = !test_started" class="btn btn-success">Start | {{test_started}}</button>-->
                     <!--<button @click="test_running = !test_running" class="btn btn-info">Running | {{test_running}}</button>-->
                     <!--<button @click="test_stopped = !test_stopped" class="btn btn-danger">Stop | {{test_stopped}}</button>-->
@@ -34,15 +34,19 @@
             <div class="point"></div>
             <div class="point"></div>
         </div>
+        <div class="livescore-vehicle-image-container">
+            <img v-bind:src="livescore_vehicle">
+            <p>{{ livescore_vehicle_text }}</p>
+        </div>
         <div class="outer-container">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="step step1 slidein" data-step="1">
-                            <div class="list-indikator">
-                                <img src="images/truck_2.png">
-                                Live Lastbil
-                            </div>
+                            <!--<div class="list-indikator">-->
+                                <!--<img src="images/truck_2.png">-->
+                                <!--Live Lastbil-->
+                            <!--</div>-->
                             <ul class="player-list">
                                 <li v-for="truck_driver in truck_drivers | orderBy 'position'">
                                     <p>{{truck_driver.first_name+' '+truck_driver.middle_name+' '+truck_driver.last_name}}</p>
@@ -89,10 +93,10 @@
                             </ul>
                         </div>
                         <div class="step step2" data-step="2">
-                            <div class="list-indikator">
-                                <img src="images/van_2.png">
-                                Live Vans
-                            </div>
+                            <!--<div class="list-indikator">-->
+                                <!--<img src="images/van_2.png">-->
+                                <!--Live Vans-->
+                            <!--</div>-->
                             <ul class="player-list">
                                 <li class="moving-item" v-for="van_driver in van_drivers | orderBy 'position'">
                                     <p>{{van_driver.first_name+' '+van_driver.middle_name+' '+van_driver.last_name}}</p>
@@ -355,6 +359,33 @@
     </section>
 </template>
 <style>
+    .livescore-vehicle-image-container{
+        position: absolute;
+        width: calc(100% - 40px);
+        background: #555555;
+        padding-left: 12px;
+        padding-top: 35px;
+        border-bottom: 1px solid #333333;
+        z-index: 100;
+    }
+    .livescore-vehicle-image-container img{
+        min-height: 50px;
+        height: 50px;
+    }
+    .section-grid{
+        z-index: 200;
+    }
+    .outer-container{
+        padding-top: 60px !important;
+    }
+    .livescore-vehicle-image-container p {
+        display: inline;
+        color: white;
+        font-size: 30px;
+        position: absolute;
+        bottom: 0;
+        right: 15px;
+    }
     .section p {
         font-size: 15px;
         padding: 0;
@@ -536,7 +567,9 @@ export default
             timer_6:{ id : 0, counter : '', live_counter : 0},
             test_started: false,
             test_stopped: false,
-            test_running: false
+            test_running: false,
+            livescore_vehicle: '/images/truck_2.png',
+            livescore_vehicle_text: 'Lastbil'
         }
     },
     computed: {
@@ -612,7 +645,7 @@ export default
             {
                 array = vm.$get('van_drivers');
             }
-            if (order == 4 || order == 5 || order == 6)
+            if (order == 4 || order == 5)
             {
                 array = vm.$get('truck_drivers');
             }
@@ -631,75 +664,74 @@ export default
                 var is_m3 = heat_stats.m3_fuel_used && (!heat_stats.m5_fuel_used && !heat_stats.m4_fuel_used) ? heat_stats.m3_fuel_used : false;
                 var is_m2 = heat_stats.m2_fuel_used && (!heat_stats.m5_fuel_used && !heat_stats.m4_fuel_used && !heat_stats.m3_fuel_used) ? heat_stats.m2_fuel_used : false;
                 var is_m1 = heat_stats.m1_fuel_used && (!heat_stats.m5_fuel_used && !heat_stats.m4_fuel_used && !heat_stats.m3_fuel_used && !heat_stats.m2_fuel_used) ? heat_stats.m1_fuel_used : false;
-
                 if(is_m5){ array_m5.push(element); }
                 else if(is_m4){ array_m4.push(element); }
                 else if(is_m3){ array_m3.push(element); }
                 else if(is_m2){ array_m2.push(element); }
                 else if(is_m1){ array_m1.push(element); }
-                else{ array_m0.push(element); }
+                else{ array_m0.push(element);}
             });
 
             var sort_m1 = array_m1.slice().sort(function(driver_1, driver_2){
-                var fuel_used_1 = driver_1.heat_stats.m1_fuel_used ? parseInt(driver_1.heat_stats.m1_fuel_used) : 0;
-                var fuel_used_2 = driver_2.heat_stats.m1_fuel_used ? parseInt(driver_2.heat_stats.m1_fuel_used) : 0;
+                var fuel_used_1 = parseInt(driver_1.heat_stats.m1_fuel_used);
+                var fuel_used_2 = parseInt(driver_2.heat_stats.m1_fuel_used);
                 var result;
-                if (fuel_used_1 < fuel_used_2) { result = 1 }
-                else if (fuel_used_1 > fuel_used_2) { result = -1 }
+                if (fuel_used_1 > fuel_used_2) { result = 1 }
+                else if (fuel_used_1 < fuel_used_2) { result = -1 }
                 else { result = 0 }
                 return result;
             });
             var sort_m2 = array_m2.slice().sort(function(driver_1, driver_2){
-                var fuel_used_1 = driver_1.heat_stats.m2_fuel_used ? parseInt(driver_1.heat_stats.m2_fuel_used) : 0;
-                var fuel_used_2 = driver_2.heat_stats.m2_fuel_used ? parseInt(driver_2.heat_stats.m2_fuel_used) : 0;
+                var fuel_used_1 = parseInt(driver_1.heat_stats.m2_fuel_used);
+                var fuel_used_2 = parseInt(driver_2.heat_stats.m2_fuel_used);
                 var result;
-                if (fuel_used_1 < fuel_used_2) { result = 1 }
-                else if (fuel_used_1 > fuel_used_2) { result = -1 }
+                if (fuel_used_1 > fuel_used_2) { result = 1 }
+                else if (fuel_used_1 < fuel_used_2) { result = -1 }
                 else { result = 0 }
                 return result;
             });
             var sort_m3 = array_m3.slice().sort(function(driver_1, driver_2){
-                var fuel_used_1 = driver_1.heat_stats.m3_fuel_used ? parseInt(driver_1.heat_stats.m3_fuel_used) : 0;
-                var fuel_used_2 = driver_2.heat_stats.m3_fuel_used ? parseInt(driver_2.heat_stats.m3_fuel_used) : 0;
+                var fuel_used_1 = parseInt(driver_1.heat_stats.m3_fuel_used);
+                var fuel_used_2 = parseInt(driver_2.heat_stats.m3_fuel_used);
                 var result;
-                if (fuel_used_1 < fuel_used_2) { result = 1 }
-                else if (fuel_used_1 > fuel_used_2) { result = -1 }
+                if (fuel_used_1 > fuel_used_2) { result = 1 }
+                else if (fuel_used_1 < fuel_used_2) { result = -1 }
                 else { result = 0 }
                 return result;
             });
             var sort_m4 = array_m4.slice().sort(function(driver_1, driver_2){
-                var fuel_used_1 = driver_1.heat_stats.m4_fuel_used ? parseInt(driver_1.heat_stats.m4_fuel_used) : 0;
-                var fuel_used_2 = driver_2.heat_stats.m4_fuel_used ? parseInt(driver_2.heat_stats.m4_fuel_used) : 0;
+                var fuel_used_1 = parseInt(driver_1.heat_stats.m4_fuel_used);
+                var fuel_used_2 = parseInt(driver_2.heat_stats.m4_fuel_used);
                 var result;
-                if (fuel_used_1 < fuel_used_2) { result = 1 }
-                else if (fuel_used_1 > fuel_used_2) { result = -1 }
+                if (fuel_used_1 > fuel_used_2) { result = 1 }
+                else if (fuel_used_1 < fuel_used_2) { result = -1 }
                 else { result = 0 }
                 return result;
             });
             var sort_m5 = array_m5.slice().sort(function(driver_1, driver_2){
-                var fuel_used_1 = driver_1.heat_stats.m5_fuel_used ? parseInt(driver_1.heat_stats.m5_fuel_used) : 0;
-                var fuel_used_2 = driver_2.heat_stats.m5_fuel_used ? parseInt(driver_2.heat_stats.m5_fuel_used) : 0;
+                var fuel_used_1 = parseInt(driver_1.heat_stats.m5_fuel_used);
+                var fuel_used_2 = parseInt(driver_2.heat_stats.m5_fuel_used);
                 var result;
-                if (fuel_used_1 < fuel_used_2) { result = 1 }
-                else if (fuel_used_1 > fuel_used_2) { result = -1 }
+                if (fuel_used_1 > fuel_used_2) { result = 1 }
+                else if (fuel_used_1 < fuel_used_2) { result = -1 }
                 else { result = 0 }
                 return result;
             });
 
             var sorted_array = [];
-            sort_m1.forEach(function(element,index,array){
-                sorted_array.push(element);
-            });
-            sort_m2.forEach(function(element,index,array){
-                sorted_array.push(element);
-            });
-            sort_m3.forEach(function(element,index,array){
+            sort_m5.forEach(function(element,index,array){
                 sorted_array.push(element);
             });
             sort_m4.forEach(function(element,index,array){
                 sorted_array.push(element);
             });
-            sort_m5.forEach(function(element,index,array){
+            sort_m3.forEach(function(element,index,array){
+                sorted_array.push(element);
+            });
+            sort_m2.forEach(function(element,index,array){
+                sorted_array.push(element);
+            });
+            sort_m1.forEach(function(element,index,array){
                 sorted_array.push(element);
             });
 
@@ -709,7 +741,9 @@ export default
         },
         sortDrivers: function(){
             var vm = this;
+//            console.log(1)
             vm.changeOrder(1);
+//            console.log(2);
             vm.changeOrder(4);
         },
         getHeatData(heat_id)
@@ -942,12 +976,12 @@ export default
                     var reportType = result[0].ReportType;
                     var ignitionKey = result[0].IgnitionKey;
 
-//                    var vehicle_is_started = reportType == 11;
-//                    var vehicle_is_stopped = reportType == 10;
-//                    var vehicle_is_running = reportType == 0;
-                    var vehicle_is_started = vm.test_started;
-                    var vehicle_is_stopped = vm.test_stopped;
-                    var vehicle_is_running = vm.test_running;
+                    var vehicle_is_started = reportType == 11;
+                    var vehicle_is_stopped = reportType == 10;
+                    var vehicle_is_running = reportType == 0;
+//                    var vehicle_is_started = vm.test_started;
+//                    var vehicle_is_stopped = vm.test_stopped;
+//                    var vehicle_is_running = vm.test_running;
 
 //                    console.log('Started: '+vehicle_is_started);
 //                    console.log('Stopped: '+vehicle_is_stopped);
@@ -1213,6 +1247,7 @@ export default
             }
             else if(time_passed > 1500 && time_passed < 1600)
             {
+                vm.sortDrivers();
                 driver.heat_stats.m5_kml = data.kml;
                 driver.heat_stats.m5_fuel_used = data.fuel_used;
                 data.milestone = 5;
@@ -1307,6 +1342,7 @@ export default
         },
         changeStep()
         {
+            var vm = this;
             $('[data-step="'+currentStep+'"]').addClass('slideout');
             setTimeout(function() {
                 $('[data-step="'+currentStep+'"]').removeClass('slidein slideout');
@@ -1321,6 +1357,13 @@ export default
 
                 $('.player-score > .outer-container').scrollTop(0);
 
+                if(currentStep == 1 ){
+                    vm.livescore_vehicle = "images/truck_2.png";
+                    vm.livescore_vehicle_text = "Lastbil";
+                }else{
+                    vm.livescore_vehicle = "images/van_2.png";
+                    vm.livescore_vehicle_text = "Varevogn";
+                }
                 setTimeout(function(){
                     var height = 0;
                     if(currentStep == 1)
@@ -1332,9 +1375,9 @@ export default
                         height = $('.step2').prop('scrollHeight') - $('.player-score > .outer-container').height();
                     }
                     if (height > 0){
-//                        $('.player-score > .outer-container').animate({easing: "linear", scrollTop: height }, 14000);
+                        $('.player-score > .outer-container').animate({easing: "linear", scrollTop: height }, 14000);
                     }
-                }, '1000');
+                }, '5000');
 
             }, 500);
             this.sortDrivers();
@@ -1349,7 +1392,7 @@ export default
 
         child = 1;
         currentStep = 1;
-//        var stepChanger = setInterval(this.changeStep, 16000); // 15 seconds switch left hand side
+        var stepChanger = setInterval(this.changeStep, 20000); // 15 seconds switch left hand side
 
         var acc = {
             lines: 12, // The number of lines to draw
