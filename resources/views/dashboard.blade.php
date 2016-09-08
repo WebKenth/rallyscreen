@@ -182,6 +182,10 @@
             height: 70px;
             overflow: hidden;
         }
+        .select2-container {
+            max-height: 100px;
+            overflow: auto;
+        }
     </style>
 
     <p>Version : 0.95</p>
