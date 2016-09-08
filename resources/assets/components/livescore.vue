@@ -17,12 +17,12 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="test-data-container">
-                    <!--<button @click="changeStep" class="btn btn-default">Switch</button>-->
-                    <!--<button @click="test_started = !test_started" class="btn btn-success">Start | {{test_started}}</button>-->
-                    <!--<button @click="test_running = !test_running" class="btn btn-info">Running | {{test_running}}</button>-->
-                    <!--<button @click="test_stopped = !test_stopped" class="btn btn-danger">Stop | {{test_stopped}}</button>-->
-                    <!--<button @click="this.changeOrder(1)" class="btn btn-default">Sort Vans</button>-->
-                    <!--<button @click="this.changeOrder(4)" class="btn btn-default">Sort Trucks</button>-->
+                    <button @click="changeStep" class="btn btn-default">Switch</button>
+                    <button @click="test_started = !test_started" class="btn btn-success">Start | {{test_started}}</button>
+                    <button @click="test_running = !test_running" class="btn btn-info">Running | {{test_running}}</button>
+                    <button @click="test_stopped = !test_stopped" class="btn btn-danger">Stop | {{test_stopped}}</button>
+                    <button @click="this.changeOrder(1)" class="btn btn-default">Sort Vans</button>
+                    <button @click="this.changeOrder(4)" class="btn btn-default">Sort Trucks</button>
                 </div>
             </div>
         </div>
@@ -666,26 +666,31 @@ export default
                 {
                     if(parseInt(driver_1.heat_stats.m5_fuel_used) > parseInt(driver_2.heat_stats.m5_fuel_used)) { return 1; }
                     else if(parseInt(driver_1.heat_stats.m5_fuel_used) < parseInt(driver_2.heat_stats.m5_fuel_used)){ return -1; }
+                    else{ return 0}
                 }
                 if(driver_1.heat_stats.m4_fuel_used && driver_2.heat_stats.m4_fuel_used)
                 {
                     if(parseInt(driver_1.heat_stats.m4_fuel_used) > parseInt(driver_2.heat_stats.m4_fuel_used)) { return 1; }
                     else if(parseInt(driver_1.heat_stats.m4_fuel_used) < parseInt(driver_2.heat_stats.m4_fuel_used)){ return -1; }
+                    else{ return 0}
                 }
                 if(driver_1.heat_stats.m3_fuel_used && driver_2.heat_stats.m3_fuel_used)
                 {
                     if(parseInt(driver_1.heat_stats.m3_fuel_used) > parseInt(driver_2.heat_stats.m3_fuel_used)) { return 1; }
                     else if(parseInt(driver_1.heat_stats.m3_fuel_used) < parseInt(driver_2.heat_stats.m3_fuel_used)){ return -1; }
+                    else{ return 0}
                 }
                 if(driver_1.heat_stats.m2_fuel_used && driver_2.heat_stats.m2_fuel_used)
                 {
                     if(parseInt(driver_1.heat_stats.m2_fuel_used) > parseInt(driver_2.heat_stats.m2_fuel_used)) { return 1; }
                     else if(parseInt(driver_1.heat_stats.m2_fuel_used) < parseInt(driver_2.heat_stats.m2_fuel_used)){ return -1; }
+                    else{ return 0}
                 }
                 if(driver_1.heat_stats.m1_fuel_used && driver_2.heat_stats.m1_fuel_used)
                 {
                     if(parseInt(driver_1.heat_stats.m1_fuel_used) > parseInt(driver_2.heat_stats.m1_fuel_used)) { return 1; }
                     else if(parseInt(driver_1.heat_stats.m1_fuel_used) < parseInt(driver_2.heat_stats.m1_fuel_used)){ return -1; }
+                    else{ return 0}
                 }
             });
             var sorted_array = [];
@@ -831,6 +836,7 @@ export default
 
                             if(element.heat_stats.active)
                             {
+
                                 vm.startDriverLoop(element.data);
                             }
                         });
@@ -934,12 +940,12 @@ export default
                     var reportType = result[0].ReportType;
                     var ignitionKey = result[0].IgnitionKey;
 
-                    var vehicle_is_started = reportType == 11;
-                    var vehicle_is_stopped = reportType == 10;
-                    var vehicle_is_running = reportType == 0;
-//                    var vehicle_is_started = vm.test_started;
-//                    var vehicle_is_stopped = vm.test_stopped;
-//                    var vehicle_is_running = vm.test_running;
+//                    var vehicle_is_started = reportType == 11;
+//                    var vehicle_is_stopped = reportType == 10;
+//                    var vehicle_is_running = reportType == 0;
+                    var vehicle_is_started = vm.test_started;
+                    var vehicle_is_stopped = vm.test_stopped;
+                    var vehicle_is_running = vm.test_running;
 
 //                    console.log('Started: '+vehicle_is_started);
 //                    console.log('Stopped: '+vehicle_is_stopped);
@@ -952,13 +958,15 @@ export default
                         {
                             driver.heat_stats.start_time = (Date.parse(result[0].SendTime) / 1000) + 7200;
                             console.log(driver.heat_stats.start_time);
+                            console.log(Date.now() / 1000);
 
                             var time_data = {
                                 '_token' : vm.csrf_token,
                                 'heat_id' : vm.heat.id,
                                 'driver_id' : driver.id,
                                 'vehicle_id' : vehicle_id,
-                                'start_time' : driver.heat_stats.start_time
+                                'start_time' : driver.heat_stats.start_time,
+                                'send_time' : result[0].SendTime
                             };
                             vm.$http.post('/api/livescore/updateStartTime/',time_data)
                                 .then( function(response) {
@@ -972,7 +980,7 @@ export default
                             var timer_id = setInterval(function(){ vm.updateTime(driver) },1000);
                             vm.$set('timer_'+order+'.live_counter', timer_id );
                         }
-                        var marker = vm.updateVehicleDiimsData(order, result[0]);
+                        var marker = vm.updateVehicleDiimsData(order, result[0], 0);
                         vm.updateHeatStats(order);
                         vm.updateMap(marker);
                     }
@@ -982,7 +990,6 @@ export default
                         console.log('Vehicle is Stopped');
                         if(driver.heat_stats.start_time)
                         {
-//                            clearInterval(vm.$get('timer_'+data.order+'.live_counter'));
                             driver.heat_stats.stop_time = (Date.parse(result[0].SendTime) / 1000) + 7200;
 
                             var time_data = {
@@ -1024,55 +1031,73 @@ export default
 
                                 });
                         }
-//                        var diff = driver.heat_stats.stop_time - driver.heat_stats.start_time;
-//                        if(diff <= 1800)
-//                        {
-//                            // race still going
-//                        }
-//                        if(diff >= 1800)
-//                        {
-//                            // finished race
-//                            console.log('else');
-//                        }
                     }
 
-                    if(vehicle_is_running)
-                    {
+                    if(vehicle_is_running) {
                         console.log('Vehicle is Running');
-                        var marker = vm.updateVehicleDiimsData(order, result[0]);
-                        vm.updateHeatStats(order);
-                        vm.updateMap(marker);
+                        var vehicle_diims_data = vm.getVehicleDiimsData(order);
+                        if(driver.heat_stats.send_time && !vehicle_diims_data){
+                            console.log('Vehicle Doesnt Have Send Time or Diims Data, Fixing')
+                            $.ajax({
+                                type: "POST",
+                                url: 'http://eco.commotive.dk/WebService.asmx/GetDataBySendTime',
+                                contentType: "application/json; charset=utf-8",
+                                crossDomain: true,
+                                data: JSON.stringify({ DeviceId: diims_id, SendTime: driver.heat_stats.send_time}),
+                                dataType: "json",
+                                success: function (response)
+                                {
+                                    vm.updateVehicleDiimsData(order, JSON.parse(response.d)[0], 0);
+                                    var marker = vm.updateVehicleDiimsData(order, result[0], 1);
+                                    vm.updateHeatStats(order);
+                                    vm.updateMap(marker);
+                                }
+                            });
+                        }else {
+                            var marker = vm.updateVehicleDiimsData(order, result[0], 1);
+                            vm.updateHeatStats(order);
+                            vm.updateMap(marker);
+                        }
                     }
                 }
             });
         },
-        updateVehicleDiimsData(order, diims_data)
+        getVehicleDiimsData(order)
+        {
+            var vm = this;
+            if(order == 1){ return vm.$get('van_1.diims_data'); }
+            if(order == 2){ return vm.$get('van_2.diims_data'); }
+            if(order == 3){ return vm.$get('truck_1.diims_data'); }
+            if(order == 4){ return vm.$get('truck_2.diims_data'); }
+            if(order == 5){ return vm.$get('truck_3.diims_data'); }
+        },
+        updateVehicleDiimsData(order, diims_data, index)
         {
             var vm = this;
             var marker;
             if(order == 1)
             {
-                vm.van_1.diims_data.push(diims_data);
+                vm.$set('van_1.diims_data['+index+']',diims_data);
                 marker = "van_1";
             }
             if(order == 2)
             {
-                vm.van_2.diims_data.push(diims_data);
+                vm.$set('van_2.diims_data['+index+']',diims_data);
                 marker = "van_2";
             }
             if(order == 3)
             {
-                vm.van_3.diims_data.push(diims_data);
+                vm.$set('van_3.diims_data['+index+']',diims_data);
                 marker = "van_3";
             }
             if(order == 4)
             {
-                vm.truck_1.diims_data.push(diims_data);
+                vm.$set('truck_1.diims_data['+index+']',diims_data);
                 marker = "truck_1";
             }
             if(order == 5)
             {
-                vm.truck_2.diims_data.push(diims_data);
+                vm.$set('truck_2.diims_data['+index+']',diims_data);
                 marker = "truck_2";
             }
             return marker;
@@ -1081,35 +1106,36 @@ export default
         {
             var vm = this;
             var array_1;
-            var length;
             var array_2;
             var data;
 
             if(order == 1) {
-                array_1 = vm.van_1.diims_data[0]; length = vm.van_1.diims_data.length - 1; array_2 = vm.van_1.diims_data[length];
+                array_1 = vm.van_1.diims_data[0]; array_2 = vm.van_1.diims_data[1];
                 data = { vehicle_id : vm.van_1.id, driver_id : vm.van_1.driver.id, heat_id : vm.heat.id };
             }
             if(order == 2) {
-                array_1 = vm.van_2.diims_data[0]; length = vm.van_2.diims_data.length - 1; array_2 = vm.van_2.diims_data[length];
+                array_1 = vm.van_2.diims_data[0]; array_2 = vm.van_2.diims_data[1];
                 data = { vehicle_id : vm.van_2.id, driver_id : vm.van_2.driver.id, heat_id : vm.heat.id };
             }
             if(order == 3) {
-                array_1 = vm.van_3.diims_data[0]; length = vm.van_3.diims_data.length - 1; array_2 = vm.van_3.diims_data[length];
+                array_1 = vm.van_3.diims_data[0]; array_2 = vm.van_3.diims_data[1];
                 data = { vehicle_id : vm.van_3.id, driver_id : vm.van_3.driver.id, heat_id : vm.heat.id };
             }
             if(order == 4) {
-                array_1 = vm.truck_1.diims_data[0]; length = vm.truck_1.diims_data.length - 1; array_2 = vm.truck_1.diims_data[length];
+                array_1 = vm.truck_1.diims_data[0]; array_2 = vm.truck_1.diims_data[1];
                 data = { vehicle_id : vm.truck_1.id, driver_id : vm.truck_1.driver.id, heat_id : vm.heat.id };
             }
             if(order == 5) {
-                array_1 = vm.truck_2.diims_data[0]; length = vm.truck_2.diims_data.length - 1; array_2 = vm.truck_2.diims_data[length];
+                array_1 = vm.truck_2.diims_data[0]; array_2 = vm.truck_2.diims_data[1];
                 data = { vehicle_id : vm.truck_2.id, driver_id : vm.truck_2.driver.id, heat_id : vm.heat.id };
             }
             if(order == 6) {
-                array_1 = vm.truck_3.diims_data[0]; length = vm.truck_3.diims_data.length - 1; array_2 = vm.truck_3.diims_data[length];
+                array_1 = vm.truck_3.diims_data[0]; array_2 = vm.truck_3.diims_data[1];
                 data = { vehicle_id : vm.truck_3.id, driver_id : vm.truck_3.driver.id, heat_id : vm.heat.id };
             }
 
+            console.log(array_1.Odometer);
+            console.log(array_2.Odometer);
             var diims_1_Odometer = array_1.Odometer / 10;
             var diims_2_Odometer = array_2.Odometer / 10;
 //            console.log('Diims_1_odo: '+diims_1_Odometer);
@@ -1286,7 +1312,6 @@ export default
             });
             socket.on('startTimerOnLivescore',function(data)
             {
-                console.log('Start Msg');
                 data._token = vm.csrf_token;
                 vm.$http.post('/api/livescore/setActiveHeatStatsDriver', data);
                 vm.startDriverLoop(data);

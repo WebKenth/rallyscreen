@@ -190,7 +190,7 @@ class ScreenController extends Controller
     
     public function updateStartTime(Request $request)
     {
-        $sql = DB::statement("UPDATE heat_stats SET start_time = ".$request->start_time.", stop_time = NULL WHERE heat_id = ".$request->heat_id." AND vehicle_id = ".$request->vehicle_id." AND driver_id = ".$request->driver_id);
+        $sql = DB::statement("UPDATE heat_stats SET start_time = ".$request->start_time.", stop_time = NULL, send_time = '".$request->send_time."' WHERE heat_id = ".$request->heat_id." AND vehicle_id = ".$request->vehicle_id." AND driver_id = ".$request->driver_id);
     }
 
     public function updateStopTime(Request $request)

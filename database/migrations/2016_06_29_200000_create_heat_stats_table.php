@@ -36,6 +36,7 @@ class CreateHeatStatsTable extends Migration
             $table->string('m5_fuel_used')->nullable();
             $table->string('rpm')->nullable();
             $table->string('accelerator')->nullable();
+            $table->string('send_time');
             $table->timestamps();
 
 

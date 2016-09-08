@@ -192,7 +192,7 @@
         }
     </style>
 
-    <p>Version : 0.95</p>
+    <p>Version : 0.98</p>
 @endsection
 
 @section('links')
@@ -271,6 +271,7 @@
 
         $('.livescoreStartTimer').on('click',function(){
             var data = $(this).closest('li').data();
+            $(this).addClass('btn-success').attr('disabled','true');
             data.active = 1;
             data._token = $('#csrf_token').val();
             $.ajax({
@@ -290,6 +291,7 @@
         });
         $('.livescoreStopTimer').on('click',function(){
             var data = $(this).closest('li').data();
+            $(this).prev().attr('disabled',false).removeClass('btn-success');
             data.active = 0;
             data._token = $('#csrf_token').val();
             $.ajax({
