@@ -1375,7 +1375,7 @@ export default
 
         child = 1;
         currentStep = 1;
-        var stepChanger = setInterval(this.changeStep, 10000); // 15 seconds switch left hand side
+        var stepChanger = setInterval(this.changeStep, 20000); // 15 seconds switch left hand side
 
         var acc = {
             lines: 12, // The number of lines to draw
