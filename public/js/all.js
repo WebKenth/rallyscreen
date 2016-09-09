@@ -12100,9 +12100,20 @@ exports.default = {
         },
         stopDriverLoop: function stopDriverLoop(data) {
             var vm = this;
-            //            var driver = vm.getDriver(data.driver_id);
+            var driver = vm.getDriver(data.driver_id);
+            var vehicle_id = data.vehicle_id;
             clearInterval(vm.$get('timer_' + data.order + '.id'));
             clearInterval(vm.$get('timer_' + data.order + '.live_counter'));
+            if (!driver.heat_stats.stop_time) {
+                var time_data = {
+                    '_token': vm.csrf_token,
+                    'heat_id': vm.heat.id,
+                    'driver_id': driver.id,
+                    'vehicle_id': vehicle_id,
+                    'stop_time': driver.heat_stats.stop_time
+                };
+                vm.$http.post('/api/livescore/updateStopTime/', time_data);
+            }
         },
         getDriver: function getDriver(id) {
             var vm = this;
@@ -12140,10 +12151,6 @@ exports.default = {
                     //                    var vehicle_is_started = vm.test_started;
                     //                    var vehicle_is_stopped = vm.test_stopped;
                     //                    var vehicle_is_running = vm.test_running;
-
-                    //                    console.log('Started: '+vehicle_is_started);
-                    //                    console.log('Stopped: '+vehicle_is_stopped);
-                    //                    console.log('Running: '+vehicle_is_running);
                     console.log('New Data for: ' + driver.first_name);
                     if (vehicle_is_started) {
                         console.log('Vehicle is Started:');
@@ -12191,6 +12198,13 @@ exports.default = {
                             };
 
                             vm.$http.post('/api/livescore/updateStopTime/', time_data);
+
+                            result[0].RPM = 0;
+                            result[0].Speed = 0;
+
+                            var marker = vm.updateVehicleDiimsData(order, result[0], 1);
+                            vm.updateHeatStats(order);
+                            vm.updateMap(marker);
                         }
 
                         if (data.order == 1) {
