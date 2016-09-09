@@ -17,12 +17,12 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="test-data-container">
-                    <!--<button @click="changeStep" class="btn btn-default">Switch</button>-->
-                    <!--<button @click="test_started = !test_started" class="btn btn-success">Start | {{test_started}}</button>-->
-                    <!--<button @click="test_running = !test_running" class="btn btn-info">Running | {{test_running}}</button>-->
-                    <!--<button @click="test_stopped = !test_stopped" class="btn btn-danger">Stop | {{test_stopped}}</button>-->
-                    <!--<button @click="this.changeOrder(1)" class="btn btn-default">Sort Vans</button>-->
-                    <!--<button @click="this.changeOrder(4)" class="btn btn-default">Sort Trucks</button>-->
+                    <button @click="changeStep" class="btn btn-default">Switch</button>
+                    <button @click="test_started = !test_started" class="btn btn-success">Start | {{test_started}}</button>
+                    <button @click="test_running = !test_running" class="btn btn-info">Running | {{test_running}}</button>
+                    <button @click="test_stopped = !test_stopped" class="btn btn-danger">Stop | {{test_stopped}}</button>
+                    <button @click="this.changeOrder(1)" class="btn btn-default">Sort Vans</button>
+                    <button @click="this.changeOrder(4)" class="btn btn-default">Sort Trucks</button>
                 </div>
             </div>
         </div>
@@ -168,13 +168,9 @@
                                             <div class="col-md-7">
                                                 <div class="gauges">
                                                     <span class="gauge-distance">
-                                                        Afstand Kørt:
-                                                        <div class="vehicle_gauge_distance">{{ truck_1.driver.heat_stats ? truck_1.driver.heat_stats.distance : 0 }} KM</div>
-                                                    </span>
-                                                    <span class="gauge-fuel">
-                                                        <span class="vehicle_gauge_text kmt">{{ truck_1.driver.heat_stats ? truck_1.driver.heat_stats.speed : 0 }} km/t</span>
-                                                        <!--<canvas id="truck_1_gauge_fuel" class="vehicle_gauge" height="50px" width="100%"></canvas>-->
-                                                        <span class="vehicle_gauge_text fuel_used">{{ truck_1.driver.heat_stats ? truck_1.driver.heat_stats.fuel_used : 0 }} L</span>
+                                                        <span class="vehicle_stats vehicle_distance">Afstand Kørt: {{ truck_1.driver.heat_stats ? truck_1.driver.heat_stats.distance : 0 }} KM</span>
+                                                        <span class="vehicle_stats vehicle_speed">Hastighed: {{ truck_1.driver.heat_stats ? truck_1.driver.heat_stats.speed : 0 }} km/t</span>
+                                                        <span class="vehicle_stats vehicle_fuel_used">Brændstof: {{ truck_1.driver.heat_stats ? truck_1.driver.heat_stats.fuel_used : 0 }} L</span>
                                                     </span>
                                                     <span class="gauge-kml">
                                                         <canvas id="truck_1_gauge_kml" class="vehicle_gauge" height="50px" width="100%"></canvas>
@@ -359,6 +355,16 @@
     </section>
 </template>
 <style>
+    .gauge-distance {
+        padding-top: 2px;
+        padding-left: 18px;
+        margin-right: -25px;
+    }
+    .vehicle_stats {
+        display: block;
+        text-align: left;
+        padding-left: 8px;
+    }
     .livescore-vehicle-image-container{
         position: absolute;
         width: calc(100% - 40px);
@@ -554,7 +560,6 @@ export default
             trucks: {},
             truck_1: { driver:{} },
             truck_2: { driver:{} },
-            truck_3: { driver:{} },
             van_1: { driver:{} },
             van_2: { driver:{} },
             van_3: { driver:{} },
@@ -963,12 +968,12 @@ export default
                     var reportType = result[0].ReportType;
                     var ignitionKey = result[0].IgnitionKey;
 
-                    var vehicle_is_started = reportType == 11;
-                    var vehicle_is_stopped = reportType == 10;
-                    var vehicle_is_running = reportType == 0;
-//                    var vehicle_is_started = vm.test_started;
-//                    var vehicle_is_stopped = vm.test_stopped;
-//                    var vehicle_is_running = vm.test_running;
+//                    var vehicle_is_started = reportType == 11;
+//                    var vehicle_is_stopped = reportType == 10;
+//                    var vehicle_is_running = reportType == 0;
+                    var vehicle_is_started = vm.test_started;
+                    var vehicle_is_stopped = vm.test_stopped;
+                    var vehicle_is_running = vm.test_running;
                     console.log('New Data for: '+driver.first_name);
                     if(vehicle_is_started)
                     {
@@ -991,6 +996,9 @@ export default
                                 .then( function(response) {
                                     console.log('Updating Start Time');
                                 });
+                        }
+                        if(driver.heat_stats.stop_time){
+                            driver.heat_stats.stop_time = null;
                         }
 
                         var is_timer_running = vm.$get('timer_'+order+'.live_counter');
@@ -1023,10 +1031,29 @@ export default
 
                             result[0].RPM = 0;
                             result[0].Speed = 0;
-
-                            var marker = vm.updateVehicleDiimsData(order, result[0], 1);
-                            vm.updateHeatStats(order);
-                            vm.updateMap(marker);
+                            var vehicle_diims_data = vm.getVehicleDiimsData(order);
+                            if(driver.heat_stats.send_time && !vehicle_diims_data[0]){
+                                console.log('Vehicle Doesnt Have Send Time or Diims Data, Fixing');
+                                $.ajax({
+                                    type: "POST",
+                                    url: 'http://eco.commotive.dk/WebService.asmx/GetDataBySendTime',
+                                    contentType: "application/json; charset=utf-8",
+                                    crossDomain: true,
+                                    data: JSON.stringify({ DeviceId: diims_id, SendTime: driver.heat_stats.send_time}),
+                                    dataType: "json",
+                                    success: function (response)
+                                    {
+                                        vm.updateVehicleDiimsData(order, JSON.parse(response.d)[0], 0);
+                                        var marker = vm.updateVehicleDiimsData(order, result[0], 1);
+                                        vm.updateHeatStats(order);
+                                        vm.updateMap(marker);
+                                    }
+                                });
+                            }else {
+                                var marker = vm.updateVehicleDiimsData(order, result[0], 1);
+                                vm.updateHeatStats(order);
+                                vm.updateMap(marker);
+                            }
                         }
 
 
@@ -1061,8 +1088,9 @@ export default
 
                     if(vehicle_is_running) {
                         console.log('Vehicle is Running');
+
                         var vehicle_diims_data = vm.getVehicleDiimsData(order);
-                        if(driver.heat_stats.send_time && !vehicle_diims_data){
+                        if(driver.heat_stats.send_time && !vehicle_diims_data[0]){
                             console.log('Vehicle Doesnt Have Send Time or Diims Data, Fixing');
                             $.ajax({
                                 type: "POST",
@@ -1093,9 +1121,9 @@ export default
             var vm = this;
             if(order == 1){ return vm.$get('van_1.diims_data'); }
             if(order == 2){ return vm.$get('van_2.diims_data'); }
-            if(order == 3){ return vm.$get('truck_1.diims_data'); }
-            if(order == 4){ return vm.$get('truck_2.diims_data'); }
-            if(order == 5){ return vm.$get('truck_3.diims_data'); }
+            if(order == 3){ return vm.$get('van_3.diims_data'); }
+            if(order == 4){ return vm.$get('truck_1.diims_data'); }
+            if(order == 5){ return vm.$get('truck_2.diims_data'); }
         },
         updateVehicleDiimsData(order, diims_data, index)
         {
@@ -1136,32 +1164,26 @@ export default
             var data;
 
             if(order == 1) {
-                array_1 = vm.van_1.diims_data[0]; array_2 = vm.van_1.diims_data[1];
+                array_1 = vm.van_1.diims_data[0]; array_2 = vm.van_1.diims_data[vm.van_1.diims_data.length - 1];
                 data = { vehicle_id : vm.van_1.id, driver_id : vm.van_1.driver.id, heat_id : vm.heat.id };
             }
             if(order == 2) {
-                array_1 = vm.van_2.diims_data[0]; array_2 = vm.van_2.diims_data[1];
+                array_1 = vm.van_2.diims_data[0]; array_2 = vm.van_2.diims_data[vm.van_2.diims_data.length - 1];
                 data = { vehicle_id : vm.van_2.id, driver_id : vm.van_2.driver.id, heat_id : vm.heat.id };
             }
             if(order == 3) {
-                array_1 = vm.van_3.diims_data[0]; array_2 = vm.van_3.diims_data[1];
+                array_1 = vm.van_3.diims_data[0]; array_2 = vm.van_3.diims_data[vm.van_3.diims_data.length - 1];
                 data = { vehicle_id : vm.van_3.id, driver_id : vm.van_3.driver.id, heat_id : vm.heat.id };
             }
             if(order == 4) {
-                array_1 = vm.truck_1.diims_data[0]; array_2 = vm.truck_1.diims_data[1];
+                array_1 = vm.truck_1.diims_data[0]; array_2 = vm.truck_1.diims_data[vm.truck_1.diims_data.length - 1];
                 data = { vehicle_id : vm.truck_1.id, driver_id : vm.truck_1.driver.id, heat_id : vm.heat.id };
             }
             if(order == 5) {
-                array_1 = vm.truck_2.diims_data[0]; array_2 = vm.truck_2.diims_data[1];
+                array_1 = vm.truck_2.diims_data[0]; array_2 = vm.truck_2.diims_data[vm.truck_2.diims_data.length - 1];
                 data = { vehicle_id : vm.truck_2.id, driver_id : vm.truck_2.driver.id, heat_id : vm.heat.id };
             }
-            if(order == 6) {
-                array_1 = vm.truck_3.diims_data[0]; array_2 = vm.truck_3.diims_data[1];
-                data = { vehicle_id : vm.truck_3.id, driver_id : vm.truck_3.driver.id, heat_id : vm.heat.id };
-            }
 
-            console.log(array_1.Odometer);
-            console.log(array_2.Odometer);
             var diims_1_Odometer = array_1.Odometer / 10;
             var diims_2_Odometer = array_2.Odometer / 10;
 //            console.log('Diims_1_odo: '+diims_1_Odometer);

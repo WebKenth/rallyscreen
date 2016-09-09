@@ -206,7 +206,7 @@ class ScreenController extends Controller
     
     public function resetHeatStats(Request $request)
     {
-        $sql = DB::statement("UPDATE heat_stats SET start_time = NULL, stop_time = NULL, m1_kml = NULL, m2_kml = NULL, m3_kml = NULL, m4_kml = NULL, m5_kml = NULL, m1_fuel_used = NULL, m2_fuel_used = NULL, m3_fuel_used = NULL, m4_fuel_used = NULL, m5_fuel_used = NULL, fuel_used = NULL, speed = NULL, distance = NULL, kml = NULL, rpm = NULL, accelerator = NULL WHERE heat_id = ".$request->heat_id);
+        $sql = DB::statement("UPDATE heat_stats SET start_time = NULL, stop_time = NULL, send_time = Null, m1_kml = NULL, m2_kml = NULL, m3_kml = NULL, m4_kml = NULL, m5_kml = NULL, m1_fuel_used = NULL, m2_fuel_used = NULL, m3_fuel_used = NULL, m4_fuel_used = NULL, m5_fuel_used = NULL, fuel_used = NULL, speed = NULL, distance = NULL, kml = NULL, rpm = NULL, accelerator = NULL WHERE heat_id = ".$request->heat_id);
     }
 
     public function addDriver(Request $request)
