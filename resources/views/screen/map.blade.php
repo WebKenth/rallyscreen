@@ -66,7 +66,10 @@
             var myOptions = {
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 disableDefaultUI: true,
-                center: {lat: 57.051281, lng: 9.893145},
+                center: {
+                    lat: 55.600994,
+                    lng: 12.139964
+                },
                 zoom: 15,
                 styles: [
         {
