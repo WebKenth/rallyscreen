@@ -11840,6 +11840,15 @@ exports.default = {
                 }
             });
             var sorted_value = value.slice().sort(function (driver_1, driver_2) {
+                if (driver_1.heat_stats.m5_fuel_used && driver_1.heat_stats.m5_fuel_used > driver_1.heat_stats.fuel_used && driver_2.heat_stats.m5_fuel_used && driver_2.heat_stats.m5_fuel_used > driver_2.heat_stats.fuel_used) {
+                    if (parseFloat(driver_1.heat_stats.fuel_used) > parseFloat(driver_2.heat_stats.fuel_used)) {
+                        return 1;
+                    } else if (parseFloat(driver_1.heat_stats.fuel_used) < parseFloat(driver_2.heat_stats.fuel_used)) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
+                }
                 if (driver_1.heat_stats.m5_fuel_used && driver_2.heat_stats.m5_fuel_used) {
                     if (parseFloat(driver_1.heat_stats.m5_fuel_used) > parseFloat(driver_2.heat_stats.m5_fuel_used)) {
                         return 1;
