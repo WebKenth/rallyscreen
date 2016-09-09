@@ -12491,7 +12491,7 @@ exports.default = {
                         height = $('.step2').prop('scrollHeight') - $('.player-score > .outer-container').height();
                     }
                     if (height > 0) {
-                        //                        $('.player-score > .outer-container').animate({easing: "linear", scrollTop: height }, 14000);
+                        $('.player-score > .outer-container').animate({ easing: "linear", scrollTop: height }, 14000);
                     }
                 }, '5000');
             }, 500);
