@@ -56,75 +56,7 @@
 
         socket.on('setOnLivescore',function(data) {
             console.log(data);
-//            var img = '';
-//            if (data.order == 1 || data.order == 2 || data.order == 3)
-//            {
-//                img = van_img;
-//            }else{
-//                img = truck_img;
-//            }
-//            markers[data.vehicle_id] = new google.maps.Marker({
-//                position: {
-//                    lat: 57.0495141,
-//                    lng: 9.876893
-//                },
-//                icon: img,
-//                map: map
-//            });
         });
-
-
-            van_1 = new google.maps.Marker({
-                position: {
-                    lat: 57.0495141,
-                    lng: 9.876893
-                },
-                icon: van_img,
-                map: map
-            });
-            van_2 = new google.maps.Marker({
-                position: {
-                    lat: 57.0495141,
-                    lng: 9.876893
-                },
-                icon: van_img,
-                map: map
-            });
-            van_3 = new google.maps.Marker({
-                position: {
-                    lat: 57.0495141,
-                    lng: 9.877893
-                },
-                icon: van_img,
-                map: map
-            });
-
-
-            truck_1 = new google.maps.Marker({
-                position: {
-                    lat: 57.0509141,
-                    lng: 9.885893
-                },
-                icon: truck_img,
-                map: map
-            });
-
-            truck_2 = new google.maps.Marker({
-                position: {
-                    lat: 57.0509141,
-                    lng: 9.885893
-                },
-                icon: truck_img,
-                map: map
-            });
-
-            markers = [
-                truck_1,
-                truck_2,
-                van_1,
-                van_2,
-                van_3
-            ];
 
         function initMap() {
             var mapDiv = document.getElementById('map');
@@ -230,6 +162,59 @@
                 anchor: new google.maps.Point(64, 64)
             };
             map = new google.maps.Map(mapDiv, myOptions);
+
+
+            van_1 = new google.maps.Marker({
+                position: {
+                    lat: 55.600994,
+                    lng: 12.139964
+                },
+                icon: van_img,
+                map: map
+            });
+            van_2 = new google.maps.Marker({
+                position: {
+                    lat: 55.600994,
+                    lng: 12.139964
+                },
+                icon: van_img,
+                map: map
+            });
+            van_3 = new google.maps.Marker({
+                position: {
+                    lat: 55.600994,
+                    lng: 12.139964
+                },
+                icon: van_img,
+                map: map
+            });
+
+
+            truck_1 = new google.maps.Marker({
+                position: {
+                    lat: 55.600994,
+                    lng: 12.139964
+                },
+                icon: truck_img,
+                map: map
+            });
+
+            truck_2 = new google.maps.Marker({
+                position: {
+                    lat: 55.600994,
+                    lng: 12.139964
+                },
+                icon: truck_img,
+                map: map
+            });
+
+            markers = [
+                truck_1,
+                truck_2,
+                van_1,
+                van_2,
+                van_3
+            ];
         }
 //
 //        var position = [57.049507, 9.875636];

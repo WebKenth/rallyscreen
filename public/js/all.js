@@ -11841,45 +11841,45 @@ exports.default = {
             });
             var sorted_value = value.slice().sort(function (driver_1, driver_2) {
                 if (driver_1.heat_stats.m5_fuel_used && driver_2.heat_stats.m5_fuel_used) {
-                    if (parseInt(driver_1.heat_stats.m5_fuel_used) > parseInt(driver_2.heat_stats.m5_fuel_used)) {
+                    if (parseFloat(driver_1.heat_stats.m5_fuel_used) > parseFloat(driver_2.heat_stats.m5_fuel_used)) {
                         return 1;
-                    } else if (parseInt(driver_1.heat_stats.m5_fuel_used) < parseInt(driver_2.heat_stats.m5_fuel_used)) {
+                    } else if (parseFloat(driver_1.heat_stats.m5_fuel_used) < parseFloat(driver_2.heat_stats.m5_fuel_used)) {
                         return -1;
                     } else {
                         return 0;
                     }
                 }
                 if (driver_1.heat_stats.m4_fuel_used && driver_2.heat_stats.m4_fuel_used) {
-                    if (parseInt(driver_1.heat_stats.m4_fuel_used) > parseInt(driver_2.heat_stats.m4_fuel_used)) {
+                    if (parseFloat(driver_1.heat_stats.m4_fuel_used) > parseFloat(driver_2.heat_stats.m4_fuel_used)) {
                         return 1;
-                    } else if (parseInt(driver_1.heat_stats.m4_fuel_used) < parseInt(driver_2.heat_stats.m4_fuel_used)) {
+                    } else if (parseFloat(driver_1.heat_stats.m4_fuel_used) < parseFloat(driver_2.heat_stats.m4_fuel_used)) {
                         return -1;
                     } else {
                         return 0;
                     }
                 }
                 if (driver_1.heat_stats.m3_fuel_used && driver_2.heat_stats.m3_fuel_used) {
-                    if (parseInt(driver_1.heat_stats.m3_fuel_used) > parseInt(driver_2.heat_stats.m3_fuel_used)) {
+                    if (parseFloat(driver_1.heat_stats.m3_fuel_used) > parseFloat(driver_2.heat_stats.m3_fuel_used)) {
                         return 1;
-                    } else if (parseInt(driver_1.heat_stats.m3_fuel_used) < parseInt(driver_2.heat_stats.m3_fuel_used)) {
+                    } else if (parseFloat(driver_1.heat_stats.m3_fuel_used) < parseFloat(driver_2.heat_stats.m3_fuel_used)) {
                         return -1;
                     } else {
                         return 0;
                     }
                 }
                 if (driver_1.heat_stats.m2_fuel_used && driver_2.heat_stats.m2_fuel_used) {
-                    if (parseInt(driver_1.heat_stats.m2_fuel_used) > parseInt(driver_2.heat_stats.m2_fuel_used)) {
+                    if (parseFloat(driver_1.heat_stats.m2_fuel_used) > parseFloat(driver_2.heat_stats.m2_fuel_used)) {
                         return 1;
-                    } else if (parseInt(driver_1.heat_stats.m2_fuel_used) < parseInt(driver_2.heat_stats.m2_fuel_used)) {
+                    } else if (parseFloat(driver_1.heat_stats.m2_fuel_used) < parseFloat(driver_2.heat_stats.m2_fuel_used)) {
                         return -1;
                     } else {
                         return 0;
                     }
                 }
                 if (driver_1.heat_stats.m1_fuel_used && driver_2.heat_stats.m1_fuel_used) {
-                    if (parseInt(driver_1.heat_stats.m1_fuel_used) > parseInt(driver_2.heat_stats.m1_fuel_used)) {
+                    if (parseFloat(driver_1.heat_stats.m1_fuel_used) > parseFloat(driver_2.heat_stats.m1_fuel_used)) {
                         return 1;
-                    } else if (parseInt(driver_1.heat_stats.m1_fuel_used) < parseInt(driver_2.heat_stats.m1_fuel_used)) {
+                    } else if (parseFloat(driver_1.heat_stats.m1_fuel_used) < parseFloat(driver_2.heat_stats.m1_fuel_used)) {
                         return -1;
                     } else {
                         return 0;
@@ -12181,28 +12181,28 @@ exports.default = {
                                 'stop_time': driver.heat_stats.stop_time
                             };
 
-                            vm.$http.post('/api/livescore/updateStopTime/', time_data).then(function (response) {
-                                if (data.order == 1) {
-                                    kml_gauges[2].set(0);
-                                    rpm_gauges[2].set(0);
-                                }
-                                if (data.order == 2) {
-                                    kml_gauges[3].set(0);
-                                    rpm_gauges[3].set(0);
-                                }
-                                if (data.order == 3) {
-                                    kml_gauges[4].set(0);
-                                    rpm_gauges[4].set(0);
-                                }
-                                if (data.order == 4) {
-                                    kml_gauges[0].set(0);
-                                    rpm_gauges[0].set(0);
-                                }
-                                if (data.order == 5) {
-                                    kml_gauges[1].set(0);
-                                    rpm_gauges[1].set(0);
-                                }
-                            });
+                            vm.$http.post('/api/livescore/updateStopTime/', time_data);
+                        }
+
+                        if (data.order == 1) {
+                            kml_gauges[2].set(0);
+                            rpm_gauges[2].set(0);
+                        }
+                        if (data.order == 2) {
+                            kml_gauges[3].set(0);
+                            rpm_gauges[3].set(0);
+                        }
+                        if (data.order == 3) {
+                            kml_gauges[4].set(0);
+                            rpm_gauges[4].set(0);
+                        }
+                        if (data.order == 4) {
+                            kml_gauges[0].set(0);
+                            rpm_gauges[0].set(0);
+                        }
+                        if (data.order == 5) {
+                            kml_gauges[1].set(0);
+                            rpm_gauges[1].set(0);
                         }
                     }
 
