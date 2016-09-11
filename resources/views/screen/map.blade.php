@@ -34,12 +34,7 @@
         socket.on('update_map', function(data){
             console.log(data);
             var latlng = new google.maps.LatLng(data.diims_data.Lat, data.diims_data.Long);
-            if(data.marker == "truck_1") { truck_1.setPosition(latlng); }
-            if(data.marker == "truck_2") { truck_2.setPosition(latlng); }
-            if(data.marker == "truck_3") { truck_3.setPosition(latlng); }
-            if(data.marker == "van_1") { van_1.setPosition(latlng); }
-            if(data.marker == "van_2") { van_2.setPosition(latlng); }
-            if(data.marker == "van_3") { van_3.setPosition(latlng); }
+            markers[data.vehicle_id].setPosition(latlng);
 
             var bounds = markers.reduce(function(bounds, marker) {
                 return bounds.extend(marker.getPosition());
@@ -49,14 +44,74 @@
             map.fitBounds(bounds);
         });
 
-        socket.on('change_heat', function(){
-//            markers = [];
-            // get heat active vehicles add to markers
+        socket.on('change_heat', function(heat_id){
+            markers.forEach(function(marker,index,array){
+               marker.setMap(null);
+            });
+            getHeatdata(heat_id);
         });
 
         socket.on('setOnLivescore',function(data) {
             console.log(data);
         });
+
+        vehicles = [];
+
+        function getHeatdata(heat_id)
+        {
+            $.ajax({
+                type: "GET",
+                url: '/api/livescore/getHeatVehicles/' + heat_id,
+                success: function (response) {
+                    vehicles = response;
+                    var diims_ids = [];
+                    vehicles.forEach(function (vehicle, index, array) {
+                        diims_ids.push(vehicle.diims_id);
+                    });
+                    diims_ids = diims_ids.join();
+                    console.log(diims_ids);
+                    $.ajax({
+                        type: "POST",
+                        url: 'http://eco.commotive.dk/WebService.asmx/GetGPSbyDiims',
+                        contentType: "application/json; charset=utf-8",
+                        crossDomain: true,
+                        data: JSON.stringify({DeviceId: diims_ids}),
+                        dataType: "json",
+                        success: function (data) {
+                            var result = JSON.parse(data.d);
+                            console.log(result);
+                            vehicles.forEach(function(vehicle,index,array){
+                                var position = {
+                                    lat: 55.600994,
+                                    lng: 12.139964
+                                };
+                                result.forEach(function(diims,index,array){
+                                    if(diims.DeviceId == vehicle.diims_id)
+                                    {
+                                        position = {
+                                            lat: diims.Lat,
+                                            lng: diims.Long
+                                        }
+                                    }
+                                });
+                                markers[vehicle.id] = new google.maps.Marker({
+                                    position: position,
+                                    icon: van_img,
+                                    map: map
+                                });
+                            });
+
+                            var bounds = markers.reduce(function(bounds, marker) {
+                                return bounds.extend(marker.getPosition());
+                            }, new google.maps.LatLngBounds());
+
+                            map.setCenter(bounds.getCenter());
+                            map.fitBounds(bounds);
+                        }
+                    });
+                }
+            });
+        }
 
         function initMap() {
             var mapDiv = document.getElementById('map');
@@ -70,7 +125,7 @@
                     lat: 55.600994,
                     lng: 12.139964
                 },
-                zoom: 15,
+                zoom: 14,
                 styles: [
         {
             "featureType": "administrative",
@@ -166,59 +221,10 @@
             };
             map = new google.maps.Map(mapDiv, myOptions);
 
-
-            van_1 = new google.maps.Marker({
-                position: {
-                    lat: 55.600994,
-                    lng: 12.139964
-                },
-                icon: van_img,
-                map: map
-            });
-            van_2 = new google.maps.Marker({
-                position: {
-                    lat: 55.600994,
-                    lng: 12.139964
-                },
-                icon: van_img,
-                map: map
-            });
-            van_3 = new google.maps.Marker({
-                position: {
-                    lat: 55.600994,
-                    lng: 12.139964
-                },
-                icon: van_img,
-                map: map
-            });
-
-
-            truck_1 = new google.maps.Marker({
-                position: {
-                    lat: 55.600994,
-                    lng: 12.139964
-                },
-                icon: truck_img,
-                map: map
-            });
-
-            truck_2 = new google.maps.Marker({
-                position: {
-                    lat: 55.600994,
-                    lng: 12.139964
-                },
-                icon: truck_img,
-                map: map
-            });
-
-            markers = [
-                truck_1,
-                truck_2,
-                van_1,
-                van_2,
-                van_3
-            ];
+            markers = [];
+            getHeatdata();
         }
+
 //
 //        var position = [57.049507, 9.875636];
 //        var numDeltas = 200;

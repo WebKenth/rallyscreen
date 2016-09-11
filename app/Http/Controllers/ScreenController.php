@@ -344,4 +344,14 @@ class ScreenController extends Controller
 
         return json_encode($result);
     }
+
+    public function getHeatVehicles($id)
+    {
+        if($id != "undefined")
+        {
+            return Heat::find($id)->vehicles;
+        }else{
+            return Heat::where('active',1)->first()->vehicles;
+        }
+    }
 }

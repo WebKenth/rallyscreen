@@ -168,9 +168,9 @@
                                             <div class="col-md-7">
                                                 <div class="gauges">
                                                     <span class="gauge-distance">
-                                                        <span class="vehicle_stats vehicle_distance">Afstand Kørt: {{ truck_1.driver.heat_stats ? truck_1.driver.heat_stats.distance : 0 }} KM</span>
-                                                        <span class="vehicle_stats vehicle_speed">Hastighed: {{ truck_1.driver.heat_stats ? truck_1.driver.heat_stats.speed : 0 }} km/t</span>
-                                                        <span class="vehicle_stats vehicle_fuel_used">Brændstof: {{ truck_1.driver.heat_stats ? truck_1.driver.heat_stats.fuel_used : 0 }} L</span>
+                                                        <span class="vehicle_stats vehicle_distance"><span class="pull-left">Afstand Kørt: </span><span class="pull-right">{{ truck_1.driver.heat_stats ? truck_1.driver.heat_stats.distance : 0 }} KM</span></span>
+                                                        <span class="vehicle_stats vehicle_speed"><span class="pull-left">Hastighed: </span><span class="pull-right">{{ truck_1.driver.heat_stats ? truck_1.driver.heat_stats.speed : 0 }} km/t</span></span>
+                                                        <span class="vehicle_stats vehicle_fuel_used"><span class="pull-left">Brændstof: </span><span class="pull-right">{{ truck_1.driver.heat_stats ? truck_1.driver.heat_stats.fuel_used : 0 }} L</span></span>
                                                     </span>
                                                     <span class="gauge-kml">
                                                         <canvas id="truck_1_gauge_kml" class="vehicle_gauge" height="50px" width="100%"></canvas>
@@ -202,13 +202,9 @@
                                             <div class="col-md-7">
                                                 <div class="gauges">
                                                     <span class="gauge-distance">
-                                                        Afstand Kørt:
-                                                        <div class="vehicle_gauge_distance">{{ truck_2.driver.heat_stats ? truck_2.driver.heat_stats.distance : 0 }} KM</div>
-                                                    </span>
-                                                    <span class="gauge-fuel">
-                                                        <span class="vehicle_gauge_text kmt">{{ truck_2.driver.heat_stats ? truck_2.driver.heat_stats.speed : 0 }} km/t</span>
-                                                        <!--<canvas id="truck_2_gauge_fuel" class="vehicle_gauge" height="50px" width="100%"></canvas>-->
-                                                        <span class="vehicle_gauge_text fuel_used">{{ truck_2.driver.heat_stats ? truck_2.driver.heat_stats.fuel_used : 0 }} L</span>
+                                                        <span class="vehicle_stats vehicle_distance"><span class="pull-left">Afstand Kørt: </span><span class="pull-right">{{ truck_2.driver.heat_stats ? truck_2.driver.heat_stats.distance : 0 }} KM</span></span>
+                                                        <span class="vehicle_stats vehicle_speed"><span class="pull-left">Hastighed: </span><span class="pull-right">{{ truck_2.driver.heat_stats ? truck_2.driver.heat_stats.speed : 0 }} km/t</span></span>
+                                                        <span class="vehicle_stats vehicle_fuel_used"><span class="pull-left">Brændstof: </span><span class="pull-right">{{ truck_2.driver.heat_stats ? truck_2.driver.heat_stats.fuel_used : 0 }} L</span></span>
                                                     </span>
                                                     <span class="gauge-kml">
                                                         <canvas id="truck_2_gauge_kml" class="vehicle_gauge" height="50px" width="100%"></canvas>
@@ -251,13 +247,9 @@
                                             <div class="col-md-7">
                                                 <div class="gauges">
                                                     <span class="gauge-distance">
-                                                        Afstand Kørt:
-                                                        <div class="vehicle_gauge_distance">{{ van_1.driver.heat_stats ? van_1.driver.heat_stats.distance : 0 }} KM</div>
-                                                    </span>
-                                                    <span class="gauge-fuel">
-                                                        <span class="vehicle_gauge_text kmt">{{ van_1.driver.heat_stats ? van_1.driver.heat_stats.speed : 0 }} km/t</span>
-                                                        <!--<canvas id="truck_1_gauge_fuel" class="vehicle_gauge" height="50px" width="100%"></canvas>-->
-                                                        <span class="vehicle_gauge_text fuel_used">{{ van_1.driver.heat_stats ? van_1.driver.heat_stats.fuel_used : 0 }} L</span>
+                                                        <span class="vehicle_stats vehicle_distance"><span class="pull-left">Afstand Kørt: </span><span class="pull-right">{{ van_1.driver.heat_stats ? van_1.driver.heat_stats.distance : 0 }} KM</span></span>
+                                                        <span class="vehicle_stats vehicle_speed"><span class="pull-left">Hastighed: </span><span class="pull-right">{{ van_1.driver.heat_stats ? van_1.driver.heat_stats.speed : 0 }} km/t</span></span>
+                                                        <span class="vehicle_stats vehicle_fuel_used"><span class="pull-left">Brændstof: </span><span class="pull-right">{{ van_1.driver.heat_stats ? van_1.driver.heat_stats.fuel_used : 0 }} L</span></span>
                                                     </span>
                                                     <span class="gauge-kml">
                                                         <canvas id="van_1_gauge_kml" class="vehicle_gauge" height="50px" width="100%"></canvas>
@@ -288,13 +280,9 @@
                                             <div class="col-md-7">
                                                 <div class="gauges">
                                                     <span class="gauge-distance">
-                                                        Afstand Kørt:
-                                                        <div class="vehicle_gauge_distance">{{ van_2.driver.heat_stats ? van_2.driver.heat_stats.distance : 0 }} KM</div>
-                                                    </span>
-                                                    <span class="gauge-fuel">
-                                                        <span class="vehicle_gauge_text kmt">{{ van_2.driver.heat_stats ? van_2.driver.heat_stats.speed : 0 }} km/t</span>
-                                                        <!--<canvas id="van_2_gauge_fuel" class="vehicle_gauge" height="50px" width="100%"></canvas>-->
-                                                        <span class="vehicle_gauge_text fuel_used">{{ van_2.driver.heat_stats ? van_2.driver.heat_stats.fuel_used : 0 }} L</span>
+                                                        <span class="vehicle_stats vehicle_distance"><span class="pull-left">Afstand Kørt: </span><span class="pull-right">{{ van_2.driver.heat_stats ? van_2.driver.heat_stats.distance : 0 }} KM</span></span>
+                                                        <span class="vehicle_stats vehicle_speed"><span class="pull-left">Hastighed: </span><span class="pull-right">{{ van_2.driver.heat_stats ? van_2.driver.heat_stats.speed : 0 }} km/t</span></span>
+                                                        <span class="vehicle_stats vehicle_fuel_used"><span class="pull-left">Brændstof: </span><span class="pull-right">{{ van_2.driver.heat_stats ? van_2.driver.heat_stats.fuel_used : 0 }} L</span></span>
                                                     </span>
                                                     <span class="gauge-kml">
                                                         <canvas id="van_2_gauge_kml" class="vehicle_gauge" height="50px" width="100%"></canvas>
@@ -325,13 +313,9 @@
                                             <div class="col-md-7">
                                                 <div class="gauges">
                                                     <span class="gauge-distance">
-                                                        Afstand Kørt:
-                                                        <div class="vehicle_gauge_distance">{{ van_3.driver.heat_stats ? van_3.driver.heat_stats.distance : 0 }} KM</div>
-                                                    </span>
-                                                    <span class="gauge-fuel">
-                                                        <span class="vehicle_gauge_text kmt">{{ van_3.driver.heat_stats ? van_3.driver.heat_stats.speed : 0 }} km/t</span>
-                                                        <!--<canvas id="van_3_gauge_fuel" class="vehicle_gauge" height="50px" width="100%"></canvas>-->
-                                                        <span class="vehicle_gauge_text fuel_used">{{ van_3.driver.heat_stats ? van_3.driver.heat_stats.fuel_used : 0 }} L</span>
+                                                        <span class="vehicle_stats vehicle_distance"><span class="pull-left">Afstand Kørt: </span><span class="pull-right">{{ van_3.driver.heat_stats ? van_3.driver.heat_stats.distance : 0 }} KM</span></span>
+                                                        <span class="vehicle_stats vehicle_speed"><span class="pull-left">Hastighed: </span><span class="pull-right">{{ van_3.driver.heat_stats ? van_3.driver.heat_stats.speed : 0 }} km/t</span></span>
+                                                        <span class="vehicle_stats vehicle_fuel_used"><span class="pull-left">Brændstof: </span><span class="pull-right">{{ van_3.driver.heat_stats ? van_3.driver.heat_stats.fuel_used : 0 }} L</span></span>
                                                     </span>
                                                     <span class="gauge-kml">
                                                         <canvas id="van_3_gauge_kml" class="vehicle_gauge" height="50px" width="100%"></canvas>
@@ -356,14 +340,14 @@
 </template>
 <style>
     .gauge-distance {
-        padding-top: 2px;
-        padding-left: 18px;
-        margin-right: -25px;
+        margin-right: -85px;
+        margin-left: -90px;
     }
     .vehicle_stats {
-        display: block;
+        display: inline-block;
         text-align: left;
         padding-left: 8px;
+        width: 50%;
     }
     .livescore-vehicle-image-container{
         position: absolute;
@@ -383,6 +367,9 @@
     }
     .outer-container{
         padding-top: 60px !important;
+    }
+    .live-vans > .outer-container {
+        padding-top: 25px !important;
     }
     .livescore-vehicle-image-container p {
         display: inline;
@@ -410,7 +397,8 @@
     h1.heat-title {
         margin: 0;
         padding: 0;
-        padding-bottom: 21px;
+        padding-bottom: 20px;
+        margin-top: -40px;
     }
     .fact-box {
         display: flex;
@@ -523,7 +511,7 @@
         display: flex;
         padding-top: 7px;
     }
-    .gauges span {
+    .gauges > span {
         position: relative;
         flex-grow: 1;
         text-align: center;
@@ -757,7 +745,7 @@ export default
 
                     return true;
                 }, function (response){
-                    console.log(response);
+//                    console.log(response);
                 });
         },
         initializeVehicles()
@@ -874,7 +862,7 @@ export default
         },
         setActiveDrivers(data)
         {
-            console.log(data);
+//            console.log(data);
             var vm = this;
             data._token = vm.csrf_token;
             order = data.order;
@@ -961,9 +949,9 @@ export default
                 crossDomain: true,
                 data: JSON.stringify({ DeviceId: diims_id }),
                 dataType: "json",
-                success: function (data)
+                success: function (response)
                 {
-                    var result = JSON.parse(data.d);
+                    var result = JSON.parse(response.d);
 
                     var reportType = result[0].ReportType;
                     var ignitionKey = result[0].IgnitionKey;
@@ -974,15 +962,15 @@ export default
 //                    var vehicle_is_started = vm.test_started;
 //                    var vehicle_is_stopped = vm.test_stopped;
 //                    var vehicle_is_running = vm.test_running;
-                    console.log('New Data for: '+driver.first_name);
+//                    console.log('New Data for: '+driver.first_name);
                     if(vehicle_is_started)
                     {
-                        console.log('Vehicle is Started:');
+//                        console.log('Vehicle is Started:');
                         if(!driver.heat_stats.start_time)
                         {
                             driver.heat_stats.start_time = (Date.parse(result[0].SendTime) / 1000) + 7200;
-                            console.log(driver.heat_stats.start_time);
-                            console.log(Date.now() / 1000);
+//                            console.log(driver.heat_stats.start_time);
+//                            console.log(Date.now() / 1000);
 
                             var time_data = {
                                 '_token' : vm.csrf_token,
@@ -994,7 +982,7 @@ export default
                             };
                             vm.$http.post('/api/livescore/updateStartTime/',time_data)
                                 .then( function(response) {
-                                    console.log('Updating Start Time');
+//                                    console.log('Updating Start Time');
                                 });
                         }
                         if(driver.heat_stats.stop_time){
@@ -1007,14 +995,15 @@ export default
                             var timer_id = setInterval(function(){ vm.updateTime(driver) },1000);
                             vm.$set('timer_'+order+'.live_counter', timer_id );
                         }
-                        var marker = vm.updateVehicleDiimsData(order, result[0], 0);
+
+                        data.marker = vm.updateVehicleDiimsData(order, result[0], 0);
                         vm.updateHeatStats(order);
-                        vm.updateMap(marker);
+                        vm.updateMap(data);
                     }
 
                     if(vehicle_is_stopped)
                     {
-                        console.log('Vehicle is Stopped');
+//                        console.log('Vehicle is Stopped');
                         if(driver.heat_stats.start_time)
                         {
                             driver.heat_stats.stop_time = (Date.parse(result[0].SendTime) / 1000) + 7200;
@@ -1033,7 +1022,7 @@ export default
                             result[0].Speed = 0;
                             var vehicle_diims_data = vm.getVehicleDiimsData(order);
                             if(driver.heat_stats.send_time && !vehicle_diims_data[0]){
-                                console.log('Vehicle Doesnt Have Send Time or Diims Data, Fixing');
+//                                console.log('Vehicle Doesnt Have Send Time or Diims Data, Fixing');
                                 $.ajax({
                                     type: "POST",
                                     url: 'http://eco.commotive.dk/WebService.asmx/GetDataBySendTime',
@@ -1044,15 +1033,15 @@ export default
                                     success: function (response)
                                     {
                                         vm.updateVehicleDiimsData(order, JSON.parse(response.d)[0], 0);
-                                        var marker = vm.updateVehicleDiimsData(order, result[0], 1);
+                                        data.marker = vm.updateVehicleDiimsData(order, result[0], 1);
                                         vm.updateHeatStats(order);
-                                        vm.updateMap(marker);
+                                        vm.updateMap(data);
                                     }
                                 });
                             }else {
-                                var marker = vm.updateVehicleDiimsData(order, result[0], 1);
+                                data.marker = vm.updateVehicleDiimsData(order, result[0], 1);
                                 vm.updateHeatStats(order);
-                                vm.updateMap(marker);
+                                vm.updateMap(data);
                             }
                         }
 
@@ -1087,11 +1076,11 @@ export default
                     }
 
                     if(vehicle_is_running) {
-                        console.log('Vehicle is Running');
+//                        console.log('Vehicle is Running');
 
                         var vehicle_diims_data = vm.getVehicleDiimsData(order);
                         if(driver.heat_stats.send_time && !vehicle_diims_data[0]){
-                            console.log('Vehicle Doesnt Have Send Time or Diims Data, Fixing');
+//                            console.log('Vehicle Doesnt Have Send Time or Diims Data, Fixing');
                             $.ajax({
                                 type: "POST",
                                 url: 'http://eco.commotive.dk/WebService.asmx/GetDataBySendTime',
@@ -1102,15 +1091,15 @@ export default
                                 success: function (response)
                                 {
                                     vm.updateVehicleDiimsData(order, JSON.parse(response.d)[0], 0);
-                                    var marker = vm.updateVehicleDiimsData(order, result[0], 1);
+                                    data.marker = vm.updateVehicleDiimsData(order, result[0], 1);
                                     vm.updateHeatStats(order);
-                                    vm.updateMap(marker);
+                                    vm.updateMap(data);
                                 }
                             });
                         }else {
-                            var marker = vm.updateVehicleDiimsData(order, result[0], 1);
+                            data.marker = vm.updateVehicleDiimsData(order, result[0], 1);
                             vm.updateHeatStats(order);
-                            vm.updateMap(marker);
+                            vm.updateMap(data);
                         }
                     }
                 }
@@ -1236,7 +1225,7 @@ export default
 
             var time_passed = (Date.now() / 1000) - driver.heat_stats.start_time;
 
-            console.log('Time Passed: '+time_passed);
+//            console.log('Time Passed: '+time_passed);
             if(time_passed > 290 && time_passed < 315)
             {
                 driver.heat_stats.m1_kml = data.kml;
@@ -1327,14 +1316,11 @@ export default
                 .then( function(response) {
                 });
         },
-        updateMap(marker)
+        updateMap(data)
         {
             var vm = this;
-            var diims_data  = vm.$get(marker+'.diims_data');
-            var data = {
-                marker : marker,
-                diims_data : diims_data[diims_data.length - 1]
-            };
+            var diims_data  = vm.$get(data.marker+'.diims_data');
+            data.diims_data = diims_data[diims_data.length - 1];
             socket.emit('update_map',data);
         },
         webSocketListeners()
@@ -1484,19 +1470,17 @@ export default
         target_kml.push($('#van_3_gauge_kml')[0]);
         target_rpm.push($('#van_3_gauge_rpm')[0]);
 
-//        for (var i = 0; i < target_fuel.length; i++)
-//        {
-//            fuel_gauges.push(new Gauge(target_fuel[i]).setOptions(acc));
-//
-//            fuel_gauges[i].maxValue = 100;
-//            fuel_gauges[i].animationSpeed = 32;
-//            fuel_gauges[i].set(0);
-//        }
         for (var i = 0; i < target_kml.length; i++)
         {
             kml_gauges.push(new Gauge(target_kml[i]).setOptions(acc));
 
-            kml_gauges[i].maxValue = 100;
+            if(i == 0 && i == 2)
+            {
+                kml_gauges[i].maxValue = 15;
+            }else{
+                kml_gauges[i].maxValue = 30;
+            }
+
             kml_gauges[i].animationSpeed = 32;
             kml_gauges[i].set(0);
         }
