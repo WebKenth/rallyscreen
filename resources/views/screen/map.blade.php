@@ -32,7 +32,7 @@
         });
 
         socket.on('update_map', function(data){
-            console.log(data);
+//            console.log(data);
             var latlng = new google.maps.LatLng(data.diims_data.Lat, data.diims_data.Long);
             markers[data.vehicle_id].setPosition(latlng);
 
@@ -52,7 +52,7 @@
         });
 
         socket.on('setOnLivescore',function(data) {
-            console.log(data);
+//            console.log(data);
         });
 
         vehicles = [];
@@ -69,7 +69,7 @@
                         diims_ids.push(vehicle.diims_id);
                     });
                     diims_ids = diims_ids.join();
-                    console.log(diims_ids);
+//                    console.log(diims_ids);
                     $.ajax({
                         type: "POST",
                         url: 'http://eco.commotive.dk/WebService.asmx/GetGPSbyDiims',
@@ -79,7 +79,7 @@
                         dataType: "json",
                         success: function (data) {
                             var result = JSON.parse(data.d);
-                            console.log(result);
+//                            console.log(result);
                             vehicles.forEach(function(vehicle,index,array){
                                 var position = {
                                     lat: 55.600994,
