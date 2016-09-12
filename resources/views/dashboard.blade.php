@@ -192,7 +192,7 @@
         }
     </style>
 
-    <p>Version : 1.00</p>
+    <p>Version : 1.01</p>
 @endsection
 
 @section('links')

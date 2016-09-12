@@ -12103,14 +12103,29 @@ exports.default = {
             var vehicle_id = data.vehicle_id;
             clearInterval(vm.$get('timer_' + data.order + '.id'));
             clearInterval(vm.$get('timer_' + data.order + '.live_counter'));
+
             if (!driver.heat_stats.stop_time) {
                 var time_data = {
                     '_token': vm.csrf_token,
                     'heat_id': vm.heat.id,
                     'driver_id': driver.id,
                     'vehicle_id': vehicle_id,
-                    'stop_time': driver.heat_stats.stop_time
+                    'stop_time': Date.now() / 1000
                 };
+
+                $.ajax({
+                    type: "POST",
+                    url: 'http://eco.commotive.dk/WebService.asmx/GetLatestData',
+                    contentType: "application/json; charset=utf-8",
+                    crossDomain: true,
+                    data: (0, _stringify2.default)({ DeviceId: vm.getVehicle(vehicle_id).diims_id }),
+                    dataType: "json",
+                    success: function success(response) {
+                        var result = JSON.parse(response.d);
+                        time_data.stop_time = Date.parse(result[0].SendTime) / 1000 + 7200;
+                    }
+                });
+
                 vm.$http.post('/api/livescore/updateStopTime/', time_data);
             }
         },
@@ -12124,6 +12139,19 @@ exports.default = {
             for (var i = 0; i < vm.truck_drivers.length; i++) {
                 if (vm.truck_drivers[i].id == id) {
                     return vm.$get('truck_drivers[' + i + ']');
+                }
+            }
+        },
+        getVehicle: function getVehicle(id) {
+            var vm = this;
+            for (var i = 0; i < vm.vans.length; i++) {
+                if (vm.vans[i].id == id) {
+                    return vm.$get('vans[' + i + ']');
+                }
+            }
+            for (var i = 0; i < vm.truck_drivers.length; i++) {
+                if (vm.trucks[i].id == id) {
+                    return vm.$get('trucks[' + i + ']');
                 }
             }
         },
@@ -12229,24 +12257,24 @@ exports.default = {
                         }
 
                         if (data.order == 1) {
-                            kml_gauges[2].set(0);
-                            rpm_gauges[2].set(0);
+                            kml_gauges[2].set(1);
+                            rpm_gauges[2].set(1);
                         }
                         if (data.order == 2) {
-                            kml_gauges[3].set(0);
-                            rpm_gauges[3].set(0);
+                            kml_gauges[3].set(1);
+                            rpm_gauges[3].set(1);
                         }
                         if (data.order == 3) {
-                            kml_gauges[4].set(0);
-                            rpm_gauges[4].set(0);
+                            kml_gauges[4].set(1);
+                            rpm_gauges[4].set(1);
                         }
                         if (data.order == 4) {
-                            kml_gauges[0].set(0);
-                            rpm_gauges[0].set(0);
+                            kml_gauges[0].set(1);
+                            rpm_gauges[0].set(1);
                         }
                         if (data.order == 5) {
-                            kml_gauges[1].set(0);
-                            rpm_gauges[1].set(0);
+                            kml_gauges[1].set(1);
+                            rpm_gauges[1].set(1);
                         }
                     }
 
