@@ -12104,7 +12104,8 @@ exports.default = {
             clearInterval(vm.$get('timer_' + data.order + '.id'));
             clearInterval(vm.$get('timer_' + data.order + '.live_counter'));
 
-            if (!driver.heat_stats.stop_time) {
+            if (!driver.heat_stats.stop_time && driver.heat_stats.start_time) {
+                //                console.log('No Stop Time');
                 var time_data = {
                     '_token': vm.csrf_token,
                     'heat_id': vm.heat.id,
@@ -12112,7 +12113,6 @@ exports.default = {
                     'vehicle_id': vehicle_id,
                     'stop_time': Date.now() / 1000
                 };
-
                 $.ajax({
                     type: "POST",
                     url: 'http://eco.commotive.dk/WebService.asmx/GetLatestData',
@@ -12121,12 +12121,16 @@ exports.default = {
                     data: (0, _stringify2.default)({ DeviceId: vm.getVehicle(vehicle_id).diims_id }),
                     dataType: "json",
                     success: function success(response) {
+                        //                        console.log('success');
                         var result = JSON.parse(response.d);
                         time_data.stop_time = Date.parse(result[0].SendTime) / 1000 + 7200;
+                        vm.$http.post('/api/livescore/updateStopTime/', time_data);
+                    },
+                    error: function error() {
+                        //                        console.log('failed');
+                        vm.$http.post('/api/livescore/updateStopTime/', time_data);
                     }
                 });
-
-                vm.$http.post('/api/livescore/updateStopTime/', time_data);
             }
         },
         getDriver: function getDriver(id) {
