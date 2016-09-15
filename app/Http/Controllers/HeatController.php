@@ -149,6 +149,9 @@ class HeatController extends Controller
             case 5:
                 $string = 'truck_2 = NULL';
                 break;
+            case 6:
+                $string = 'truck_3 = NULL';
+                break;
         }
         if($string != ''){
             $sql = DB::statement("UPDATE heats SET ".$string." where id = ".$request->heat_id);

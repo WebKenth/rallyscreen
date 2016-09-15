@@ -186,7 +186,6 @@
                                     </div>
                                 </div>
                             </li>
-
                             <li>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -213,6 +212,39 @@
                                                     <span class="gauge-rpm">
                                                         <canvas id="truck_2_gauge_rpm" class="vehicle_gauge" height="50px" width="100%"></canvas>
                                                         <span class="vehicle_gauge_text">{{ truck_2.driver.heat_stats ? truck_2.driver.heat_stats.rpm : 0 }} rpm</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="driver-name">{{ truck_3.driver.first_name }} {{ truck_3.driver.middle_name }} {{ truck_3.driver.last_name }}</div>
+                                                <img src="/images/truck_2.png" class="player--logo">
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="vehicle-info vehicle-name">{{ truck_3.name }}  {{ truck_3.model }}</div>
+                                                <div class="vehicle-info vehicle-reg_nr" >{{ truck_3.reg_nr }}</div>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <div class="gauges">
+                                                    <span class="gauge-distance">
+                                                        <span class="vehicle_stats vehicle_distance"><span class="pull-left">Afstand Kørt: </span><span class="pull-right">{{ truck_3.driver.heat_stats ? truck_3.driver.heat_stats.distance : 0 }} KM</span></span>
+                                                        <span class="vehicle_stats vehicle_speed"><span class="pull-left">Hastighed: </span><span class="pull-right">{{ truck_3.driver.heat_stats ? truck_3.driver.heat_stats.speed : 0 }} km/t</span></span>
+                                                        <span class="vehicle_stats vehicle_fuel_used"><span class="pull-left">Brændstof: </span><span class="pull-right">{{ truck_3.driver.heat_stats ? truck_3.driver.heat_stats.fuel_used : 0 }} L</span></span>
+                                                    </span>
+                                                    <span class="gauge-kml">
+                                                        <canvas id="truck_3_gauge_kml" class="vehicle_gauge" height="50px" width="100%"></canvas>
+                                                        <span class="vehicle_gauge_text">{{ truck_3.driver.heat_stats ? truck_3.driver.heat_stats.kml : 0 }} km/l</span>
+                                                    </span>
+                                                    <span class="gauge-rpm">
+                                                        <canvas id="truck_3_gauge_rpm" class="vehicle_gauge" height="50px" width="100%"></canvas>
+                                                        <span class="vehicle_gauge_text">{{ truck_3.driver.heat_stats ? truck_3.driver.heat_stats.rpm : 0 }} rpm</span>
                                                     </span>
                                                 </div>
                                             </div>
@@ -398,7 +430,7 @@
         margin: 0;
         padding: 0;
         padding-bottom: 20px;
-        margin-top: -40px;
+        margin-top: -50px;
     }
     .fact-box {
         display: flex;
@@ -526,6 +558,9 @@
         top: -50px;
         left: 35%;
     }
+    ul.van-list li {
+        margin-bottom: 37px;
+    }
 </style>
 <script>
     // 'http://rallyscreen.app:3000'
@@ -548,6 +583,7 @@ export default
             trucks: {},
             truck_1: { driver:{} },
             truck_2: { driver:{} },
+            truck_3: { driver:{} },
             van_1: { driver:{} },
             van_2: { driver:{} },
             van_3: { driver:{} },
@@ -638,7 +674,7 @@ export default
             {
                 array = vm.$get('van_drivers');
             }
-            if (order == 4 || order == 5)
+            if (order == 4 || order == 5 || order == 6)
             {
                 array = vm.$get('truck_drivers');
             }
@@ -725,6 +761,7 @@ export default
             vm.$set('van_3', empty_vehicle_data);
             vm.$set('truck_1', empty_vehicle_data);
             vm.$set('truck_2', empty_vehicle_data);
+            vm.$set('truck_3', empty_vehicle_data);
 
             var data = {
                 heat_id : heat_id,
@@ -804,6 +841,16 @@ export default
                 };
                 data.push(driver_data);
             }
+            if(vm.heat.truck_3)
+            {
+                driver_data = {
+                    vehicle_id : vm.heat.truck_3.vehicle_id,
+                    driver_id : vm.heat.truck_3.driver_id,
+                    heat_id : vm.heat.id,
+                    order : 6
+                };
+                data.push(driver_data);
+            }
 
             data = {
                 data : data,
@@ -816,32 +863,14 @@ export default
                         result.forEach(function(element,index,array){
                             element.vehicle.diims_data = [];
 
-                            if(element.order == 1)
-                            {
-                                vm.$set('van_1',element.vehicle);
-                            }
-                            if(element.order == 2)
-                            {
-                                vm.$set('van_2',element.vehicle);
-                            }
-                            if(element.order == 3)
-                            {
-                                vm.$set('van_3',element.vehicle);
-                            }
-                            if(element.order == 4)
-                            {
-                                vm.$set('truck_1',element.vehicle);
-                            }
-                            if(element.order == 5)
-                            {
-                                vm.$set('truck_2',element.vehicle);
-                            }
+                            if(element.order == 1) { vm.$set('van_1',element.vehicle); }
+                            if(element.order == 2) { vm.$set('van_2',element.vehicle); }
+                            if(element.order == 3) { vm.$set('van_3',element.vehicle); }
+                            if(element.order == 4) { vm.$set('truck_1',element.vehicle); }
+                            if(element.order == 5) { vm.$set('truck_2',element.vehicle); }
+                            if(element.order == 6) { vm.$set('truck_3',element.vehicle); }
 
-                            if(element.heat_stats.active)
-                            {
-
-                                vm.startDriverLoop(element.data);
-                            }
+                            if(element.heat_stats.active) { vm.startDriverLoop(element.data); }
                         });
 
                     });
@@ -877,6 +906,7 @@ export default
                     if(order == 3){ vm.$set('van_3',result.vehicle); }
                     if(order == 4){ vm.$set('truck_1',result.vehicle); }
                     if(order == 5){ vm.$set('truck_2',result.vehicle); }
+                    if(order == 6){ vm.$set('truck_3',result.vehicle); }
                 });
         },
         updateTime(driver)
@@ -895,6 +925,7 @@ export default
             if(data.order == 3){ diims_id = vm.$get('van_3.diims_id'); }
             if(data.order == 4){ diims_id = vm.$get('truck_1.diims_id'); }
             if(data.order == 5){ diims_id = vm.$get('truck_2.diims_id'); }
+            if(data.order == 6){ diims_id = vm.$get('truck_3.diims_id'); }
 
             vm.getDiimsData(diims_id, data.order, data);
             timer.id = setInterval(function(){ vm.getDiimsData(diims_id, data.order, data); },10000);
@@ -999,10 +1030,10 @@ export default
 //                    var vehicle_is_started = vm.test_started;
 //                    var vehicle_is_stopped = vm.test_stopped;
 //                    var vehicle_is_running = vm.test_running;
-//                    console.log('New Data for: '+driver.first_name);
+                    console.log('New Data for: '+driver.first_name);
                     if(vehicle_is_started)
                     {
-//                        console.log('Vehicle is Started:');
+                        console.log('Vehicle is Started:');
                         if(!driver.heat_stats.start_time)
                         {
                             driver.heat_stats.start_time = (Date.parse(result[0].SendTime) / 1000) + 7200;
@@ -1040,7 +1071,7 @@ export default
 
                     if(vehicle_is_stopped)
                     {
-//                        console.log('Vehicle is Stopped');
+                        console.log('Vehicle is Stopped');
                         if(driver.heat_stats.start_time)
                         {
                             driver.heat_stats.stop_time = (Date.parse(result[0].SendTime) / 1000) + 7200;
@@ -1085,18 +1116,18 @@ export default
 
                         if(data.order == 1)
                         {
-                            kml_gauges[2].set(1);
-                            rpm_gauges[2].set(1);
-                        }
-                        if(data.order == 2)
-                        {
                             kml_gauges[3].set(1);
                             rpm_gauges[3].set(1);
                         }
-                        if(data.order == 3)
+                        if(data.order == 2)
                         {
                             kml_gauges[4].set(1);
                             rpm_gauges[4].set(1);
+                        }
+                        if(data.order == 3)
+                        {
+                            kml_gauges[5].set(1);
+                            rpm_gauges[5].set(1);
                         }
                         if(data.order == 4)
                         {
@@ -1109,11 +1140,16 @@ export default
                             kml_gauges[1].set(1);
                             rpm_gauges[1].set(1);
                         }
+                        if(data.order == 6)
+                        {
+                            kml_gauges[2].set(1);
+                            rpm_gauges[2].set(1);
+                        }
 
                     }
 
                     if(vehicle_is_running) {
-//                        console.log('Vehicle is Running');
+                        console.log('Vehicle is Running');
 
                         var vehicle_diims_data = vm.getVehicleDiimsData(order);
                         if(driver.heat_stats.send_time && !vehicle_diims_data[0]){
@@ -1150,6 +1186,7 @@ export default
             if(order == 3){ return vm.$get('van_3.diims_data'); }
             if(order == 4){ return vm.$get('truck_1.diims_data'); }
             if(order == 5){ return vm.$get('truck_2.diims_data'); }
+            if(order == 6){ return vm.$get('truck_3.diims_data'); }
         },
         updateVehicleDiimsData(order, diims_data, index)
         {
@@ -1180,6 +1217,11 @@ export default
                 vm.$set('truck_2.diims_data['+index+']',diims_data);
                 marker = "truck_2";
             }
+            if(order == 6)
+            {
+                vm.$set('truck_3.diims_data['+index+']',diims_data);
+                marker = "truck_3";
+            }
             return marker;
         },
         updateHeatStats(order)
@@ -1208,6 +1250,10 @@ export default
             if(order == 5) {
                 array_1 = vm.truck_2.diims_data[0]; array_2 = vm.truck_2.diims_data[vm.truck_2.diims_data.length - 1];
                 data = { vehicle_id : vm.truck_2.id, driver_id : vm.truck_2.driver.id, heat_id : vm.heat.id };
+            }
+            if(order == 6) {
+                array_1 = vm.truck_3.diims_data[0]; array_2 = vm.truck_3.diims_data[vm.truck_3.diims_data.length - 1];
+                data = { vehicle_id : vm.truck_3.id, driver_id : vm.truck_3.driver.id, heat_id : vm.heat.id };
             }
 
             var diims_1_Odometer = array_1.Odometer / 10;
@@ -1319,20 +1365,20 @@ export default
             if(order == 1)
             {
                 vm.$set('van_1.driver', driver);
-                kml_gauges[2].set(driver.heat_stats.kml);
-                rpm_gauges[2].set(driver.heat_stats.rpm);
+                kml_gauges[3].set(driver.heat_stats.kml);
+                rpm_gauges[3].set(driver.heat_stats.rpm);
             }
             if(order == 2)
             {
                 vm.$set('van_2.driver', driver);
-                kml_gauges[3].set(driver.heat_stats.kml);
-                rpm_gauges[3].set(driver.heat_stats.rpm);
+                kml_gauges[4].set(driver.heat_stats.kml);
+                rpm_gauges[4].set(driver.heat_stats.rpm);
             }
             if(order == 3)
             {
                 vm.$set('van_3.driver', driver);
-                kml_gauges[4].set(driver.heat_stats.kml);
-                rpm_gauges[4].set(driver.heat_stats.rpm);
+                kml_gauges[5].set(driver.heat_stats.kml);
+                rpm_gauges[5].set(driver.heat_stats.rpm);
             }
             if(order == 4)
             {
@@ -1346,6 +1392,12 @@ export default
                 vm.$set('truck_2.driver', driver);
                 kml_gauges[1].set(driver.heat_stats.kml);
                 rpm_gauges[1].set(driver.heat_stats.rpm);
+            }
+            if(order == 6)
+            {
+                vm.$set('truck_3.driver', driver);
+                kml_gauges[2].set(driver.heat_stats.kml);
+                rpm_gauges[2].set(driver.heat_stats.rpm);
             }
 
             this.$http
@@ -1494,6 +1546,10 @@ export default
 //        target_fuel.push($('#truck_2_gauge_fuel')[0]);
         target_kml.push($('#truck_2_gauge_kml')[0]);
         target_rpm.push($('#truck_2_gauge_rpm')[0]);
+
+//        target_fuel.push($('#truck_2_gauge_fuel')[0]);
+        target_kml.push($('#truck_3_gauge_kml')[0]);
+        target_rpm.push($('#truck_3_gauge_rpm')[0]);
 
 //        target_fuel.push($('#van_1_gauge_fuel')[0]);
         target_kml.push($('#van_1_gauge_kml')[0]);
