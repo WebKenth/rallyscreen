@@ -43,7 +43,13 @@ class ScreenController extends Controller
     
     public function stats($id = 1)
     {
-        $heat = Heat::find($id);
+        $heat = Heat::where('active', 1)->get();
+        if($heat->first())
+        {
+            $heat = $heat->first();
+        }else{
+            $heat = Heat::first();
+        }
 
         $vehicles = $heat->vehicles;
 
