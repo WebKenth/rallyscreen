@@ -23,7 +23,7 @@ Route::auth();
 Route::group(['middleware' => 'auth'], function (){
     Route::get('/', 'ScreenController@dashboard');
     Route::get('map', 'ScreenController@map');
-    Route::get('stats/{id?}', 'ScreenController@stats');
+    Route::get('stats', 'ScreenController@stats');
 });
 
 Route::resource('diims', 'DiimsController');

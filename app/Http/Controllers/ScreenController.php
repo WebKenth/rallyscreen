@@ -41,21 +41,9 @@ class ScreenController extends Controller
         return view('screen.map');
     }
     
-    public function stats($id = 1)
+    public function stats()
     {
-        $heat = Heat::where('active', 1)->get();
-        if($heat->first())
-        {
-            $heat = $heat->first();
-        }else{
-            $heat = Heat::first();
-        }
-
-        $vehicles = $heat->vehicles;
-
-        $drivers = $heat->drivers;
-
-        return view('screen.stats', compact('heat','drivers','vehicles'));
+        return view('screen.stats');
     }
 
     public function getHeatData(Request $request)
