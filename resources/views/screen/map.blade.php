@@ -216,13 +216,13 @@
                 url: 'images/truck.png',
                 size: new google.maps.Size(122, 73),
                 origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(64, 64)
+                anchor: new google.maps.Point(61, 73)
             };
             van_img = {
                 url: 'images/van.png',
                 size: new google.maps.Size(95, 51),
                 origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(64, 64)
+                anchor: new google.maps.Point(47, 51)
             };
             map = new google.maps.Map(mapDiv, myOptions);
 
