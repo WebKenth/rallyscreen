@@ -94,9 +94,14 @@
                                         }
                                     }
                                 });
+                                vehicle_img = van_img;
+                                if(vehicle.type == "truck")
+                                {
+                                    vehicle_img = truck_img;
+                                }
                                 markers[vehicle.id] = new google.maps.Marker({
                                     position: position,
-                                    icon: van_img,
+                                    icon: vehicle_img,
                                     map: map
                                 });
                             });
